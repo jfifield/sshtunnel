@@ -1,0 +1,30 @@
+9/10/2005
+---------
+* Fixed bug where selecting "Exit" from the tray icon menu does not exit cleanly (now it disconnects any connected sessions and saves configuration changes before exiting)
+* Fixed bug where connecting/disconnecting from the main window did not update the connection status icon in the menu
+* Added balloon messages when connecting/disconnecting from the menu to provide feedback (this is mainly a test to see if it works)
+* The tray icon menu now correctly reflects adding/deleting/changing of sessions
+
+9/2/2005
+--------
+* Added existing sessions to tray icon menu with the ability to connect/disconnect. Note: adding/deleting/changing sessions currently has no affect on the menu.
+
+9/1/2005
+--------
+* Hopefully fixed library path separator problem
+* Changed behavior when window is reactivated to make it come to the front (and get focus)
+* Added some debug logging to troubleshoot random no-op tray icon clicking on linux
+
+8/31/2005
+---------
+* Started adding a tray icon - window visibility toggles with tray icon clicked or window minimized
+
+8/14/2005
+---------
+* Added JGoodies Looks to classpath and ability to set theme (for example, -Dswing.defaultlaf=com.jgoodies.looks.plastic.PlasticXPLookAndFeel -Dplastic.defaulttheme=com.jgoodies.looks.plastic.theme.SkyBluerTahoma)
+* Hopefully fixed session panel header size problem by setting the first column (status column) capion to a space
+* Added "Save Password?" option to session and prompt when connecting if password is missing
+* Changed add/edit session and tunnel dialogs to be not resizable
+* Changed behavior after editing an existing session or tunnel to simply repaint the grid so focus is not lost
+* Added remote forward capability (the underlying library appears to be broken when it comes to stopping remote forwards)
+* Added known hosts key verification

@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Class-Path: j2ssh-core.jar j2ssh-common.jar commons-logging.jar xstream-1.1.2.jar looks-1.3.1.jar jdic.jar jdic_stub.jar
+Main-Class: org.programmerplanet.sshtunnel.Main

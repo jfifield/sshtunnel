@@ -1,0 +1,54 @@
+xstream-1.1.2.jar
+
+	private XStream xstream;
+	private Preferences preferences;
+
+	public SshTunnelFrame() {
+		super(APPLICATION_TITLE);
+		xstream = createXStream();
+		preferences = Preferences.userRoot().node("sshtunnel");
+		load();
+		initialize();
+	}
+
+	private void loadWithXStream() {
+		String xml = preferences.get("configuration", null);
+		if (xml != null) {
+			try {
+				configuration = (Configuration)xstream.fromXML(xml);
+			}
+			catch (Exception e) {
+				JOptionPane.showMessageDialog(this, "Unable to load configuration.");
+				configuration = new Configuration();
+			}
+		} else {
+			configuration = new Configuration();
+		}
+		
+		int left = preferences.getInt("left", 0);
+		int top = preferences.getInt("top", 0);
+		this.setLocation(left, top);
+
+		int width = preferences.getInt("width", 500);
+		int height = preferences.getInt("height", 400);
+		size.width = width;
+		size.height = height;
+	}
+
+	private void saveWithXStream() {
+		String xml = xstream.toXML(configuration);
+		preferences.put("configuration", xml);
+		preferences.putInt("left", this.getLocation().x);
+		preferences.putInt("top", this.getLocation().y);
+		preferences.putInt("width", this.getSize().width);
+		preferences.putInt("height", this.getSize().height);
+	}
+
+	private XStream createXStream() {
+		XStream xstream = new XStream(new DomDriver());
+		xstream.alias("configuration", Configuration.class);
+		xstream.alias("session", Session.class);
+		xstream.alias("tunnel", Tunnel.class);
+		return xstream;
+	}
+	
