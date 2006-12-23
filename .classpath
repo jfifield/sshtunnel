@@ -4,8 +4,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="bin/commons-logging.jar"/>
 	<classpathentry kind="lib" path="bin/looks-1.3.1.jar"/>
-	<classpathentry sourcepath="C:/Download/j2ssh/j2ssh-0.2.7-src/j2ssh/src" kind="lib" path="bin/j2ssh-core.jar"/>
-	<classpathentry sourcepath="C:/Download/j2ssh/j2ssh-0.2.7-src/j2ssh/src" kind="lib" path="bin/j2ssh-common.jar"/>
+	<classpathentry kind="lib" path="bin/j2ssh-core.jar"/>
+	<classpathentry kind="lib" path="bin/j2ssh-common.jar"/>
 	<classpathentry kind="lib" path="bin/jdic.jar"/>
 	<classpathentry kind="lib" path="bin/windows/jdic_stub.jar"/>
 	<classpathentry kind="output" path="target"/>
