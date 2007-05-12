@@ -4,7 +4,7 @@
     <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/sshtunnel/sshtunnel.jardesc" useSourceFolders="false" buildIfNeeded="true" includeDirectoryEntries="false" storeRefactorings="false"/>
     <storedRefactorings structuralOnly="false" deprecationInfo="true"/>
     <selectedProjects/>
-    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="false" saveManifest="false" generateManifest="false" manifestLocation="/sshtunnel/META-INF/MANIFEST.MF" mainClassHandleIdentifier="=sshtunnel/src&lt;org.programmerplanet.sshtunnel{Main.java[Main">
+    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="false" saveManifest="false" generateManifest="true" manifestLocation="/sshtunnel/META-INF/MANIFEST.MF" mainClassHandleIdentifier="=sshtunnel/src&lt;org.programmerplanet.sshtunnel{Main.java[Main">
         <sealing sealJar="false">
             <packagesToSeal/>
             <packagesToUnSeal/>
