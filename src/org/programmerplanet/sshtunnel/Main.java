@@ -15,8 +15,6 @@
  */
 package org.programmerplanet.sshtunnel;
 
-import java.io.File;
-
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -33,22 +31,11 @@ import com.jgoodies.looks.plastic.PlasticTheme;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
-		addWorkingDirectoryToLibraryPath();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				createAndShowGui();
 			}
 		});
-	}
-
-	private static void addWorkingDirectoryToLibraryPath() {
-		final String LIBRARY_PATH_KEY = "java.library.path";
-		File workingDirectory = new File(".");
-		String path = workingDirectory.getAbsolutePath();
-		String libraryPath = System.getProperty(LIBRARY_PATH_KEY);
-		String pathSeparator = System.getProperty("path.separator");
-		libraryPath += pathSeparator + path;
-		System.setProperty(LIBRARY_PATH_KEY, libraryPath);
 	}
 
 	private static void createAndShowGui() {
