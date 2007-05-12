@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
     <jar path="C:/eclipse/workspace/sshtunnel/bin/sshtunnel.jar"/>
-    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/sshtunnel/sshtunnel.jardesc" useSourceFolders="false" buildIfNeeded="true" includeDirectoryEntries="false"/>
+    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/sshtunnel/sshtunnel.jardesc" useSourceFolders="false" buildIfNeeded="true" includeDirectoryEntries="false" storeRefactorings="false"/>
+    <storedRefactorings structuralOnly="false" deprecationInfo="true"/>
+    <selectedProjects/>
     <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="false" saveManifest="false" generateManifest="false" manifestLocation="/sshtunnel/META-INF/MANIFEST.MF" mainClassHandleIdentifier="=sshtunnel/src&lt;org.programmerplanet.sshtunnel{Main.java[Main">
         <sealing sealJar="false">
             <packagesToSeal/>
