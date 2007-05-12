@@ -90,7 +90,7 @@ public class EditTunnelPanel extends JPanel {
 		int initY = 6;
 		int xPad = 6;
 		int yPad = 6;
-		SpringUtilities.makeCompactGrid(this, rows, cols, initX, initY, xPad, yPad);
+		SpringUtil.makeCompactGrid(this, rows, cols, initX, initY, xPad, yPad);
 	}
 
 	public String getLocalAddress() {
