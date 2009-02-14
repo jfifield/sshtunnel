@@ -39,6 +39,7 @@ import javax.swing.MenuElement;
 import org.jdesktop.jdic.tray.SystemTray;
 import org.jdesktop.jdic.tray.TrayIcon;
 import org.programmerplanet.sshtunnel.model.Configuration;
+import org.programmerplanet.sshtunnel.model.ConnectionManager;
 import org.programmerplanet.sshtunnel.model.Session;
 
 /**
@@ -228,8 +229,8 @@ public class SshTunnelFrame extends JFrame {
 	}
 	
 	private void updateConnectButtons() {
-		connectButton.setEnabled(currentSession != null ? !currentSession.isConnected() : false);
-		disconnectButton.setEnabled(currentSession != null ? currentSession.isConnected() : false);
+		connectButton.setEnabled(currentSession != null ? !ConnectionManager.getInstance().isConnected(currentSession) : false);
+		disconnectButton.setEnabled(currentSession != null ? ConnectionManager.getInstance().isConnected(currentSession) : false);
 		connectAllButton.setEnabled(anyDisconnectedSessions());
 		disconnectAllButton.setEnabled(anyConnectedSessions());
 	}
@@ -249,7 +250,7 @@ public class SshTunnelFrame extends JFrame {
 		boolean result = false;
 		for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
 			Session session = (Session)i.next();
-			if (!session.isConnected()) {
+			if (!ConnectionManager.getInstance().isConnected(session)) {
 				result = true;
 				break;
 			}
@@ -261,7 +262,7 @@ public class SshTunnelFrame extends JFrame {
 		boolean result = false;
 		for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
 			Session session = (Session)i.next();
-			if (session.isConnected()) {
+			if (ConnectionManager.getInstance().isConnected(session)) {
 				result = true;
 				break;
 			}
@@ -275,11 +276,11 @@ public class SshTunnelFrame extends JFrame {
 
 	private void connect(Session session) {
 		save();
-		if (session != null && !session.isConnected()) {
+		if (session != null && !ConnectionManager.getInstance().isConnected(session)) {
 			try {
-				session.connect(this);
+				ConnectionManager.getInstance().connect(session, this);
 			} catch (IOException ioe) {
-				try { session.disconnect(); } catch (Exception e) {}
+				try { ConnectionManager.getInstance().disconnect(session); } catch (Exception e) {}
 			}
 		}
 		connectionStatusChanged();
@@ -291,8 +292,8 @@ public class SshTunnelFrame extends JFrame {
 
 	private void disconnect(Session session) {
 		save();
-		if (session != null && session.isConnected()) {
-			session.disconnect();
+		if (session != null && ConnectionManager.getInstance().isConnected(session)) {
+			ConnectionManager.getInstance().disconnect(session);
 		}
 		connectionStatusChanged();
 	}
@@ -302,14 +303,14 @@ public class SshTunnelFrame extends JFrame {
 		try {
 			for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
 				Session session = (Session)i.next();
-				if (!session.isConnected()) {
-					session.connect(this);
+				if (!ConnectionManager.getInstance().isConnected(session)) {
+					ConnectionManager.getInstance().connect(session, this);
 				}
 			}
 		} catch (IOException ioe) {
 			for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
 				Session session = (Session)i.next();
-				try { session.disconnect(); } catch (Exception e) {}
+				try { ConnectionManager.getInstance().disconnect(session); } catch (Exception e) {}
 			}
 		}
 		connectionStatusChanged();
@@ -319,8 +320,8 @@ public class SshTunnelFrame extends JFrame {
 		save();
 		for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
 			Session session = (Session)i.next();
-			if (session.isConnected()) {
-				session.disconnect();
+			if (ConnectionManager.getInstance().isConnected(session)) {
+				ConnectionManager.getInstance().disconnect(session);
 			}
 		}
 		connectionStatusChanged();
@@ -383,14 +384,14 @@ public class SshTunnelFrame extends JFrame {
 					final Session session = menuItem.getSession();
 					new Thread() {
 						public void run() {
-							if (!session.isConnected()) {
+							if (!ConnectionManager.getInstance().isConnected(session)) {
 								connect(session);
 							}
-							else if (session.isConnected()) {
+							else if (ConnectionManager.getInstance().isConnected(session)) {
 								disconnect(session);
 							}
 							String title = "Session: " + session.getSessionName();
-							String message = session.getSessionName() + " is now " + (session.isConnected() ? "connected" : "disconnected") + ".";
+							String message = session.getSessionName() + " is now " + (ConnectionManager.getInstance().isConnected(session) ? "connected" : "disconnected") + ".";
 							ti.displayMessage(title, message, TrayIcon.INFO_MESSAGE_TYPE);
 						}
 					}.start();
@@ -457,7 +458,7 @@ public class SshTunnelFrame extends JFrame {
 		final String text = session.getSessionName();
 		sessionMenuItem.setText(text);
 		// set icon
-		ImageIcon icon = session.isConnected() ? CONNECTED_ICON : DISCONNECTED_ICON;
+		ImageIcon icon = ConnectionManager.getInstance().isConnected(session) ? CONNECTED_ICON : DISCONNECTED_ICON;
 		sessionMenuItem.setIcon(icon);
 	}
 	

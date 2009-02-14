@@ -38,6 +38,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import org.programmerplanet.sshtunnel.model.ConnectionManager;
 import org.programmerplanet.sshtunnel.model.Session;
 
 /**
@@ -194,7 +195,7 @@ public class SessionsPanel extends JPanel {
 		
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			Session session = (Session)value;
-			if (session.isConnected()) {
+			if (ConnectionManager.getInstance().isConnected(session)) {
 				return connected;
 			}
 			else {
