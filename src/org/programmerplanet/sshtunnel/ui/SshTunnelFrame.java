@@ -364,8 +364,6 @@ public class SshTunnelFrame extends JFrame {
 	}
 	
 	private void initializeTrayIcon() {
-		SystemTray tray = SystemTray.getDefaultSystemTray();
-	
 		// not sure what this does yet
 		if (Integer.parseInt(System.getProperty("java.version").substring(2, 3)) >= 5)
 			System.setProperty("javax.swing.adjustPopupLocationToFit", "false");
@@ -434,7 +432,16 @@ public class SshTunnelFrame extends JFrame {
 			}
 		});
 
-		tray.addTrayIcon(ti);
+		try {
+			SystemTray tray = SystemTray.getDefaultSystemTray();
+			tray.addTrayIcon(ti);
+		}
+		catch (UnsatisfiedLinkError e) {
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private SessionMenuItem createSessionMenuItem(Session session) {
