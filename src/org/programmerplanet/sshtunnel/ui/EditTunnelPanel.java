@@ -22,7 +22,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 
 /**
  * 
@@ -36,14 +35,13 @@ public class EditTunnelPanel extends JPanel {
 	private JTextField remotePortText;
 	private JRadioButton localRadioButton;
 	private JRadioButton remoteRadioButton;
-	
+
 	public EditTunnelPanel() {
 		initialize();
 	}
 
 	private void initialize() {
-		SpringLayout layout = new SpringLayout();
-		this.setLayout(layout);
+		SpringGrid springGrid = new SpringGrid(this, 5, 2);
 
 		JLabel localAddressLabel = new JLabel("Local Address:", JLabel.TRAILING);
 		this.add(localAddressLabel);
@@ -71,7 +69,7 @@ public class EditTunnelPanel extends JPanel {
 
 		JPanel directionPanel = new JPanel(new GridLayout());
 		ButtonGroup directionButtonGroup = new ButtonGroup();
-		
+
 		localRadioButton = new JRadioButton("Local", true);
 		directionPanel.add(localRadioButton);
 		directionButtonGroup.add(localRadioButton);
@@ -79,18 +77,12 @@ public class EditTunnelPanel extends JPanel {
 		remoteRadioButton = new JRadioButton("Remote", false);
 		directionPanel.add(remoteRadioButton);
 		directionButtonGroup.add(remoteRadioButton);
-		
+
 		JLabel directionLabel = new JLabel("Direction:", JLabel.TRAILING);
 		this.add(directionLabel);
 		this.add(directionPanel);
-		
-		int rows = 5;
-		int cols = 2;
-		int initX = 6;
-		int initY = 6;
-		int xPad = 6;
-		int yPad = 6;
-		SpringUtil.makeCompactGrid(this, rows, cols, initX, initY, xPad, yPad);
+
+		springGrid.update();
 	}
 
 	public String getLocalAddress() {
@@ -124,16 +116,15 @@ public class EditTunnelPanel extends JPanel {
 	public void setRemotePort(int remotePort) {
 		remotePortText.setText(Integer.toString(remotePort));
 	}
-	
+
 	public boolean getLocal() {
 		return localRadioButton.isSelected();
 	}
-	
+
 	public void setLocal(boolean local) {
 		if (local) {
 			localRadioButton.setSelected(true);
-		}
-		else {
+		} else {
 			remoteRadioButton.setSelected(true);
 		}
 	}

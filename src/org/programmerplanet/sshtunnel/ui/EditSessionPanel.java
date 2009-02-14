@@ -23,7 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 
 /**
  * 
@@ -36,21 +35,20 @@ public class EditSessionPanel extends JPanel {
 	private JTextField userText;
 	private JCheckBox savePassCheckbox;
 	private JPasswordField passText;
-	
+
 	public EditSessionPanel() {
 		initialize();
 	}
-	
+
 	private void initialize() {
-		SpringLayout layout = new SpringLayout();
-		this.setLayout(layout);
+		SpringGrid springGrid = new SpringGrid(this, 5, 2);
 
 		JLabel nameLabel = new JLabel("Name:", JLabel.TRAILING);
 		this.add(nameLabel);
 		nameText = new JTextField(20);
 		nameLabel.setLabelFor(nameText);
 		this.add(nameText);
-		
+
 		JLabel hostLabel = new JLabel("Host:", JLabel.TRAILING);
 		this.add(hostLabel);
 		hostText = new JTextField(20);
@@ -62,7 +60,7 @@ public class EditSessionPanel extends JPanel {
 		userText = new JTextField(20);
 		userLabel.setLabelFor(userText);
 		this.add(userText);
-		
+
 		JLabel savePassLabel = new JLabel("", JLabel.TRAILING);
 		this.add(savePassLabel);
 		savePassCheckbox = new JCheckBox("Save Password?");
@@ -73,7 +71,7 @@ public class EditSessionPanel extends JPanel {
 				setSavePassword(savePassCheckbox.isSelected());
 			}
 		});
-		
+
 		JLabel passLabel = new JLabel("Password:", JLabel.TRAILING);
 		this.add(passLabel);
 		passText = new JPasswordField(20);
@@ -82,13 +80,7 @@ public class EditSessionPanel extends JPanel {
 
 		setSavePassword(false);
 
-		int rows = 5;
-		int cols = 2;
-		int initX = 6;
-		int initY = 6;
-		int xPad = 6;
-		int yPad = 6;
-		SpringUtil.makeCompactGrid(this, rows, cols, initX, initY, xPad, yPad);
+		springGrid.update();
 	}
 
 	private void setSavePassword(boolean savePassword) {
@@ -99,11 +91,11 @@ public class EditSessionPanel extends JPanel {
 			passText.setText(null);
 		}
 	}
-	
+
 	public String getSessionName() {
 		return nameText.getText();
 	}
-	
+
 	public String getHostname() {
 		return hostText.getText();
 	}
@@ -116,7 +108,7 @@ public class EditSessionPanel extends JPanel {
 		String password = null;
 		char[] passwordChars = passText.getPassword();
 		if (passwordChars.length > 0) {
-			password = new String(passwordChars); 
+			password = new String(passwordChars);
 		}
 		return password;
 	}
@@ -124,7 +116,7 @@ public class EditSessionPanel extends JPanel {
 	public void setSessionName(String sessionName) {
 		nameText.setText(sessionName);
 	}
-	
+
 	public void setHostname(String hostname) {
 		hostText.setText(hostname);
 	}
