@@ -1,5 +1,4 @@
 make tunnel errors visible somewhere (when a tunnel can't be started/opened)
 make connection errors visible (when host can't be found, auth fails, etc, no feedback)
 some known host files cause an error
-remove looks dependency (can it be optional?)
 when disconnected from server, make it visible to user

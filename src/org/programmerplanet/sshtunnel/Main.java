@@ -21,9 +21,6 @@ import javax.swing.UIManager;
 
 import org.programmerplanet.sshtunnel.ui.SshTunnelFrame;
 
-import com.jgoodies.looks.plastic.PlasticLookAndFeel;
-import com.jgoodies.looks.plastic.PlasticTheme;
-
 /**
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
@@ -39,20 +36,9 @@ public class Main {
 	}
 
 	private static void createAndShowGui() {
-		if (System.getProperty("plastic.defaulttheme") != null) {
-			try {
-				String themeClassName = System.getProperty("plastic.defaulttheme");
-				Class themeClass = Class.forName(themeClassName);
-				PlasticTheme theme = (PlasticTheme) themeClass.newInstance();
-				PlasticLookAndFeel.setMyCurrentTheme(theme);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 		if (System.getProperty("swing.defaultlaf") == null) {
 			try {
-				UIManager.setLookAndFeel(UIManager
-						.getSystemLookAndFeelClassName());
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
