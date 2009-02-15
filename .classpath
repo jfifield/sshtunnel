@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="bin/j2ssh-common.jar"/>
 	<classpathentry kind="lib" path="bin/jdic.jar"/>
 	<classpathentry kind="lib" path="bin/windows/jdic_stub.jar"/>
+	<classpathentry kind="lib" path="bin/jsch-0.1.37.jar"/>
 	<classpathentry kind="output" path="target"/>
 </classpath>
