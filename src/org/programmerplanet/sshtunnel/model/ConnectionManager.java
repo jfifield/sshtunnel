@@ -17,6 +17,11 @@ package org.programmerplanet.sshtunnel.model;
 
 import java.awt.Frame;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * 
@@ -24,7 +29,35 @@ import java.io.IOException;
  */
 public abstract class ConnectionManager {
 
-	private static final ConnectionManager INSTANCE = new J2SshConnectionManager();
+	private static final Log log = LogFactory.getLog(ConnectionManager.class);
+
+	private static final ConnectionManager INSTANCE = createConnectionManager();
+
+	private static ConnectionManager createConnectionManager() {
+		ConnectionManager connectionManager = null;
+		try {
+			Properties properties = getProperties();
+			String connectionManagerClassName = properties.getProperty("connectionManager");
+			Class connectionManagerClass = Class.forName(connectionManagerClassName);
+			connectionManager = (ConnectionManager) connectionManagerClass.newInstance();
+		} catch (Exception e) {
+			log.error("Error creating configured connection manager; using default.", e);
+			connectionManager = new JSchConnectionManager();
+		}
+		log.info("Using ConnectionManager: " + connectionManager);
+		return connectionManager;
+	}
+
+	private static Properties getProperties() throws IOException {
+		Properties properties = new Properties();
+		InputStream inputStream = ConnectionManager.class.getResourceAsStream("/sshtunnel.properties");
+		try {
+			properties.load(inputStream);
+		} finally {
+			inputStream.close();
+		}
+		return properties;
+	}
 
 	public static ConnectionManager getInstance() {
 		return INSTANCE;
