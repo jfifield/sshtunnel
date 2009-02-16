@@ -44,6 +44,7 @@ public abstract class CustomDialog extends Dialog {
 		Shell parent = this.getParent();
 		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		shell.setText(getText());
+		shell.setImage(parent.getImage());
 		shell.setLayout(new GridLayout());
 		createContentComposite(shell);
 		createButtonBarComposite(shell);
