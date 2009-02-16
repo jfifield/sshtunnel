@@ -1,5 +1,5 @@
 <assembly>
-	<id>dist</id>
+	<id>dist-${platform.classifier}</id>
 	<formats>
 		<format>zip</format>
 	</formats>
