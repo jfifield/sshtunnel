@@ -5,8 +5,6 @@
 	<classpathentry kind="lib" path="bin/commons-logging.jar"/>
 	<classpathentry kind="lib" path="bin/j2ssh-core.jar"/>
 	<classpathentry kind="lib" path="bin/j2ssh-common.jar"/>
-	<classpathentry kind="lib" path="bin/jdic.jar"/>
-	<classpathentry kind="lib" path="bin/windows/jdic_stub.jar"/>
 	<classpathentry kind="lib" path="bin/jsch-0.1.37.jar"/>
 	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.swt.gtk.linux.x86_3.4.1.v3449c.jar"/>
 	<classpathentry kind="output" path="target"/>
