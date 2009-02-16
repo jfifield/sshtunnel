@@ -18,6 +18,7 @@ package org.programmerplanet.sshtunnel.ui.swt;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -49,6 +50,7 @@ public abstract class CustomDialog extends Dialog {
 		createContentComposite(shell);
 		createButtonBarComposite(shell);
 		shell.pack();
+		centerShell(parent, shell);
 		shell.open();
 		Display display = parent.getDisplay();
 		while (!shell.isDisposed()) {
@@ -56,6 +58,14 @@ public abstract class CustomDialog extends Dialog {
 				display.sleep();
 		}
 		return result;
+	}
+
+	private void centerShell(Shell parent, Shell shell) {
+		Rectangle parentBounds = parent.getBounds();
+		Rectangle childBounds = shell.getBounds();
+		int x = parentBounds.x + (parentBounds.width - childBounds.width) / 2;
+		int y = parentBounds.y + (parentBounds.height - childBounds.height) / 2;
+		shell.setLocation(x, y);
 	}
 
 	private void createContentComposite(Composite parent) {
