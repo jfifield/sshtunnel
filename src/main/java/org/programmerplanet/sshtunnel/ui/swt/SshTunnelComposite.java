@@ -444,7 +444,9 @@ public class SshTunnelComposite extends Composite {
 					menuItem.addListener(SWT.Selection, menuItemListener);
 				}
 
-				new MenuItem(m, SWT.SEPARATOR);
+				if (!configuration.getSessions().isEmpty()) {
+					new MenuItem(m, SWT.SEPARATOR);
+				}
 
 				MenuItem exit = new MenuItem(m, SWT.NONE);
 				exit.setText("Exit");
