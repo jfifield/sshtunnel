@@ -53,10 +53,10 @@ import org.programmerplanet.sshtunnel.ui.TunnelChangeListener;
 public class SshTunnelFrame extends JFrame {
 
 	private static final String APPLICATION_TITLE = "SSH Tunnel";
-	private static final String APPLICATION_ICON_PATH = "/images/bullet_triangle_yellow.png";
+	private static final String APPLICATION_ICON_PATH = "/images/sshtunnel.png";
 	
-	private static final ImageIcon CONNECTED_ICON = new ImageIcon(SshTunnelFrame.class.getResource("/images/bullet_ball_glass_green.png"));
-	private static final ImageIcon DISCONNECTED_ICON = new ImageIcon(SshTunnelFrame.class.getResource("/images/bullet_ball_glass_red.png"));
+	private static final ImageIcon CONNECTED_ICON = new ImageIcon(SshTunnelFrame.class.getResource("/images/bullet_green.png"));
+	private static final ImageIcon DISCONNECTED_ICON = new ImageIcon(SshTunnelFrame.class.getResource("/images/bullet_red.png"));
 
 	private JButton connectButton;
 	private JButton disconnectButton;

@@ -57,11 +57,15 @@ import org.programmerplanet.sshtunnel.ui.TunnelChangeListener;
 public class SshTunnelComposite extends Composite {
 
 	private static final String APPLICATION_TITLE = "SSH Tunnel";
-	private static final String APPLICATION_IMAGE_PATH = "/images/bullet_triangle_yellow.png";
-	private static final String CONNECTED_IMAGE_PATH = "/images/bullet_ball_glass_green.png";
-	private static final String DISCONNECTED_IMAGE_PATH = "/images/bullet_ball_glass_red.png";
+	private static final String APPLICATION_IMAGE_PATH = "/images/sshtunnel.png";
+	private static final String CONNECT_IMAGE_PATH = "/images/connect.png";
+	private static final String DISCONNECT_IMAGE_PATH = "/images/disconnect.png";
+	private static final String CONNECTED_IMAGE_PATH = "/images/bullet_green.png";
+	private static final String DISCONNECTED_IMAGE_PATH = "/images/bullet_red.png";
 
 	private Image applicationImage;
+	private Image connectImage;
+	private Image disconnectImage;
 	private Image connectedImage;
 	private Image disconnectedImage;
 
@@ -141,6 +145,8 @@ public class SshTunnelComposite extends Composite {
 
 	private void createImages() {
 		applicationImage = loadImage(APPLICATION_IMAGE_PATH);
+		connectImage = loadImage(CONNECT_IMAGE_PATH);
+		disconnectImage = loadImage(DISCONNECT_IMAGE_PATH);
 		connectedImage = loadImage(CONNECTED_IMAGE_PATH);
 		disconnectedImage = loadImage(DISCONNECTED_IMAGE_PATH);
 	}
@@ -208,18 +214,26 @@ public class SshTunnelComposite extends Composite {
 
 		connectButton = new Button(buttonBarComposite, SWT.PUSH);
 		connectButton.setText("Connect");
+		connectButton.setToolTipText("Connect");
+		connectButton.setImage(connectImage);
 		connectButton.setEnabled(false);
 
 		disconnectButton = new Button(buttonBarComposite, SWT.PUSH);
 		disconnectButton.setText("Disconnect");
+		disconnectButton.setToolTipText("Disconnect");
+		disconnectButton.setImage(disconnectImage);
 		disconnectButton.setEnabled(false);
 
 		connectAllButton = new Button(buttonBarComposite, SWT.PUSH);
 		connectAllButton.setText("Connect All");
+		connectAllButton.setToolTipText("Connect All");
+		connectAllButton.setImage(connectImage);
 		connectAllButton.setEnabled(true);
 
 		disconnectAllButton = new Button(buttonBarComposite, SWT.PUSH);
 		disconnectAllButton.setText("Disconnect All");
+		disconnectAllButton.setToolTipText("Disconnect All");
+		disconnectAllButton.setImage(disconnectImage);
 		disconnectAllButton.setEnabled(false);
 
 		connectButton.addSelectionListener(new SelectionAdapter() {
@@ -453,6 +467,8 @@ public class SshTunnelComposite extends Composite {
 
 	private void disposeImages() {
 		applicationImage.dispose();
+		connectImage.dispose();
+		disconnectImage.dispose();
 		connectedImage.dispose();
 		disconnectedImage.dispose();
 	}

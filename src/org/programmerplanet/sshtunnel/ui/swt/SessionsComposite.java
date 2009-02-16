@@ -48,8 +48,11 @@ import org.programmerplanet.sshtunnel.ui.SessionChangeListener;
  */
 public class SessionsComposite extends Composite {
 
-	private static final String CONNECTED_IMAGE_PATH = "/images/bullet_ball_glass_green.png";
-	private static final String DISCONNECTED_IMAGE_PATH = "/images/bullet_ball_glass_red.png";
+	private static final String CONNECTED_IMAGE_PATH = "/images/bullet_green.png";
+	private static final String DISCONNECTED_IMAGE_PATH = "/images/bullet_red.png";
+	private static final String ADD_IMAGE_PATH = "/images/add.png";
+	private static final String EDIT_IMAGE_PATH = "/images/edit.png";
+	private static final String DELETE_IMAGE_PATH = "/images/delete.png";
 
 	private List sessions;
 	private Table sessionTable;
@@ -60,6 +63,9 @@ public class SessionsComposite extends Composite {
 
 	private Image connectedImage;
 	private Image disconnectedImage;
+	private Image addImage;
+	private Image editImage;
+	private Image deleteImage;
 
 	public SessionsComposite(Composite parent, int style, List sessions, SessionChangeListener listener) {
 		super(parent, style);
@@ -93,13 +99,19 @@ public class SessionsComposite extends Composite {
 
 		addSessionButton = new Button(buttonBarComposite, SWT.PUSH);
 		addSessionButton.setText("Add");
+		addSessionButton.setToolTipText("Add Session");
+		addSessionButton.setImage(addImage);
 
 		editSessionButton = new Button(buttonBarComposite, SWT.PUSH);
 		editSessionButton.setText("Edit");
+		editSessionButton.setToolTipText("Edit Session");
+		editSessionButton.setImage(editImage);
 		editSessionButton.setEnabled(false);
 
 		removeSessionButton = new Button(buttonBarComposite, SWT.PUSH);
 		removeSessionButton.setText("Remove");
+		removeSessionButton.setToolTipText("Remove Session");
+		removeSessionButton.setImage(deleteImage);
 		removeSessionButton.setEnabled(false);
 
 		addSessionButton.addSelectionListener(new SelectionAdapter() {
@@ -189,6 +201,9 @@ public class SessionsComposite extends Composite {
 	private void createImages() {
 		connectedImage = loadImage(CONNECTED_IMAGE_PATH);
 		disconnectedImage = loadImage(DISCONNECTED_IMAGE_PATH);
+		addImage = loadImage(ADD_IMAGE_PATH);
+		editImage = loadImage(EDIT_IMAGE_PATH);
+		deleteImage = loadImage(DELETE_IMAGE_PATH);
 	}
 
 	private Image loadImage(String path) {
@@ -251,6 +266,9 @@ public class SessionsComposite extends Composite {
 	private void disposeImages() {
 		connectedImage.dispose();
 		disconnectedImage.dispose();
+		addImage.dispose();
+		editImage.dispose();
+		deleteImage.dispose();
 	}
 
 	/**

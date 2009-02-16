@@ -15,6 +15,8 @@
  */
 package org.programmerplanet.sshtunnel.ui.swt;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 
 import org.eclipse.swt.SWT;
@@ -24,6 +26,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -44,12 +47,19 @@ import org.programmerplanet.sshtunnel.ui.TunnelChangeListener;
  */
 public class TunnelsComposite extends Composite {
 
+	private static final String ADD_IMAGE_PATH = "/images/add.png";
+	private static final String EDIT_IMAGE_PATH = "/images/edit.png";
+	private static final String DELETE_IMAGE_PATH = "/images/delete.png";
+
 	private Table tunnelTable;
 	private Button addTunnelButton;
 	private Button editTunnelButton;
 	private Button removeTunnelButton;
 	private TunnelChangeListener listener;
 	private Session session;
+	private Image addImage;
+	private Image editImage;
+	private Image deleteImage;
 
 	public TunnelsComposite(Composite parent, int style, TunnelChangeListener listener) {
 		super(parent, style);
@@ -64,6 +74,8 @@ public class TunnelsComposite extends Composite {
 	}
 
 	private void initialize() {
+		createImages();
+
 		this.setLayout(new FillLayout());
 
 		Group group = new Group(this, SWT.NULL);
@@ -86,14 +98,20 @@ public class TunnelsComposite extends Composite {
 
 		addTunnelButton = new Button(buttonBarComposite, SWT.PUSH);
 		addTunnelButton.setText("Add");
+		addTunnelButton.setToolTipText("Add Tunnel");
+		addTunnelButton.setImage(addImage);
 		addTunnelButton.setEnabled(false);
 
 		editTunnelButton = new Button(buttonBarComposite, SWT.PUSH);
 		editTunnelButton.setText("Edit");
+		editTunnelButton.setToolTipText("Edit Tunnel");
+		editTunnelButton.setImage(editImage);
 		editTunnelButton.setEnabled(false);
 
 		removeTunnelButton = new Button(buttonBarComposite, SWT.PUSH);
 		removeTunnelButton.setText("Remove");
+		removeTunnelButton.setToolTipText("Remove Tunnel");
+		removeTunnelButton.setImage(deleteImage);
 		removeTunnelButton.setEnabled(false);
 
 		addTunnelButton.addSelectionListener(new SelectionAdapter() {
@@ -231,6 +249,39 @@ public class TunnelsComposite extends Composite {
 			updateTable();
 			listener.tunnelRemoved(tunnel);
 		}
+	}
+
+	private void createImages() {
+		addImage = loadImage(ADD_IMAGE_PATH);
+		editImage = loadImage(EDIT_IMAGE_PATH);
+		deleteImage = loadImage(DELETE_IMAGE_PATH);
+	}
+
+	private Image loadImage(String path) {
+		InputStream stream = SessionsComposite.class.getResourceAsStream(path);
+		try {
+			return new Image(this.getDisplay(), stream);
+		} finally {
+			try {
+				stream.close();
+			} catch (IOException e) {
+				// ignore
+			}
+		}
+	}
+
+	private void disposeImages() {
+		addImage.dispose();
+		editImage.dispose();
+		deleteImage.dispose();
+	}
+
+	/**
+	 * @see org.eclipse.swt.widgets.Widget#dispose()
+	 */
+	public void dispose() {
+		disposeImages();
+		super.dispose();
 	}
 
 }

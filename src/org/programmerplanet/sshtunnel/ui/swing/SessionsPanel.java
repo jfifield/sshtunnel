@@ -188,8 +188,8 @@ public class SessionsPanel extends JPanel {
 
 	private static class SessionStatusCellRenderer implements TableCellRenderer {
 
-		private static ImageIcon connectedIcon = new ImageIcon(SessionStatusCellRenderer.class.getResource("/images/bullet_ball_glass_green.png"));
-		private static ImageIcon disconnectedIcon = new ImageIcon(SessionStatusCellRenderer.class.getResource("/images/bullet_ball_glass_red.png"));
+		private static ImageIcon connectedIcon = new ImageIcon(SessionStatusCellRenderer.class.getResource("/images/bullet_green.png"));
+		private static ImageIcon disconnectedIcon = new ImageIcon(SessionStatusCellRenderer.class.getResource("/images/bullet_red.png"));
 
 		private static final JLabel connected = new JLabel(connectedIcon);
 		private static final JLabel disconnected = new JLabel(disconnectedIcon);
