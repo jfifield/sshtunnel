@@ -96,7 +96,13 @@
   	</profile>
   </profiles>
   <repositories>
-  	<!-- for sshtools -->
+  	<!-- Redefine the Maven Central repository to force Maven to look there first.
+  		 Without this, Maven looks in the other repositories defined below first. -->
+  	<repository>
+  		<id>central</id>
+  		<url>http://repo1.maven.org/maven2/</url>
+  	</repository>
+  	<!-- Define a repository containing sshtools -->
   	<repository>
   		<id>repo.opennms.org</id>
   		<name>repo.opennms.org</name>
