@@ -462,6 +462,10 @@ public class SshTunnelComposite extends Composite {
 	private void exit() {
 		disconnectAll();
 		save();
+		Tray tray = this.getDisplay().getSystemTray();
+		for (TrayItem trayItem : tray.getItems()) {
+			trayItem.dispose();
+		}
 		System.exit(0);
 	}
 
