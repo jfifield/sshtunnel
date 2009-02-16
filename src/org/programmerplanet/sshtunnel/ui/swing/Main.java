@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.programmerplanet.sshtunnel.ui;
+package org.programmerplanet.sshtunnel.ui.swing;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;

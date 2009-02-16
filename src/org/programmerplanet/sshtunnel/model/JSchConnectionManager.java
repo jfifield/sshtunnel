@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.programmerplanet.sshtunnel.ui.DefaultUserInfo;
+import org.programmerplanet.sshtunnel.ui.swing.DefaultUserInfo;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;

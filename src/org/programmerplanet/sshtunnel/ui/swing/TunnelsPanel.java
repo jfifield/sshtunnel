@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.programmerplanet.sshtunnel.ui;
+package org.programmerplanet.sshtunnel.ui.swing;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -39,6 +39,7 @@ import javax.swing.table.TableColumnModel;
 
 import org.programmerplanet.sshtunnel.model.Session;
 import org.programmerplanet.sshtunnel.model.Tunnel;
+import org.programmerplanet.sshtunnel.ui.TunnelChangeListener;
 
 /**
  * 
