@@ -64,7 +64,7 @@ public class JSchConnectionManager extends ConnectionManager {
 		} catch (JSchException e) {
 			jschSession.disconnect();
 			jschSession = null;
-			throw new IOException(e);
+			throw new IOException(e.getClass().getName() + ": " + e.getMessage());
 		}
 		connections.put(session, jschSession);
 	}
