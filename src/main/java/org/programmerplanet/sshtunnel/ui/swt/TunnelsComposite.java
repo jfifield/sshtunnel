@@ -26,6 +26,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -205,15 +206,15 @@ public class TunnelsComposite extends Composite {
 	public void updateTable() {
 		tunnelTable.removeAll();
 		if (session != null) {
+			Color red = this.getDisplay().getSystemColor(SWT.COLOR_RED);
 			for (Iterator i = session.getTunnels().iterator(); i.hasNext();) {
 				Tunnel tunnel = (Tunnel) i.next();
 				TableItem tableItem = new TableItem(tunnelTable, SWT.NULL);
 				tableItem.setText(new String[] { tunnel.getLocalAddress(), Integer.toString(tunnel.getLocalPort()), tunnel.getLocal() ? "->" : "<-", tunnel.getRemoteAddress(), Integer.toString(tunnel.getRemotePort()) });
 				if (tunnel.getException() != null) {
-					// TODO: fix this
-					//Color red = this.getDisplay().getSystemColor(SWT.COLOR_BLACK);
-					//tableItem.setForeground(red);
+					tableItem.setForeground(red);
 				}
+
 			}
 		}
 	}

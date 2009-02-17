@@ -114,7 +114,6 @@ public class JSchConnectionManager extends ConnectionManager {
 			try {
 				stopTunnel(jschSession, tunnel);
 			} catch (Exception e) {
-				tunnel.setException(e);
 				log.error("Error stopping tunnel: " + tunnel.getTunnelName(), e);
 			}
 		}
