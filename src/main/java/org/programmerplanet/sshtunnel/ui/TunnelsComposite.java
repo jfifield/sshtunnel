@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.programmerplanet.sshtunnel.ui.swt;
+package org.programmerplanet.sshtunnel.ui;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +40,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.programmerplanet.sshtunnel.model.Session;
 import org.programmerplanet.sshtunnel.model.Tunnel;
-import org.programmerplanet.sshtunnel.ui.TunnelChangeListener;
 
 /**
  * 

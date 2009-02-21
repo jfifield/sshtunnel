@@ -42,7 +42,7 @@
   			<configuration>
   				<archive>
   					<manifest>
-  						<mainClass>org.programmerplanet.sshtunnel.ui.swt.Main</mainClass>
+  						<mainClass>org.programmerplanet.sshtunnel.ui.Main</mainClass>
   						<addClasspath>true</addClasspath>
   						<classpathPrefix>lib</classpathPrefix>
   					</manifest>
