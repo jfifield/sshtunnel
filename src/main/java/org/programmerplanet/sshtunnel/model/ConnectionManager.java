@@ -49,7 +49,7 @@ public class ConnectionManager {
 	private Map<Session, com.jcraft.jsch.Session> connections = new HashMap<Session, com.jcraft.jsch.Session>();
 
 	public void connect(Session session, Frame parent) throws IOException {
-		log.info("Connecting session: " + session.getSessionName());
+		log.info("Connecting session: " + session);
 		clearTunnelExceptions(session);
 		com.jcraft.jsch.Session jschSession = connections.get(session);
 		try {
@@ -92,7 +92,7 @@ public class ConnectionManager {
 				startTunnel(jschSession, tunnel);
 			} catch (Exception e) {
 				tunnel.setException(e);
-				log.error("Error starting tunnel: " + tunnel.getTunnelName(), e);
+				log.error("Error starting tunnel: " + tunnel, e);
 			}
 		}
 	}
@@ -106,7 +106,7 @@ public class ConnectionManager {
 	}
 
 	public void disconnect(Session session) {
-		log.info("Disconnecting session: " + session.getSessionName());
+		log.info("Disconnecting session: " + session);
 		clearTunnelExceptions(session);
 		com.jcraft.jsch.Session jschSession = connections.get(session);
 		if (jschSession != null) {
@@ -122,7 +122,7 @@ public class ConnectionManager {
 			try {
 				stopTunnel(jschSession, tunnel);
 			} catch (Exception e) {
-				log.error("Error stopping tunnel: " + tunnel.getTunnelName(), e);
+				log.error("Error stopping tunnel: " + tunnel, e);
 			}
 		}
 	}

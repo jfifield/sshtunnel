@@ -30,13 +30,6 @@ public class Tunnel {
 
 	private transient Exception exception;
 
-	public String getTunnelName() {
-		String localName = getLocalAddress() + ":" + getLocalPort();
-		String direction = getLocal() ? "->" : "<-";
-		String remoteName = getRemoteAddress() + ":" + getRemotePort();
-		return localName + direction + remoteName;
-	}
-
 	public String getLocalAddress() {
 		return localAddress;
 	}
@@ -83,6 +76,13 @@ public class Tunnel {
 
 	public Exception getException() {
 		return exception;
+	}
+
+	public String toString() {
+		String localName = getLocalAddress() + ":" + getLocalPort();
+		String direction = getLocal() ? "->" : "<-";
+		String remoteName = getRemoteAddress() + ":" + getRemotePort();
+		return "Tunnel (" + localName + direction + remoteName + ")";
 	}
 
 }

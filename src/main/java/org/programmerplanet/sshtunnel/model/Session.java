@@ -67,4 +67,8 @@ public class Session {
 		return tunnels;
 	}
 
+	public String toString() {
+		return "Session (" + sessionName + ": " + username + "@" + hostname + ")";
+	}
+
 }
