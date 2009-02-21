@@ -16,57 +16,133 @@
 package org.programmerplanet.sshtunnel.model;
 
 import java.awt.Frame;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.programmerplanet.sshtunnel.ui.DefaultUserInfo;
+
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.UserInfo;
 
 /**
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
  */
-public abstract class ConnectionManager {
+public class ConnectionManager {
 
 	private static final Log log = LogFactory.getLog(ConnectionManager.class);
 
-	private static final ConnectionManager INSTANCE = createConnectionManager();
-
-	private static ConnectionManager createConnectionManager() {
-		ConnectionManager connectionManager = null;
-		try {
-			Properties properties = getProperties();
-			String connectionManagerClassName = properties.getProperty("connectionManager");
-			Class connectionManagerClass = Class.forName(connectionManagerClassName);
-			connectionManager = (ConnectionManager) connectionManagerClass.newInstance();
-		} catch (Exception e) {
-			log.error("Error creating configured connection manager; using default.", e);
-			connectionManager = new JSchConnectionManager();
-		}
-		log.info("Using ConnectionManager: " + connectionManager);
-		return connectionManager;
-	}
-
-	private static Properties getProperties() throws IOException {
-		Properties properties = new Properties();
-		InputStream inputStream = ConnectionManager.class.getResourceAsStream("/sshtunnel.properties");
-		try {
-			properties.load(inputStream);
-		} finally {
-			inputStream.close();
-		}
-		return properties;
-	}
+	private static final ConnectionManager INSTANCE = new ConnectionManager();
 
 	public static ConnectionManager getInstance() {
 		return INSTANCE;
 	}
 
-	public abstract void connect(Session session, Frame parent) throws IOException;
+	private Map<Session, com.jcraft.jsch.Session> connections = new HashMap<Session, com.jcraft.jsch.Session>();
 
-	public abstract void disconnect(Session session);
+	public void connect(Session session, Frame parent) throws IOException {
+		log.info("Connecting session: " + session.getSessionName());
+		clearTunnelExceptions(session);
+		com.jcraft.jsch.Session jschSession = connections.get(session);
+		try {
+			if (jschSession == null) {
+				JSch jsch = new JSch();
+				File knownHosts = getKnownHostsFile();
+				jsch.setKnownHosts(knownHosts.getAbsolutePath());
+				jschSession = jsch.getSession(session.getUsername(), session.getHostname());
+			}
+			UserInfo userInfo = null;
+			if (session.getPassword() != null && session.getPassword().trim().length() > 0) {
+				userInfo = new DefaultUserInfo(session.getPassword());
+			} else {
+				userInfo = new DefaultUserInfo();
+			}
+			jschSession.setUserInfo(userInfo);
+			jschSession.connect();
 
-	public abstract boolean isConnected(Session session);
+			startTunnels(session, jschSession);
+		} catch (JSchException e) {
+			jschSession.disconnect();
+			jschSession = null;
+			throw new IOException(e.getClass().getName() + ": " + e.getMessage());
+		}
+		connections.put(session, jschSession);
+	}
+
+	private File getKnownHostsFile() {
+		String userHome = System.getProperty("user.home");
+		File f = new File(userHome);
+		f = new File(f, ".ssh");
+		f = new File(f, "known_hosts");
+		return f;
+	}
+
+	private void startTunnels(Session session, com.jcraft.jsch.Session jschSession) {
+		for (Iterator i = session.getTunnels().iterator(); i.hasNext();) {
+			Tunnel tunnel = (Tunnel) i.next();
+			try {
+				startTunnel(jschSession, tunnel);
+			} catch (Exception e) {
+				tunnel.setException(e);
+				log.error("Error starting tunnel: " + tunnel.getTunnelName(), e);
+			}
+		}
+	}
+
+	private void startTunnel(com.jcraft.jsch.Session jschSession, Tunnel tunnel) throws JSchException {
+		if (tunnel.getLocal()) {
+			jschSession.setPortForwardingL(tunnel.getLocalAddress(), tunnel.getLocalPort(), tunnel.getRemoteAddress(), tunnel.getRemotePort());
+		} else {
+			jschSession.setPortForwardingR(tunnel.getRemoteAddress(), tunnel.getRemotePort(), tunnel.getLocalAddress(), tunnel.getLocalPort());
+		}
+	}
+
+	public void disconnect(Session session) {
+		log.info("Disconnecting session: " + session.getSessionName());
+		clearTunnelExceptions(session);
+		com.jcraft.jsch.Session jschSession = connections.get(session);
+		if (jschSession != null) {
+			stopTunnels(session, jschSession);
+			jschSession.disconnect();
+		}
+		connections.remove(session);
+	}
+
+	private void stopTunnels(Session session, com.jcraft.jsch.Session jschSession) {
+		for (Iterator i = session.getTunnels().iterator(); i.hasNext();) {
+			Tunnel tunnel = (Tunnel) i.next();
+			try {
+				stopTunnel(jschSession, tunnel);
+			} catch (Exception e) {
+				log.error("Error stopping tunnel: " + tunnel.getTunnelName(), e);
+			}
+		}
+	}
+
+	private void stopTunnel(com.jcraft.jsch.Session jschSession, Tunnel tunnel) throws JSchException {
+		if (tunnel.getLocal()) {
+			jschSession.delPortForwardingL(tunnel.getLocalAddress(), tunnel.getLocalPort());
+		} else {
+			jschSession.delPortForwardingR(tunnel.getRemotePort());
+		}
+	}
+
+	private void clearTunnelExceptions(Session session) {
+		for (Iterator i = session.getTunnels().iterator(); i.hasNext();) {
+			Tunnel tunnel = (Tunnel) i.next();
+			tunnel.setException(null);
+		}
+	}
+
+	public boolean isConnected(Session session) {
+		com.jcraft.jsch.Session jschSession = connections.get(session);
+		return jschSession != null && jschSession.isConnected();
+	}
 
 }
