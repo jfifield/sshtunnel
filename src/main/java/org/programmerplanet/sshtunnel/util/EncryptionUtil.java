@@ -25,9 +25,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
 /**
  * Simple encryption/decryption utility class.
  * 
@@ -44,7 +41,7 @@ public class EncryptionUtil {
 			cipher.init(Cipher.ENCRYPT_MODE, key);
 			byte[] clearBytes = source.getBytes();
 			byte[] cipherBytes = cipher.doFinal(clearBytes);
-			return encode(cipherBytes);
+			return byteArrayToHexString(cipherBytes);
 		} catch (Exception e) {
 			return null;
 		}
@@ -55,7 +52,7 @@ public class EncryptionUtil {
 			Key key = getKey(keyString);
 			Cipher cipher = Cipher.getInstance(ALGORITHM);
 			cipher.init(Cipher.DECRYPT_MODE, key);
-			byte[] cipherBytes = decode(source);
+			byte[] cipherBytes = hexStringToByteArray(source);
 			byte[] clearBytes = cipher.doFinal(cipherBytes);
 			return new String(clearBytes);
 		} catch (Exception e) {
@@ -67,7 +64,7 @@ public class EncryptionUtil {
 		try {
 			Key key = createKey();
 			byte[] bytes = key.getEncoded();
-			String keyString = encode(bytes);
+			String keyString = byteArrayToHexString(bytes);
 			return keyString;
 		} catch (Exception e) {
 			return null;
@@ -81,23 +78,35 @@ public class EncryptionUtil {
 	}
 
 	private static Key getKey(String keyString) throws IOException, GeneralSecurityException {
-		byte[] bytes = decode(keyString);
+		byte[] bytes = hexStringToByteArray(keyString);
 		DESKeySpec keySpec = new DESKeySpec(bytes);
 		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
 		SecretKey key = keyFactory.generateSecret(keySpec);
 		return key;
 	}
 
-	private static String encode(byte[] bytes) {
-		BASE64Encoder encoder = new BASE64Encoder();
-		String encoded = encoder.encode(bytes);
-		return encoded;
+	private static String byteArrayToHexString(byte[] bytes) {
+		StringBuffer buffer = new StringBuffer(bytes.length * 2);
+		for (int i = 0; i < bytes.length; i++) {
+			byte b = bytes[i];
+			int value = b & 0xff;
+			if (value < 16) {
+				buffer.append('0');
+			}
+			String s = Integer.toHexString(value);
+			buffer.append(s);
+		}
+		return buffer.toString().toUpperCase();
 	}
 
-	private static byte[] decode(String str) throws IOException {
-		BASE64Decoder decoder = new BASE64Decoder();
-		byte[] decoded = decoder.decodeBuffer(str);
-		return decoded;
+	private static byte[] hexStringToByteArray(String str) throws IOException {
+		byte[] bytes = new byte[str.length() / 2];
+		for (int i = 0; i < bytes.length; i++) {
+			int index = i * 2;
+			String s = str.substring(index, index + 2);
+			int value = Integer.parseInt(s, 16);
+			bytes[i] = (byte) value;
+		}
+		return bytes;
 	}
-
 }
