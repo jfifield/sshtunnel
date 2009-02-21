@@ -56,12 +56,16 @@ public class SshTunnelComposite extends Composite {
 	private static final String APPLICATION_IMAGE_PATH = "/images/sshtunnel.png";
 	private static final String CONNECT_IMAGE_PATH = "/images/connect.png";
 	private static final String DISCONNECT_IMAGE_PATH = "/images/disconnect.png";
+	private static final String CONNECT_ALL_IMAGE_PATH = "/images/connect_all.png";
+	private static final String DISCONNECT_ALL_IMAGE_PATH = "/images/disconnect_all.png";
 	private static final String CONNECTED_IMAGE_PATH = "/images/bullet_green.png";
 	private static final String DISCONNECTED_IMAGE_PATH = "/images/bullet_red.png";
 
 	private Image applicationImage;
 	private Image connectImage;
 	private Image disconnectImage;
+	private Image connectAllImage;
+	private Image disconnectAllImage;
 	private Image connectedImage;
 	private Image disconnectedImage;
 
@@ -143,6 +147,8 @@ public class SshTunnelComposite extends Composite {
 		applicationImage = loadImage(APPLICATION_IMAGE_PATH);
 		connectImage = loadImage(CONNECT_IMAGE_PATH);
 		disconnectImage = loadImage(DISCONNECT_IMAGE_PATH);
+		connectAllImage = loadImage(CONNECT_ALL_IMAGE_PATH);
+		disconnectAllImage = loadImage(DISCONNECT_ALL_IMAGE_PATH);
 		connectedImage = loadImage(CONNECTED_IMAGE_PATH);
 		disconnectedImage = loadImage(DISCONNECTED_IMAGE_PATH);
 	}
@@ -223,13 +229,13 @@ public class SshTunnelComposite extends Composite {
 		connectAllButton = new Button(buttonBarComposite, SWT.PUSH);
 		connectAllButton.setText("Connect All");
 		connectAllButton.setToolTipText("Connect All");
-		connectAllButton.setImage(connectImage);
+		connectAllButton.setImage(connectAllImage);
 		connectAllButton.setEnabled(true);
 
 		disconnectAllButton = new Button(buttonBarComposite, SWT.PUSH);
 		disconnectAllButton.setText("Disconnect All");
 		disconnectAllButton.setToolTipText("Disconnect All");
-		disconnectAllButton.setImage(disconnectImage);
+		disconnectAllButton.setImage(disconnectAllImage);
 		disconnectAllButton.setEnabled(false);
 
 		connectButton.addSelectionListener(new SelectionAdapter() {
@@ -471,6 +477,8 @@ public class SshTunnelComposite extends Composite {
 		applicationImage.dispose();
 		connectImage.dispose();
 		disconnectImage.dispose();
+		connectAllImage.dispose();
+		disconnectAllImage.dispose();
 		connectedImage.dispose();
 		disconnectedImage.dispose();
 	}
