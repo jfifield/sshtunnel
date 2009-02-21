@@ -27,6 +27,7 @@ import java.util.Properties;
 import org.programmerplanet.sshtunnel.util.EncryptionUtil;
 
 /**
+ * Responsible for storing and loading the configuration for the application.
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
  */

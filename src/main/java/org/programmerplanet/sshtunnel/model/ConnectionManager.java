@@ -31,6 +31,8 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.UserInfo;
 
 /**
+ * Responsible for connecting and disconnecting ssh connections and the
+ * underlying tunnels.
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
  */

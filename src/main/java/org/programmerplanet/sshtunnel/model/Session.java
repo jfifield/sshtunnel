@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Represents a session to an ssh host.
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
  */

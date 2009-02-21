@@ -16,6 +16,7 @@
 package org.programmerplanet.sshtunnel.model;
 
 /**
+ * Represents a tunnel (port forward) over an ssh connection.
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
  */
@@ -26,7 +27,7 @@ public class Tunnel {
 	private String remoteAddress;
 	private int remotePort;
 	private boolean local = true;
-	
+
 	private transient Exception exception;
 
 	public String getTunnelName() {

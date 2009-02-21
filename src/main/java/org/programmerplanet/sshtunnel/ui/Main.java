@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 /**
+ * Application entry point.
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
  */
