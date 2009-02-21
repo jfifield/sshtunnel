@@ -76,31 +76,31 @@ public class Configuration {
 
 	public void write() throws IOException {
 		Properties properties = new Properties();
-		
+
 		properties.setProperty("top", Integer.toString(this.top));
 		properties.setProperty("left", Integer.toString(this.left));
 		properties.setProperty("width", Integer.toString(this.width));
 		properties.setProperty("height", Integer.toString(this.height));
 
-		for (ListIterator sessionIter = sessions.listIterator(); sessionIter.hasNext();) {
-			Session session = (Session)sessionIter.next();
+		for (ListIterator si = sessions.listIterator(); si.hasNext();) {
+			Session session = (Session) si.next();
 
-			String sessionKey = "sessions[" + sessionIter.previousIndex() + "]";
+			String sessionKey = "sessions[" + si.previousIndex() + "]";
 
 			properties.setProperty(sessionKey + ".sessionName", session.getSessionName());
 			properties.setProperty(sessionKey + ".hostname", session.getHostname());
 			properties.setProperty(sessionKey + ".username", session.getUsername());
-			if (session.getPassword() != null ) {
-				String keyString = EncryptionUtil.generateKeyString();
+			if (session.getPassword() != null) {
+				String keyString = EncryptionUtil.createKeyString();
 				String encryptedPassword = EncryptionUtil.encrypt(session.getPassword(), keyString);
 				properties.setProperty(sessionKey + ".key", keyString);
 				properties.setProperty(sessionKey + ".password", encryptedPassword);
 			}
 
-			for (ListIterator tunnelIter = session.getTunnels().listIterator(); tunnelIter.hasNext();) {
-				Tunnel tunnel = (Tunnel)tunnelIter.next();
+			for (ListIterator ti = session.getTunnels().listIterator(); ti.hasNext();) {
+				Tunnel tunnel = (Tunnel) ti.next();
 
-				String tunnelKey = sessionKey + ".tunnels[" + tunnelIter.previousIndex() + "]";
+				String tunnelKey = sessionKey + ".tunnels[" + ti.previousIndex() + "]";
 
 				properties.setProperty(tunnelKey + ".localAddress", tunnel.getLocalAddress());
 				properties.setProperty(tunnelKey + ".localPort", Integer.toString(tunnel.getLocalPort()));
@@ -121,13 +121,13 @@ public class Configuration {
 		this.height = Integer.parseInt(properties.getProperty("height", Integer.toString(this.height)));
 
 		int sessionIndex = 0;
-		boolean go = true;
-		while (go) {
+		boolean moreSessions = true;
+		while (moreSessions) {
 			String sessionKey = "sessions[" + sessionIndex + "]";
-			
+
 			String sessionName = properties.getProperty(sessionKey + ".sessionName");
-			go = (sessionName != null);
-			if (go) {
+			moreSessions = (sessionName != null);
+			if (moreSessions) {
 				String hostname = properties.getProperty(sessionKey + ".hostname");
 				String username = properties.getProperty(sessionKey + ".username");
 
@@ -146,23 +146,23 @@ public class Configuration {
 				sessions.add(session);
 
 				int tunnelIndex = 0;
-				boolean go2 = true;
-				while (go2) {
+				boolean moreTunnels = true;
+				while (moreTunnels) {
 					String tunnelKey = sessionKey + ".tunnels[" + tunnelIndex + "]";
 
 					String localAddress = properties.getProperty(tunnelKey + ".localAddress");
-					go2 = (localAddress != null);
-					if (go2) {
+					moreTunnels = (localAddress != null);
+					if (moreTunnels) {
 						String localPort = properties.getProperty(tunnelKey + ".localPort");
 						String remoteAddress = properties.getProperty(tunnelKey + ".remoteAddress");
 						String remotePort = properties.getProperty(tunnelKey + ".remotePort");
-	
+
 						Tunnel tunnel = new Tunnel();
 						tunnel.setLocalAddress(localAddress);
 						tunnel.setLocalPort(Integer.parseInt(localPort));
 						tunnel.setRemoteAddress(remoteAddress);
 						tunnel.setRemotePort(Integer.parseInt(remotePort));
-	
+
 						session.getTunnels().add(tunnel);
 					}
 					tunnelIndex++;
@@ -183,9 +183,11 @@ public class Configuration {
 			FileInputStream fis = new FileInputStream(configFile);
 			try {
 				properties.load(fis);
-			}
-			finally {
-				try { fis.close(); } catch (Exception e) { /* ignore */ }
+			} finally {
+				try {
+					fis.close();
+				} catch (Exception e) { /* ignore */
+				}
 			}
 		}
 
@@ -197,13 +199,15 @@ public class Configuration {
 	 */
 	private void storeProperties(Properties properties) throws IOException {
 		File configFile = getConfigurationFile();
-		
+
 		FileOutputStream fos = new FileOutputStream(configFile);
 		try {
 			properties.store(fos, "SSH Tunnel Configuration");
-		}
-		finally {
-			try { fos.close(); } catch (Exception e) { /* ignore */ }
+		} finally {
+			try {
+				fos.close();
+			} catch (Exception e) { /* ignore */
+			}
 		}
 	}
 
