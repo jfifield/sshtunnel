@@ -1,4 +1,4 @@
-make tunnel errors visible somewhere (when a tunnel can't be started/opened)
-make connection errors visible (when host can't be found, auth fails, etc, no feedback)
-when disconnected from server, make it visible to user
+notification when connection fails (host can't be found, auth fails, etc)
+notification when tunnel fails (tunnel can't be started, etc)
+notification when disconnected from server
 buttons don't always seem to update properly when adding/deleting/etc
