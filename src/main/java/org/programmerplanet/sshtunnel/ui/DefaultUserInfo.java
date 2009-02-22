@@ -16,7 +16,6 @@
 package org.programmerplanet.sshtunnel.ui;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
@@ -30,16 +29,19 @@ public class DefaultUserInfo implements UserInfo {
 
 	private static final int MAX_ATTEMPTS = 3;
 
+	private Shell parent;
 	private String password;
 	private boolean savedPassword;
 	private int attempt = 0;
 
-	public DefaultUserInfo() {
+	public DefaultUserInfo(Shell parent) {
+		this(parent, null);
 	}
 
-	public DefaultUserInfo(String password) {
+	public DefaultUserInfo(Shell parent, String password) {
+		this.parent = parent;
 		this.password = password;
-		this.savedPassword = true;
+		this.savedPassword = (password != null);
 	}
 
 	public boolean promptPassword(String message) {
@@ -49,8 +51,7 @@ public class DefaultUserInfo implements UserInfo {
 		} else if (savedPassword && attempt == 1) {
 			return true;
 		} else {
-			Shell shell = getShell();
-			PasswordDialog dialog = new PasswordDialog(shell);
+			PasswordDialog dialog = new PasswordDialog(parent);
 			dialog.setMessage(message);
 			int result = dialog.open();
 			if (result == SWT.OK) {
@@ -75,8 +76,7 @@ public class DefaultUserInfo implements UserInfo {
 	}
 
 	public boolean promptYesNo(String str) {
-		Shell shell = getShell();
-		MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.YES | SWT.NO);
+		MessageBox messageBox = new MessageBox(parent, SWT.ICON_WARNING | SWT.YES | SWT.NO);
 		messageBox.setText("Warning");
 		messageBox.setMessage(str);
 		int result = messageBox.open();
@@ -84,16 +84,10 @@ public class DefaultUserInfo implements UserInfo {
 	}
 
 	public void showMessage(String message) {
-		Shell shell = getShell();
-		MessageBox messageBox = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
+		MessageBox messageBox = new MessageBox(parent, SWT.ICON_INFORMATION | SWT.OK);
 		messageBox.setText("Message");
 		messageBox.setMessage(message);
 		messageBox.open();
-	}
-
-	private Shell getShell() {
-		// is this safe to do, or should we pass the shell in to this class instead?
-		return Display.getCurrent().getActiveShell();
 	}
 
 }

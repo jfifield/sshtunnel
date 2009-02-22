@@ -15,7 +15,6 @@
  */
 package org.programmerplanet.sshtunnel.model;
 
-import java.awt.Frame;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.swt.widgets.Shell;
 import org.programmerplanet.sshtunnel.ui.DefaultUserInfo;
 
 import com.jcraft.jsch.JSch;
@@ -48,7 +48,7 @@ public class ConnectionManager {
 
 	private Map<Session, com.jcraft.jsch.Session> connections = new HashMap<Session, com.jcraft.jsch.Session>();
 
-	public void connect(Session session, Frame parent) throws IOException {
+	public void connect(Session session, Shell parent) throws IOException {
 		log.info("Connecting session: " + session);
 		clearTunnelExceptions(session);
 		com.jcraft.jsch.Session jschSession = connections.get(session);
@@ -61,9 +61,9 @@ public class ConnectionManager {
 			}
 			UserInfo userInfo = null;
 			if (session.getPassword() != null && session.getPassword().trim().length() > 0) {
-				userInfo = new DefaultUserInfo(session.getPassword());
+				userInfo = new DefaultUserInfo(parent, session.getPassword());
 			} else {
-				userInfo = new DefaultUserInfo();
+				userInfo = new DefaultUserInfo(parent);
 			}
 			jschSession.setUserInfo(userInfo);
 			jschSession.connect();

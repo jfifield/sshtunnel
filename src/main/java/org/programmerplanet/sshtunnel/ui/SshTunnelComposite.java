@@ -332,7 +332,7 @@ public class SshTunnelComposite extends Composite {
 		save();
 		if (session != null && !ConnectionManager.getInstance().isConnected(session)) {
 			try {
-				ConnectionManager.getInstance().connect(session, null);
+				ConnectionManager.getInstance().connect(session, shell);
 			} catch (IOException ioe) {
 				try {
 					ConnectionManager.getInstance().disconnect(session);
@@ -361,7 +361,7 @@ public class SshTunnelComposite extends Composite {
 			for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
 				Session session = (Session) i.next();
 				if (!ConnectionManager.getInstance().isConnected(session)) {
-					ConnectionManager.getInstance().connect(session, null);
+					ConnectionManager.getInstance().connect(session, shell);
 				}
 			}
 		} catch (IOException ioe) {
