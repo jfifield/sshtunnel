@@ -1,4 +1,3 @@
-notification when connection fails (host can't be found, auth fails, etc)
 notification when tunnel fails (tunnel can't be started, etc)
 notification when disconnected from server
 buttons don't always seem to update properly when adding/deleting/etc

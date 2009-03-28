@@ -43,6 +43,7 @@ import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.swt.widgets.Tray;
 import org.eclipse.swt.widgets.TrayItem;
 import org.programmerplanet.sshtunnel.model.Configuration;
+import org.programmerplanet.sshtunnel.model.ConnectionException;
 import org.programmerplanet.sshtunnel.model.ConnectionManager;
 import org.programmerplanet.sshtunnel.model.Session;
 
@@ -333,14 +334,31 @@ public class SshTunnelComposite extends Composite {
 		if (session != null && !ConnectionManager.getInstance().isConnected(session)) {
 			try {
 				ConnectionManager.getInstance().connect(session, shell);
-			} catch (IOException ioe) {
+			} catch (ConnectionException ce) {
 				try {
 					ConnectionManager.getInstance().disconnect(session);
 				} catch (Exception e) {
 				}
+				showErrorMessage("Unable to connect to '" + session.getSessionName() + "'", ce);
 			}
 		}
 		connectionStatusChanged();
+	}
+
+	private void showErrorMessage(String message, Exception e) {
+		Throwable cause = getOriginatingCause(e);
+		MessageBox messageBox = new MessageBox(shell, SWT.ICON_ERROR | SWT.OK);
+		messageBox.setText("Error");
+		messageBox.setMessage(message + ": " + cause.getMessage());
+		messageBox.open();
+	}
+
+	private Throwable getOriginatingCause(Exception e) {
+		Throwable cause = e;
+		while (cause.getCause() != null) {
+			cause = cause.getCause();
+		}
+		return cause;
 	}
 
 	private void disconnect() {
@@ -357,14 +375,15 @@ public class SshTunnelComposite extends Composite {
 
 	private void connectAll() {
 		save();
+		Session sessionToConnect = null;
 		try {
 			for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
-				Session session = (Session) i.next();
-				if (!ConnectionManager.getInstance().isConnected(session)) {
-					ConnectionManager.getInstance().connect(session, shell);
+				sessionToConnect = (Session) i.next();
+				if (!ConnectionManager.getInstance().isConnected(sessionToConnect)) {
+					ConnectionManager.getInstance().connect(sessionToConnect, shell);
 				}
 			}
-		} catch (IOException ioe) {
+		} catch (ConnectionException ce) {
 			for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
 				Session session = (Session) i.next();
 				try {
@@ -372,6 +391,7 @@ public class SshTunnelComposite extends Composite {
 				} catch (Exception e) {
 				}
 			}
+			showErrorMessage("Unable to connect to '" + sessionToConnect.getSessionName() + "'", ce);
 		}
 		connectionStatusChanged();
 	}
@@ -413,18 +433,22 @@ public class SshTunnelComposite extends Composite {
 							final Session session = (Session) source;
 							Runnable runnable = new Runnable() {
 								public void run() {
-									if (!ConnectionManager.getInstance().isConnected(session)) {
+									boolean connectedBefore = ConnectionManager.getInstance().isConnected(session);
+									if (!connectedBefore) {
 										connect(session);
-									} else if (ConnectionManager.getInstance().isConnected(session)) {
+									} else if (connectedBefore) {
 										disconnect(session);
 									}
-									String title = "Session: " + session.getSessionName();
-									String message = session.getSessionName() + " is now " + (ConnectionManager.getInstance().isConnected(session) ? "connected" : "disconnected") + ".";
-									ToolTip tip = new ToolTip(shell, SWT.BALLOON | SWT.ICON_INFORMATION);
-									tip.setText(title);
-									tip.setMessage(message);
-									trayItem.setToolTip(tip);
-									tip.setVisible(true);
+									boolean connectedAfter = ConnectionManager.getInstance().isConnected(session);
+									if (connectedBefore != connectedAfter) {
+										String title = "Session: " + session.getSessionName();
+										String message = session.getSessionName() + " is now " + (connectedAfter ? "connected" : "disconnected") + ".";
+										ToolTip tip = new ToolTip(shell, SWT.BALLOON | SWT.ICON_INFORMATION);
+										tip.setText(title);
+										tip.setMessage(message);
+										trayItem.setToolTip(tip);
+										tip.setVisible(true);
+									}
 								}
 							};
 							event.display.asyncExec(runnable);

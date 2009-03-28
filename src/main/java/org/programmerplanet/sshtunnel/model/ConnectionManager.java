@@ -16,7 +16,6 @@
 package org.programmerplanet.sshtunnel.model;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -40,6 +39,8 @@ public class ConnectionManager {
 
 	private static final Log log = LogFactory.getLog(ConnectionManager.class);
 
+	private static final int TIMEOUT = 30000;
+
 	private static final ConnectionManager INSTANCE = new ConnectionManager();
 
 	public static ConnectionManager getInstance() {
@@ -48,7 +49,7 @@ public class ConnectionManager {
 
 	private Map<Session, com.jcraft.jsch.Session> connections = new HashMap<Session, com.jcraft.jsch.Session>();
 
-	public void connect(Session session, Shell parent) throws IOException {
+	public void connect(Session session, Shell parent) throws ConnectionException {
 		log.info("Connecting session: " + session);
 		clearTunnelExceptions(session);
 		com.jcraft.jsch.Session jschSession = connections.get(session);
@@ -66,13 +67,13 @@ public class ConnectionManager {
 				userInfo = new DefaultUserInfo(parent);
 			}
 			jschSession.setUserInfo(userInfo);
-			jschSession.connect();
+			jschSession.connect(TIMEOUT);
 
 			startTunnels(session, jschSession);
 		} catch (JSchException e) {
 			jschSession.disconnect();
 			jschSession = null;
-			throw new IOException(e.getClass().getName() + ": " + e.getMessage());
+			throw new ConnectionException(e);
 		}
 		connections.put(session, jschSession);
 	}
