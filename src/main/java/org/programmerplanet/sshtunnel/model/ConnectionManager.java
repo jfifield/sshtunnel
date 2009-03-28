@@ -57,7 +57,7 @@ public class ConnectionManager {
 				JSch jsch = new JSch();
 				File knownHosts = getKnownHostsFile();
 				jsch.setKnownHosts(knownHosts.getAbsolutePath());
-				jschSession = jsch.getSession(session.getUsername(), session.getHostname());
+				jschSession = jsch.getSession(session.getUsername(), session.getHostname(), session.getPort());
 			}
 			UserInfo userInfo = null;
 			if (session.getPassword() != null && session.getPassword().trim().length() > 0) {

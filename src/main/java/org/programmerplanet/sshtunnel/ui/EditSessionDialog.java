@@ -36,6 +36,7 @@ public class EditSessionDialog extends CustomDialog {
 	private Session session;
 	private Text nameText;
 	private Text hostText;
+	private Text portText;
 	private Text userText;
 	private Button savePassCheckbox;
 	private Text passText;
@@ -51,32 +52,43 @@ public class EditSessionDialog extends CustomDialog {
 		layout.numColumns = 2;
 		parent.setLayout(layout);
 
+		GridData gridData = null;
+
 		Label nameLabel = new Label(parent, SWT.RIGHT);
 		nameLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
 		nameLabel.setText("Name:");
 
 		nameText = new Text(parent, SWT.SINGLE | SWT.BORDER);
-		GridData gridData1 = new GridData(GridData.FILL, GridData.CENTER, true, false);
-		gridData1.widthHint = 200;
-		nameText.setLayoutData(gridData1);
+		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
+		gridData.widthHint = 200;
+		nameText.setLayoutData(gridData);
 
 		Label hostLabel = new Label(parent, SWT.RIGHT);
 		hostLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
 		hostLabel.setText("Host:");
 
 		hostText = new Text(parent, SWT.SINGLE | SWT.BORDER);
-		GridData gridData2 = new GridData(GridData.FILL, GridData.CENTER, true, false);
-		gridData2.widthHint = 200;
-		hostText.setLayoutData(gridData2);
+		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
+		gridData.widthHint = 200;
+		hostText.setLayoutData(gridData);
+
+		Label portLabel = new Label(parent, SWT.RIGHT);
+		portLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
+		portLabel.setText("Port:");
+
+		portText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
+		gridData.widthHint = 200;
+		portText.setLayoutData(gridData);
 
 		Label userLabel = new Label(parent, SWT.RIGHT);
 		userLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
 		userLabel.setText("Username:");
 
 		userText = new Text(parent, SWT.SINGLE | SWT.BORDER);
-		GridData gridData3 = new GridData(GridData.FILL, GridData.CENTER, true, false);
-		gridData3.widthHint = 200;
-		userText.setLayoutData(gridData3);
+		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
+		gridData.widthHint = 200;
+		userText.setLayoutData(gridData);
 
 		Label savePassLabel = new Label(parent, SWT.RIGHT);
 		savePassLabel.setText("");
@@ -94,14 +106,15 @@ public class EditSessionDialog extends CustomDialog {
 		passLabel.setText("Password:");
 
 		passText = new Text(parent, SWT.SINGLE | SWT.BORDER | SWT.PASSWORD);
-		GridData gridData4 = new GridData(GridData.FILL, GridData.CENTER, true, false);
-		gridData4.widthHint = 200;
-		passText.setLayoutData(gridData4);
+		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
+		gridData.widthHint = 200;
+		passText.setLayoutData(gridData);
 
 		setSavePassword(false);
 
 		setSessionName(session.getSessionName());
 		setHostname(session.getHostname());
+		setPort(session.getPort());
 		setUsername(session.getUsername());
 		setPassword(session.getPassword());
 	}
@@ -109,6 +122,7 @@ public class EditSessionDialog extends CustomDialog {
 	protected void okPressed() {
 		session.setSessionName(getSessionName());
 		session.setHostname(getHostname());
+		session.setPort(getPort());
 		session.setUsername(getUsername());
 		session.setPassword(getPassword());
 		super.okPressed();
@@ -131,6 +145,10 @@ public class EditSessionDialog extends CustomDialog {
 		return hostText.getText();
 	}
 
+	private int getPort() {
+		return Integer.parseInt(portText.getText());
+	}
+
 	private String getUsername() {
 		return userText.getText();
 	}
@@ -145,6 +163,10 @@ public class EditSessionDialog extends CustomDialog {
 
 	private void setHostname(String hostname) {
 		hostText.setText(hostname != null ? hostname : "");
+	}
+
+	private void setPort(int port) {
+		portText.setText(port > 0 ? Integer.toString(port) : "");
 	}
 
 	private void setUsername(String username) {

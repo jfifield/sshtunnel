@@ -25,8 +25,11 @@ import java.util.List;
  */
 public class Session {
 
+	private static final int DEFAULT_PORT = 22;
+
 	private String sessionName;
 	private String hostname;
+	private int port = DEFAULT_PORT;
 	private String username;
 	private String password;
 	private List tunnels = new ArrayList();
@@ -45,6 +48,14 @@ public class Session {
 
 	public void setHostname(String hostname) {
 		this.hostname = hostname;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
 	}
 
 	public String getUsername() {
@@ -68,7 +79,7 @@ public class Session {
 	}
 
 	public String toString() {
-		return "Session (" + sessionName + ": " + username + "@" + hostname + ")";
+		return "Session (" + sessionName + ": " + username + "@" + hostname + (port != DEFAULT_PORT ? ":" + port : "") + ")";
 	}
 
 }

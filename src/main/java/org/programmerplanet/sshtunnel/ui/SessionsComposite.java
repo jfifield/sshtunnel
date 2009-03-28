@@ -147,7 +147,10 @@ public class SessionsComposite extends Composite {
 		column3.setText("Hostname");
 
 		TableColumn column4 = new TableColumn(sessionTable, SWT.NULL);
-		column4.setText("Username");
+		column4.setText("Port");
+
+		TableColumn column5 = new TableColumn(sessionTable, SWT.NULL);
+		column5.setText("Username");
 
 		GridData gridData = new GridData();
 		gridData.grabExcessHorizontalSpace = true;
@@ -158,21 +161,25 @@ public class SessionsComposite extends Composite {
 
 		sessionTable.addControlListener(new ControlAdapter() {
 			public void controlResized(ControlEvent e) {
-				int fixedWidth = 22;
+				int iconColumnWidth = 22;
+				int portColumnWidth = 100;
 
 				Rectangle area = sessionTable.getClientArea();
 				int relativeWidth = area.width;
-				relativeWidth -= fixedWidth;
+				relativeWidth -= iconColumnWidth;
+				relativeWidth -= portColumnWidth;
 				relativeWidth /= 3;
 
 				TableColumn column1 = sessionTable.getColumn(0);
-				column1.setWidth(fixedWidth);
+				column1.setWidth(iconColumnWidth);
 				TableColumn column2 = sessionTable.getColumn(1);
 				column2.setWidth(relativeWidth);
 				TableColumn column3 = sessionTable.getColumn(2);
 				column3.setWidth(relativeWidth);
 				TableColumn column4 = sessionTable.getColumn(3);
-				column4.setWidth(relativeWidth);
+				column4.setWidth(portColumnWidth);
+				TableColumn column5 = sessionTable.getColumn(4);
+				column5.setWidth(relativeWidth);
 
 			}
 		});
@@ -223,7 +230,7 @@ public class SessionsComposite extends Composite {
 		for (Iterator i = sessions.iterator(); i.hasNext();) {
 			Session session = (Session) i.next();
 			TableItem tableItem = new TableItem(sessionTable, SWT.NULL);
-			tableItem.setText(new String[] { "", session.getSessionName(), session.getHostname(), session.getUsername() });
+			tableItem.setText(new String[] { "", session.getSessionName(), session.getHostname(), Integer.toString(session.getPort()), session.getUsername() });
 			Image image = ConnectionManager.getInstance().isConnected(session) ? connectedImage : disconnectedImage;
 			tableItem.setImage(0, image);
 		}

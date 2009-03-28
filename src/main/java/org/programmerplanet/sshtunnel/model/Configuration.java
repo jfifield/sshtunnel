@@ -90,6 +90,7 @@ public class Configuration {
 
 			properties.setProperty(sessionKey + ".sessionName", session.getSessionName());
 			properties.setProperty(sessionKey + ".hostname", session.getHostname());
+			properties.setProperty(sessionKey + ".port", Integer.toString(session.getPort()));
 			properties.setProperty(sessionKey + ".username", session.getUsername());
 			if (session.getPassword() != null) {
 				String keyString = EncryptionUtil.createKeyString();
@@ -130,6 +131,7 @@ public class Configuration {
 			moreSessions = (sessionName != null);
 			if (moreSessions) {
 				String hostname = properties.getProperty(sessionKey + ".hostname");
+				String port = properties.getProperty(sessionKey + ".port");
 				String username = properties.getProperty(sessionKey + ".username");
 
 				String keyString = properties.getProperty(sessionKey + ".key");
@@ -141,6 +143,9 @@ public class Configuration {
 				Session session = new Session();
 				session.setSessionName(sessionName);
 				session.setHostname(hostname);
+				if (port != null && port.length() > 0) {
+					session.setPort(Integer.parseInt(port));
+				}
 				session.setUsername(username);
 				session.setPassword(password);
 

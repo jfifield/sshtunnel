@@ -144,7 +144,7 @@ public class TunnelsComposite extends Composite {
 		TableColumn column2 = new TableColumn(tunnelTable, SWT.NULL);
 		column2.setText("Local Port");
 
-		TableColumn column3 = new TableColumn(tunnelTable, SWT.NULL);
+		TableColumn column3 = new TableColumn(tunnelTable, SWT.CENTER);
 		column3.setText(" ");
 
 		TableColumn column4 = new TableColumn(tunnelTable, SWT.NULL);
@@ -162,23 +162,25 @@ public class TunnelsComposite extends Composite {
 
 		tunnelTable.addControlListener(new ControlAdapter() {
 			public void controlResized(ControlEvent e) {
-				int fixedWidth = 26;
+				int directionColumnWidth = 30;
+				int portColumnWidth = 100;
 
 				Rectangle area = tunnelTable.getClientArea();
 				int relativeWidth = area.width;
-				relativeWidth -= fixedWidth;
-				relativeWidth /= 4;
+				relativeWidth -= directionColumnWidth;
+				relativeWidth -= (portColumnWidth * 2);
+				relativeWidth /= 2;
 
 				TableColumn column1 = tunnelTable.getColumn(0);
 				column1.setWidth(relativeWidth);
 				TableColumn column2 = tunnelTable.getColumn(1);
-				column2.setWidth(relativeWidth);
+				column2.setWidth(portColumnWidth);
 				TableColumn column3 = tunnelTable.getColumn(2);
-				column3.setWidth(fixedWidth);
+				column3.setWidth(directionColumnWidth);
 				TableColumn column4 = tunnelTable.getColumn(3);
 				column4.setWidth(relativeWidth);
 				TableColumn column5 = tunnelTable.getColumn(4);
-				column5.setWidth(relativeWidth);
+				column5.setWidth(portColumnWidth);
 			}
 		});
 
