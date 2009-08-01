@@ -17,6 +17,7 @@ package org.programmerplanet.sshtunnel.ui;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -227,6 +228,7 @@ public class SessionsComposite extends Composite {
 
 	public void updateTable() {
 		sessionTable.removeAll();
+		Collections.sort(sessions);
 		for (Iterator i = sessions.iterator(); i.hasNext();) {
 			Session session = (Session) i.next();
 			TableItem tableItem = new TableItem(sessionTable, SWT.NULL);

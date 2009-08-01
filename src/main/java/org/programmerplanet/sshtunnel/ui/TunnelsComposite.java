@@ -17,7 +17,9 @@ package org.programmerplanet.sshtunnel.ui;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
@@ -208,14 +210,15 @@ public class TunnelsComposite extends Composite {
 		tunnelTable.removeAll();
 		if (session != null) {
 			Color red = this.getDisplay().getSystemColor(SWT.COLOR_RED);
-			for (Iterator i = session.getTunnels().iterator(); i.hasNext();) {
+			List tunnels = session.getTunnels();
+			Collections.sort(tunnels);
+			for (Iterator i = tunnels.iterator(); i.hasNext();) {
 				Tunnel tunnel = (Tunnel) i.next();
 				TableItem tableItem = new TableItem(tunnelTable, SWT.NULL);
 				tableItem.setText(new String[] { tunnel.getLocalAddress(), Integer.toString(tunnel.getLocalPort()), tunnel.getLocal() ? "->" : "<-", tunnel.getRemoteAddress(), Integer.toString(tunnel.getRemotePort()) });
 				if (tunnel.getException() != null) {
 					tableItem.setForeground(red);
 				}
-
 			}
 		}
 	}

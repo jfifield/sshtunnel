@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
  */
-public class Session {
+public class Session implements Comparable<Session> {
 
 	private static final int DEFAULT_PORT = 22;
 
@@ -80,6 +80,10 @@ public class Session {
 
 	public String toString() {
 		return "Session (" + sessionName + ": " + username + "@" + hostname + (port != DEFAULT_PORT ? ":" + port : "") + ")";
+	}
+
+	public int compareTo(Session other) {
+		return sessionName.compareTo(other.sessionName);
 	}
 
 }

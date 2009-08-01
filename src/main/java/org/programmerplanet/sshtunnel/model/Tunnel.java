@@ -20,7 +20,7 @@ package org.programmerplanet.sshtunnel.model;
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
  */
-public class Tunnel {
+public class Tunnel implements Comparable<Tunnel> {
 
 	private String localAddress;
 	private int localPort;
@@ -83,6 +83,14 @@ public class Tunnel {
 		String direction = getLocal() ? "->" : "<-";
 		String remoteName = getRemoteAddress() + ":" + getRemotePort();
 		return "Tunnel (" + localName + direction + remoteName + ")";
+	}
+
+	public int compareTo(Tunnel other) {
+		int i = localAddress.compareTo(localAddress);
+		if (i == 0) {
+			i = Integer.valueOf(localPort).compareTo(Integer.valueOf(other.localPort));
+		}
+		return i;
 	}
 
 }

@@ -22,7 +22,6 @@
 notification when tunnel fails (tunnel can't be started, etc)
 notification when disconnected from server
 buttons don't always seem to update properly when adding/deleting/etc
-allow columns to be sorted (and persisted)
 
 --------------------------------------------------------------------------------
 -- CHANGES
@@ -33,3 +32,5 @@ allow columns to be sorted (and persisted)
 allow non-default port to be specified on a session
 notification when connection fails (host can't be found, auth fails, etc)
 allow session/tunnel panels to be resized (and persisted)
+sessions are now sorted by name
+tunnels are now sorted by local address & local port
