@@ -86,7 +86,7 @@ public class Tunnel implements Comparable<Tunnel> {
 	}
 
 	public int compareTo(Tunnel other) {
-		int i = localAddress.compareTo(localAddress);
+		int i = localAddress.compareTo(other.localAddress);
 		if (i == 0) {
 			i = Integer.valueOf(localPort).compareTo(Integer.valueOf(other.localPort));
 		}
