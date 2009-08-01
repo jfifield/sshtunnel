@@ -1,4 +1,6 @@
-Building:
+--------------------------------------------------------------------------------
+-- BUILDING
+--------------------------------------------------------------------------------
 
   For the current platform:
   $ mvn clean assembly:assembly
@@ -6,7 +8,28 @@ Building:
   For a different platform (i.e. windows):
   $ mvn -P +windows,-linux clean assembly:assembly
 
-Running:
+--------------------------------------------------------------------------------
+-- RUNNING
+--------------------------------------------------------------------------------
 
   Unzip the target distribution.
   $ java -jar sshtunnel-VERSION.jar
+
+--------------------------------------------------------------------------------
+-- TODO
+--------------------------------------------------------------------------------
+
+notification when tunnel fails (tunnel can't be started, etc)
+notification when disconnected from server
+buttons don't always seem to update properly when adding/deleting/etc
+allow columns to be sorted (and persisted)
+
+--------------------------------------------------------------------------------
+-- CHANGES
+--------------------------------------------------------------------------------
+
+0.5.2
+-----
+allow non-default port to be specified on a session
+notification when connection fails (host can't be found, auth fails, etc)
+allow session/tunnel panels to be resized (and persisted)

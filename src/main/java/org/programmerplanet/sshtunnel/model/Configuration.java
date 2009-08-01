@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Properties;
@@ -33,10 +34,11 @@ import org.programmerplanet.sshtunnel.util.EncryptionUtil;
  */
 public class Configuration {
 
-	private transient int top = 0;
-	private transient int left = 0;
-	private transient int width = 500;
-	private transient int height = 400;
+	private int top = 0;
+	private int left = 0;
+	private int width = 500;
+	private int height = 400;
+	private int[] weights = new int[] { 5, 7 };
 	private List sessions = new ArrayList();
 
 	public int getTop() {
@@ -71,6 +73,14 @@ public class Configuration {
 		this.height = height;
 	}
 
+	public void setWeights(int[] weights) {
+		this.weights = weights;
+	}
+
+	public int[] getWeights() {
+		return weights;
+	}
+
 	public List getSessions() {
 		return sessions;
 	}
@@ -82,6 +92,7 @@ public class Configuration {
 		properties.setProperty("left", Integer.toString(this.left));
 		properties.setProperty("width", Integer.toString(this.width));
 		properties.setProperty("height", Integer.toString(this.height));
+		properties.setProperty("weights", intArrayToString(this.weights));
 
 		for (ListIterator si = sessions.listIterator(); si.hasNext();) {
 			Session session = (Session) si.next();
@@ -121,6 +132,7 @@ public class Configuration {
 		this.left = Integer.parseInt(properties.getProperty("left", Integer.toString(this.left)));
 		this.width = Integer.parseInt(properties.getProperty("width", Integer.toString(this.width)));
 		this.height = Integer.parseInt(properties.getProperty("height", Integer.toString(this.height)));
+		this.weights = stringToIntArray(properties.getProperty("weights", intArrayToString(this.weights)));
 
 		int sessionIndex = 0;
 		boolean moreSessions = true;
@@ -227,4 +239,25 @@ public class Configuration {
 		return configFile;
 	}
 
+	/**
+	 * Converts an int array into a comma-delimited string.
+	 */
+	private String intArrayToString(int[] intArray) {
+		String str = Arrays.toString(intArray);
+		str = str.replaceAll("[\\[\\] ]", "");
+		return str;
+	}
+
+	/**
+	 * Converts a comma-delimited string into an int array.
+	 */
+	private int[] stringToIntArray(String str) {
+		String[] strArray = str.split(",");
+		int[] intArray = new int[strArray.length];
+		for (int i = 0; i < strArray.length; i++) {
+			intArray[i] = Integer.parseInt(strArray[i]);
+		}
+		return intArray;
+	}
+	
 }

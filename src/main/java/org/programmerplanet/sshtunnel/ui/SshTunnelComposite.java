@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.util.Iterator;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.MenuDetectEvent;
 import org.eclipse.swt.events.MenuDetectListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -77,6 +78,7 @@ public class SshTunnelComposite extends Composite {
 	private Button disconnectAllButton;
 
 	private Configuration configuration;
+	private SashForm sashForm;
 	private SessionsComposite sessionsComposite;
 	private TunnelsComposite tunnelsComposite;
 
@@ -108,6 +110,7 @@ public class SshTunnelComposite extends Composite {
 		configuration.setTop(shell.getBounds().y);
 		configuration.setWidth(shell.getBounds().width);
 		configuration.setHeight(shell.getBounds().height);
+		configuration.setWeights(sashForm.getWeights());
 		try {
 			configuration.write();
 		} catch (IOException e) {
@@ -136,12 +139,14 @@ public class SshTunnelComposite extends Composite {
 
 		this.setLayout(new GridLayout());
 
+		createSashForm();
 		createSessionsComposite();
 		createTunnelsComposite();
 		createButtonBarComposite();
 		createTrayIcon();
 
 		shell.setBounds(configuration.getLeft(), configuration.getTop(), configuration.getWidth(), configuration.getHeight());
+		sashForm.setWeights(configuration.getWeights());
 	}
 
 	private void createImages() {
@@ -167,6 +172,17 @@ public class SshTunnelComposite extends Composite {
 		}
 	}
 
+	private void createSashForm() {
+		sashForm = new SashForm(this, SWT.VERTICAL);
+
+		GridData gridData = new GridData();
+		gridData.grabExcessHorizontalSpace = true;
+		gridData.horizontalAlignment = GridData.FILL;
+		gridData.grabExcessVerticalSpace = true;
+		gridData.verticalAlignment = GridData.FILL;
+		sashForm.setLayoutData(gridData);
+	}
+
 	private void createSessionsComposite() {
 		SessionChangeListener sessionChangeListener = new SessionChangeAdapter() {
 
@@ -185,26 +201,12 @@ public class SshTunnelComposite extends Composite {
 			}
 
 		};
-		sessionsComposite = new SessionsComposite(this, SWT.NONE, configuration.getSessions(), sessionChangeListener);
-
-		GridData gridData = new GridData();
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.grabExcessVerticalSpace = true;
-		gridData.verticalAlignment = GridData.FILL;
-		sessionsComposite.setLayoutData(gridData);
+		sessionsComposite = new SessionsComposite(sashForm, SWT.NONE, configuration.getSessions(), sessionChangeListener);
 	}
 
 	private void createTunnelsComposite() {
 		TunnelChangeListener tunnelChangeListener = new TunnelChangeAdapter();
-		tunnelsComposite = new TunnelsComposite(this, SWT.NONE, tunnelChangeListener);
-
-		GridData gridData = new GridData();
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.grabExcessVerticalSpace = true;
-		gridData.verticalAlignment = GridData.FILL;
-		tunnelsComposite.setLayoutData(gridData);
+		tunnelsComposite = new TunnelsComposite(sashForm, SWT.NONE, tunnelChangeListener);
 	}
 
 	private void createButtonBarComposite() {
