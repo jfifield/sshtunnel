@@ -1,3 +1,5 @@
 notification when tunnel fails (tunnel can't be started, etc)
 notification when disconnected from server
 buttons don't always seem to update properly when adding/deleting/etc
+allow columns to be sorted (and persisted)
+allow session/tunnel to be resized (and persisted)
