@@ -3,7 +3,7 @@
   <groupId>org.programmerplanet</groupId>
   <artifactId>sshtunnel</artifactId>
   <name>SSH Tunnel</name>
-  <version>0.5.2-dev</version>
+  <version>0.5.2</version>
   <url>http://www.programmerplanet.org/pages/projects/ssh-tunnel.php</url>
   <developers>
   	<developer>
