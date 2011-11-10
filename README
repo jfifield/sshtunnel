@@ -3,17 +3,19 @@
 --------------------------------------------------------------------------------
 
   For the current platform:
-  $ mvn clean assembly:assembly
+  mvn clean assembly:assembly
 
-  For a different platform (i.e. windows):
-  $ mvn -P +windows,-linux clean assembly:assembly
+  For a different platform for example;
+  mvn -P +linux,-windows clean assembly:assembly
+  
+  Support platforms: windows, windows_64, linux, linux_64
 
 --------------------------------------------------------------------------------
 -- RUNNING
 --------------------------------------------------------------------------------
 
   Unzip the target distribution.
-  $ java -jar sshtunnel-VERSION.jar
+  java -jar sshtunnel-VERSION.jar
 
 --------------------------------------------------------------------------------
 -- TODO
