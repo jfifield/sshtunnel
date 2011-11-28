@@ -8,7 +8,7 @@
   For a different platform for example;
   mvn -P +linux,-windows clean assembly:assembly
   
-  Support platforms: windows, windows_64, linux, linux_64
+  Support platforms: windows, windows-64, linux, linux-64
 
 --------------------------------------------------------------------------------
 -- RUNNING

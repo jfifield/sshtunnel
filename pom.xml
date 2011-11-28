@@ -80,11 +80,11 @@
 		</properties>
   	</profile>
   	<profile>
-  		<id>linux_64</id>
+  		<id>linux-64</id>
   		<activation>
   			<os>
   				<name>linux</name>
-  				<arch>x86_64</arch>
+  				<arch>amd64</arch>
   			</os>
   		</activation>
   		<dependencies>
@@ -97,7 +97,7 @@
   			</dependency>
   		</dependencies>
   		<properties>
-  			<platform.classifier>linux_64</platform.classifier>
+  			<platform.classifier>linux-64</platform.classifier>
 		</properties>
   	</profile>
   	<profile>
@@ -122,7 +122,7 @@
 		</properties>
   	</profile>
   	<profile>
-  		<id>windows_64</id>
+  		<id>windows-64</id>
   		<activation>
   			<os>
   				<family>windows</family>
@@ -139,7 +139,7 @@
   			</dependency>
   		</dependencies>
   		<properties>
-  			<platform.classifier>windows_64</platform.classifier>
+  			<platform.classifier>windows-64</platform.classifier>
 		</properties>
   	</profile>
   </profiles>
