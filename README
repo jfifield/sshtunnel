@@ -29,6 +29,11 @@ buttons don't always seem to update properly when adding/deleting/etc
 -- CHANGES
 --------------------------------------------------------------------------------
 
+0.5.3
+-----
+added support for linux & windows 64-bit
+updated swt libraries
+
 0.5.2
 -----
 allow non-default port to be specified on a session
