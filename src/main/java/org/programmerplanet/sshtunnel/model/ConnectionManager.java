@@ -40,6 +40,7 @@ public class ConnectionManager {
 	private static final Log log = LogFactory.getLog(ConnectionManager.class);
 
 	private static final int TIMEOUT = 30000;
+	private static final int KEEP_ALIVE_INTERVAL = 20000;
 
 	private static final ConnectionManager INSTANCE = new ConnectionManager();
 
@@ -67,6 +68,7 @@ public class ConnectionManager {
 				userInfo = new DefaultUserInfo(parent);
 			}
 			jschSession.setUserInfo(userInfo);
+			jschSession.setServerAliveInterval(KEEP_ALIVE_INTERVAL);
 			jschSession.connect(TIMEOUT);
 
 			startTunnels(session, jschSession);

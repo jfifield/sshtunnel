@@ -147,6 +147,11 @@ public class SshTunnelComposite extends Composite {
 
 		shell.setBounds(configuration.getLeft(), configuration.getTop(), configuration.getWidth(), configuration.getHeight());
 		sashForm.setWeights(configuration.getWeights());
+		
+		// Run connection monitor
+		SessionConnectionMonitor.getInstance().startMonitor(this);
+		//ConnectionMonitor.getInstance().setThreadStopped(false);
+		//Display.getDefault().asyncExec(ConnectionMonitor.getInstance());
 	}
 
 	private void createImages() {
@@ -290,7 +295,7 @@ public class SshTunnelComposite extends Composite {
 		});
 	}
 
-	private void connectionStatusChanged() {
+	public void connectionStatusChanged() {
 		sessionsComposite.updateTable();
 		tunnelsComposite.updateTable();
 		updateConnectButtons();
@@ -336,6 +341,8 @@ public class SshTunnelComposite extends Composite {
 		if (session != null && !ConnectionManager.getInstance().isConnected(session)) {
 			try {
 				ConnectionManager.getInstance().connect(session, shell);
+				// Put to monitored list
+				SessionConnectionMonitor.getInstance().addSession(session.getSessionName(), session);
 			} catch (ConnectionException ce) {
 				try {
 					ConnectionManager.getInstance().disconnect(session);
@@ -371,6 +378,7 @@ public class SshTunnelComposite extends Composite {
 		save();
 		if (session != null && ConnectionManager.getInstance().isConnected(session)) {
 			ConnectionManager.getInstance().disconnect(session);
+			SessionConnectionMonitor.getInstance().removeSession(session.getSessionName());
 		}
 		connectionStatusChanged();
 	}
@@ -491,6 +499,7 @@ public class SshTunnelComposite extends Composite {
 
 	private void exit() {
 		disconnectAll();
+		SessionConnectionMonitor.getInstance().stopMonitor();
 		save();
 		Tray tray = this.getDisplay().getSystemTray();
 		for (TrayItem trayItem : tray.getItems()) {
