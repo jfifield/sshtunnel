@@ -76,6 +76,7 @@ public class SshTunnelComposite extends Composite {
 
 	private Button connectAllButton;
 	private Button disconnectAllButton;
+	private TrayItem trayItem;
 
 	private Configuration configuration;
 	private SashForm sashForm;
@@ -149,7 +150,8 @@ public class SshTunnelComposite extends Composite {
 		sashForm.setWeights(configuration.getWeights());
 		
 		// Run connection monitor
-		SessionConnectionMonitor.getInstance().startMonitor(this);
+		SessionConnectionMonitor.getInstance().setSshTunnelComposite(this);
+		SessionConnectionMonitor.getInstance().startMonitor();
 		//ConnectionMonitor.getInstance().setThreadStopped(false);
 		//Display.getDefault().asyncExec(ConnectionMonitor.getInstance());
 	}
@@ -202,6 +204,12 @@ public class SshTunnelComposite extends Composite {
 			public void sessionSelectionChanged(Session session) {
 				SshTunnelComposite.this.currentSession = session;
 				tunnelsComposite.setSession(session);
+				// Check session alive status
+//				Exception err = ConnectionManager.getInstance().getSessionException(session);
+//				if (err != null) {
+//					ConnectionManager.getInstance().disconnect(session);
+//					showErrorMessage("Connection error", err);
+//				}
 				updateConnectButtons();
 			}
 
@@ -361,6 +369,21 @@ public class SshTunnelComposite extends Composite {
 		messageBox.setMessage(message + ": " + cause.getMessage());
 		messageBox.open();
 	}
+	
+	public void showDisconnectedMessage(Session session) {
+//		MessageBox messageBox = new MessageBox(shell, SWT.ICON_ERROR | SWT.OK);
+//		messageBox.setText("Error");
+//		messageBox.setMessage("Lost connection to " + session.getSessionName() + 
+//				" (" + session.getHostname() + ")");
+//		messageBox.open();
+		if (trayItem != null && trayItem.getVisible()) {
+			ToolTip tip = new ToolTip(shell, SWT.BALLOON | SWT.ICON_ERROR);
+			tip.setText("Session: " + session.getSessionName());
+			tip.setMessage("Connection to "+ session.getHostname() + " has been lost.");
+			trayItem.setToolTip(tip);
+			tip.setVisible(true);
+		}
+	}
 
 	private Throwable getOriginatingCause(Exception e) {
 		Throwable cause = e;
@@ -420,7 +443,8 @@ public class SshTunnelComposite extends Composite {
 	private void createTrayIcon() {
 		Tray tray = this.getDisplay().getSystemTray();
 
-		final TrayItem trayItem = new TrayItem(tray, 0);
+		//final TrayItem trayItem = new TrayItem(tray, 0);
+		trayItem = new TrayItem(tray, 0);
 		trayItem.setToolTipText(APPLICATION_TITLE);
 		trayItem.setImage(applicationImage);
 

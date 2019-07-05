@@ -14,98 +14,108 @@ import org.programmerplanet.sshtunnel.model.Session;
 public class SessionConnectionMonitor implements Runnable {
 
 	private static final Log log = LogFactory.getLog(SessionConnectionMonitor.class);
-	
-	private static final int DEF_MONITOR_INTERVAL = 3000;
+
+	private static final int DEF_MONITOR_INTERVAL = 5000;
 	private static final SessionConnectionMonitor INSTANCE = new SessionConnectionMonitor();
-	
+
 	private Thread thread;
-	private boolean threadStopped;
+	private Boolean threadStopped;
 	private int monitorInterval;
 	private Map<String, Session> sessions;
 	private SshTunnelComposite sshTunnelComposite;
-	
+
 	public SessionConnectionMonitor() {
 		this(DEF_MONITOR_INTERVAL);
 	}
-	
+
 	public SessionConnectionMonitor(int monitorInterval) {
 		sessions = new ConcurrentHashMap<String, Session>();
 		threadStopped = false;
 		this.monitorInterval = monitorInterval;
 	}
-	
+
 	public void addSession(String name, Session session) {
 		sessions.put(name, session);
 	}
-	
+
 	public void removeSession(String name) {
 		sessions.remove(name);
 	}
-	
+
 	public void run() {
 		if (log.isWarnEnabled()) {
 			log.warn("Connection monitor is now running..");
 		}
-		//synchronized (this) {
-			while (!threadStopped) {
-				Iterator<Entry<String, Session>> it = sessions.entrySet().iterator();
-				while (it.hasNext()) {
-					Entry<String, Session> entry = it.next();
-					if (!ConnectionManager.getInstance().isConnected(
-							entry.getValue())) {
-						ConnectionManager.getInstance().disconnect(entry.getValue());
-						if (log.isWarnEnabled()) {
-							log.warn("Session " + entry.getKey() + " has disconnected.");
-						}
-						it.remove();
+		// synchronized (this) {
+		while (!threadStopped) {
+			boolean anyRemoved = false;
+			Iterator<Entry<String, Session>> it = sessions.entrySet().iterator();
+			while (it.hasNext()) {
+				Entry<String, Session> entry = it.next();
+				if (!ConnectionManager.getInstance().isConnected(entry.getValue())) {
+					ConnectionManager.getInstance().disconnect(entry.getValue());
+					if (log.isWarnEnabled()) {
+						log.warn("Session " + entry.getKey() + " has disconnected.");
 					}
 					if (sshTunnelComposite != null) {
-						//sshTunnelComposite.disconnect(entry.getValue());
+						final Session s = entry.getValue();
 						Display.getDefault().asyncExec(new Runnable() {
 							public void run() {
-								  sshTunnelComposite.connectionStatusChanged();
-				               }
-				        });
+								sshTunnelComposite.showDisconnectedMessage(s);
+							}
+						});
 					}
-				}
-				try {
-					Thread.sleep(monitorInterval);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+					it.remove();
+					if (!anyRemoved)
+						anyRemoved = true;
+					
 				}
 			}
-			//notifyAll();
-		//}
+			if (sshTunnelComposite != null && anyRemoved) {
+				// sshTunnelComposite.disconnect(entry.getValue());
+				Display.getDefault().asyncExec(new Runnable() {
+					public void run() {
+						sshTunnelComposite.connectionStatusChanged();
+					}
+				});
+			}
+			try {
+				Thread.sleep(monitorInterval);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		// notifyAll();
+		// }
 	}
 	
-	public synchronized void startMonitor(SshTunnelComposite sshTunnelComposite) {
-		if (thread == null) {
-			this.sshTunnelComposite = sshTunnelComposite;
-			threadStopped = false;
-			thread = new Thread(this);
-			thread.start();
+	public void setSshTunnelComposite(SshTunnelComposite sshTunnelComposite) {
+		this.sshTunnelComposite = sshTunnelComposite;
+	}
+
+	public void startMonitor() {
+		synchronized (threadStopped) {
+			if (thread == null) {
+				thread = new Thread(this);
+				threadStopped = false;
+				thread.start();
+			}
 		}
 	}
-	
+
 	public void setThreadStopped(boolean stop) {
 		threadStopped = stop;
 	}
-	
+
 	public void stopMonitor() {
-		if (thread != null) {
-			threadStopped = true;
-//			synchronized (this) {
-//				try {
-//					wait(5000);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//				thread = null;
-//			}
-			thread = null;
+		synchronized (threadStopped) {
+			if (thread != null) {
+				threadStopped = true;
+				thread = null;
+			}
 		}
 	}
-	
+
 	public static SessionConnectionMonitor getInstance() {
 		return INSTANCE;
 	}

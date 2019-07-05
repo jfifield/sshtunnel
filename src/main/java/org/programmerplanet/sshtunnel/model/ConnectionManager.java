@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.widgets.Shell;
 import org.programmerplanet.sshtunnel.ui.DefaultUserInfo;
 
+import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.UserInfo;
@@ -40,7 +41,7 @@ public class ConnectionManager {
 	private static final Log log = LogFactory.getLog(ConnectionManager.class);
 
 	private static final int TIMEOUT = 30000;
-	private static final int KEEP_ALIVE_INTERVAL = 20000;
+	private static final int KEEP_ALIVE_INTERVAL = 10000;
 
 	private static final ConnectionManager INSTANCE = new ConnectionManager();
 
@@ -148,6 +149,27 @@ public class ConnectionManager {
 	public boolean isConnected(Session session) {
 		com.jcraft.jsch.Session jschSession = connections.get(session);
 		return jschSession != null && jschSession.isConnected();
+	}
+	
+	public Exception getSessionException(Session session) {
+		// Currently use keepAliveMsg
+		//boolean hasError = false;
+		Exception err = null;
+		com.jcraft.jsch.Session jschSession = connections.get(session);
+		if (jschSession != null ) {//&& !jschSession.isConnected()) {
+			try {
+				ChannelExec testChannel = (ChannelExec) jschSession.openChannel("exec");
+				testChannel.setCommand("true");
+				testChannel.connect();
+				testChannel.disconnect();
+				//jschSession.sendKeepAliveMsg();
+			} catch (Exception e) {
+				err = e;
+				//e.printStackTrace();
+			}
+			//hasError = true;
+		}
+		return err;
 	}
 
 }
