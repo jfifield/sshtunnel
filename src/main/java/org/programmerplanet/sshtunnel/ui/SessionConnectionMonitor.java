@@ -15,17 +15,23 @@ public class SessionConnectionMonitor implements Runnable {
 
 	private static final Log log = LogFactory.getLog(SessionConnectionMonitor.class);
 	
-	private static final int SLEEP_INTERVAL = 5000;
+	private static final int DEF_MONITOR_INTERVAL = 3000;
 	private static final SessionConnectionMonitor INSTANCE = new SessionConnectionMonitor();
 	
 	private Thread thread;
 	private boolean threadStopped;
+	private int monitorInterval;
 	private Map<String, Session> sessions;
 	private SshTunnelComposite sshTunnelComposite;
 	
 	public SessionConnectionMonitor() {
+		this(DEF_MONITOR_INTERVAL);
+	}
+	
+	public SessionConnectionMonitor(int monitorInterval) {
 		sessions = new ConcurrentHashMap<String, Session>();
 		threadStopped = false;
+		this.monitorInterval = monitorInterval;
 	}
 	
 	public void addSession(String name, Session session) {
@@ -40,7 +46,7 @@ public class SessionConnectionMonitor implements Runnable {
 		if (log.isWarnEnabled()) {
 			log.warn("Connection monitor is now running..");
 		}
-		synchronized (this) {
+		//synchronized (this) {
 			while (!threadStopped) {
 				Iterator<Entry<String, Session>> it = sessions.entrySet().iterator();
 				while (it.hasNext()) {
@@ -63,13 +69,13 @@ public class SessionConnectionMonitor implements Runnable {
 					}
 				}
 				try {
-					Thread.sleep(SLEEP_INTERVAL);
+					Thread.sleep(monitorInterval);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 			//notifyAll();
-		}
+		//}
 	}
 	
 	public synchronized void startMonitor(SshTunnelComposite sshTunnelComposite) {
