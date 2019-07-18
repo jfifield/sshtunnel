@@ -92,5 +92,15 @@ public class Tunnel implements Comparable<Tunnel> {
 		}
 		return i;
 	}
+	
+	public Tunnel copy() {
+		Tunnel copyTunnel = new Tunnel();
+		copyTunnel.setLocal(this.local);
+		copyTunnel.setLocalAddress(this.localAddress);
+		copyTunnel.setLocalPort(this.localPort);
+		copyTunnel.setRemoteAddress(this.remoteAddress);
+		copyTunnel.setRemotePort(this.remotePort);
+		return copyTunnel;
+	}
 
 }

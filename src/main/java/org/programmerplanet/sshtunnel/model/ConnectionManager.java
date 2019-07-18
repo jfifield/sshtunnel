@@ -48,6 +48,12 @@ public class ConnectionManager {
 	public static ConnectionManager getInstance() {
 		return INSTANCE;
 	}
+	
+	enum TunnelUpdateState {
+		START,
+		STOP,
+		CHANGE
+	}
 
 	private Map<Session, com.jcraft.jsch.Session> connections = new HashMap<Session, com.jcraft.jsch.Session>();
 
@@ -90,8 +96,8 @@ public class ConnectionManager {
 	}
 
 	private void startTunnels(Session session, com.jcraft.jsch.Session jschSession) {
-		for (Iterator i = session.getTunnels().iterator(); i.hasNext();) {
-			Tunnel tunnel = (Tunnel) i.next();
+		for (Iterator<Tunnel> i = session.getTunnels().iterator(); i.hasNext();) {
+			Tunnel tunnel = i.next();
 			try {
 				startTunnel(jschSession, tunnel);
 			} catch (Exception e) {
@@ -108,6 +114,43 @@ public class ConnectionManager {
 			jschSession.setPortForwardingR(tunnel.getRemoteAddress(), tunnel.getRemotePort(), tunnel.getLocalAddress(), tunnel.getLocalPort());
 		}
 	}
+	
+	private int updateTunnelIfSessionConnected(Session session, TunnelUpdateState state, Tunnel tunnel, Tunnel prevTunnel) {
+		int status = 0;
+		com.jcraft.jsch.Session jschSession = connections.get(session);
+		if (jschSession != null && jschSession.isConnected()) {
+			try {
+				switch (state) {
+				case START:
+					startTunnel(jschSession, tunnel);
+					break;
+				case STOP:
+					stopTunnel(jschSession, tunnel);
+					break;
+				default:
+					stopTunnel(jschSession, prevTunnel);
+					startTunnel(jschSession, tunnel);
+					break;
+				}
+			} catch (JSchException e) {
+				status = -1;
+				e.printStackTrace();
+			}
+		}
+		return status;
+	}
+	
+	public int startTunnelIfSessionConnected(Session session, Tunnel tunnel) {
+		return updateTunnelIfSessionConnected(session, TunnelUpdateState.START, tunnel, null);
+	}
+	
+	public int stopTunnelIfSessionConnected(Session session, Tunnel tunnel) {
+		return updateTunnelIfSessionConnected(session, TunnelUpdateState.STOP, tunnel, null);
+	}
+	
+	public int changeTunnelIfSessionConnected(Session session, Tunnel tunnel, Tunnel prevTunnel) {
+		return updateTunnelIfSessionConnected(session, TunnelUpdateState.CHANGE, tunnel, prevTunnel);
+	}
 
 	public void disconnect(Session session) {
 		log.info("Disconnecting session: " + session);
@@ -121,8 +164,8 @@ public class ConnectionManager {
 	}
 
 	private void stopTunnels(Session session, com.jcraft.jsch.Session jschSession) {
-		for (Iterator i = session.getTunnels().iterator(); i.hasNext();) {
-			Tunnel tunnel = (Tunnel) i.next();
+		for (Iterator<Tunnel> i = session.getTunnels().iterator(); i.hasNext();) {
+			Tunnel tunnel = i.next();
 			try {
 				stopTunnel(jschSession, tunnel);
 			} catch (Exception e) {
@@ -140,8 +183,8 @@ public class ConnectionManager {
 	}
 
 	private void clearTunnelExceptions(Session session) {
-		for (Iterator i = session.getTunnels().iterator(); i.hasNext();) {
-			Tunnel tunnel = (Tunnel) i.next();
+		for (Iterator<Tunnel> i = session.getTunnels().iterator(); i.hasNext();) {
+			Tunnel tunnel = i.next();
 			tunnel.setException(null);
 		}
 	}

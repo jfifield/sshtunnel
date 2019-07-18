@@ -5,13 +5,18 @@
 	<groupId>org.programmerplanet</groupId>
 	<artifactId>sshtunnel</artifactId>
 	<name>SSH Tunnel</name>
-	<version>0.5.4</version>
+	<version>0.5.5</version>
 	<url>http://www.programmerplanet.org/pages/projects/ssh-tunnel.php</url>
 	<developers>
 		<developer>
 			<id>jfifield</id>
 			<name>Joseph Fifield</name>
 			<email>jfifield@programmerplanet.org</email>
+		</developer>
+		<developer>
+			<id>agung-m</id>
+			<name>Agung</name>
+			<email>agungm@outlook.com</email>
 		</developer>
 	</developers>
 	<organization>
@@ -149,7 +154,7 @@
 		<dependency>
 			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>
-			<version>0.1.38</version>
+			<version>0.1.55</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

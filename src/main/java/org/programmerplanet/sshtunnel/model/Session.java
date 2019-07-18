@@ -32,7 +32,7 @@ public class Session implements Comparable<Session> {
 	private int port = DEFAULT_PORT;
 	private String username;
 	private String password;
-	private List tunnels = new ArrayList();
+	private List<Tunnel> tunnels = new ArrayList<Tunnel>();
 
 	public String getSessionName() {
 		return sessionName;
@@ -74,7 +74,7 @@ public class Session implements Comparable<Session> {
 		this.password = password;
 	}
 
-	public List getTunnels() {
+	public List<Tunnel> getTunnels() {
 		return tunnels;
 	}
 

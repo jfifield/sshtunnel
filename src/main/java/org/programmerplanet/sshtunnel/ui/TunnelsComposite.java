@@ -210,10 +210,10 @@ public class TunnelsComposite extends Composite {
 		tunnelTable.removeAll();
 		if (session != null) {
 			Color red = this.getDisplay().getSystemColor(SWT.COLOR_RED);
-			List tunnels = session.getTunnels();
+			List<Tunnel> tunnels = session.getTunnels();
 			Collections.sort(tunnels);
-			for (Iterator i = tunnels.iterator(); i.hasNext();) {
-				Tunnel tunnel = (Tunnel) i.next();
+			for (Iterator<Tunnel> i = tunnels.iterator(); i.hasNext();) {
+				Tunnel tunnel = i.next();
 				TableItem tableItem = new TableItem(tunnelTable, SWT.NULL);
 				tableItem.setText(new String[] { tunnel.getLocalAddress(), Integer.toString(tunnel.getLocalPort()), tunnel.getLocal() ? "->" : "<-", tunnel.getRemoteAddress(), Integer.toString(tunnel.getRemotePort()) });
 				if (tunnel.getException() != null) {
@@ -230,7 +230,7 @@ public class TunnelsComposite extends Composite {
 		if (result == SWT.OK) {
 			session.getTunnels().add(tunnel);
 			updateTable();
-			listener.tunnelAdded(tunnel);
+			listener.tunnelAdded(session, tunnel);
 		}
 	}
 
@@ -238,11 +238,12 @@ public class TunnelsComposite extends Composite {
 		int row = tunnelTable.getSelectionIndex();
 		if (row > -1) {
 			Tunnel tunnel = (Tunnel) session.getTunnels().get(row);
+			Tunnel prevTunnel = tunnel.copy();
 			EditTunnelDialog dialog = new EditTunnelDialog(getShell(), tunnel);
 			int result = dialog.open();
 			if (result == SWT.OK) {
 				updateTable();
-				listener.tunnelChanged(tunnel);
+				listener.tunnelChanged(session, tunnel, prevTunnel);
 			}
 		}
 	}
@@ -252,7 +253,7 @@ public class TunnelsComposite extends Composite {
 		if (row > -1) {
 			Tunnel tunnel = (Tunnel) session.getTunnels().remove(row);
 			updateTable();
-			listener.tunnelRemoved(tunnel);
+			listener.tunnelRemoved(session, tunnel);
 		}
 	}
 

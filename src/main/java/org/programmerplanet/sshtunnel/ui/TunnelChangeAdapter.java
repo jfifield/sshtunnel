@@ -15,6 +15,8 @@
  */
 package org.programmerplanet.sshtunnel.ui;
 
+import org.programmerplanet.sshtunnel.model.ConnectionManager;
+import org.programmerplanet.sshtunnel.model.Session;
 import org.programmerplanet.sshtunnel.model.Tunnel;
 
 /**
@@ -23,13 +25,16 @@ import org.programmerplanet.sshtunnel.model.Tunnel;
  */
 public class TunnelChangeAdapter implements TunnelChangeListener {
 
-	public void tunnelAdded(Tunnel tunnel) {
+	public void tunnelAdded(Session session, Tunnel tunnel) {
+		ConnectionManager.getInstance().startTunnelIfSessionConnected(session, tunnel);
 	}
 
-	public void tunnelChanged(Tunnel tunnel) {
+	public void tunnelChanged(Session session, Tunnel tunnel, Tunnel prevTunnel) {
+		ConnectionManager.getInstance().changeTunnelIfSessionConnected(session, tunnel, prevTunnel);
 	}
 
-	public void tunnelRemoved(Tunnel tunnel) {
+	public void tunnelRemoved(Session session, Tunnel tunnel) {
+		ConnectionManager.getInstance().stopTunnelIfSessionConnected(session, tunnel);
 	}
 
 	public void tunnelSelectionChanged(Tunnel tunnel) {

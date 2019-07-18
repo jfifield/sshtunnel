@@ -318,8 +318,8 @@ public class SshTunnelComposite extends Composite {
 
 	private boolean anyDisconnectedSessions() {
 		boolean result = false;
-		for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
-			Session session = (Session) i.next();
+		for (Iterator<Session> i = configuration.getSessions().iterator(); i.hasNext();) {
+			Session session = i.next();
 			if (!ConnectionManager.getInstance().isConnected(session)) {
 				result = true;
 				break;
@@ -330,8 +330,8 @@ public class SshTunnelComposite extends Composite {
 
 	private boolean anyConnectedSessions() {
 		boolean result = false;
-		for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
-			Session session = (Session) i.next();
+		for (Iterator<Session> i = configuration.getSessions().iterator(); i.hasNext();) {
+			Session session = i.next();
 			if (ConnectionManager.getInstance().isConnected(session)) {
 				result = true;
 				break;
@@ -410,15 +410,15 @@ public class SshTunnelComposite extends Composite {
 		save();
 		Session sessionToConnect = null;
 		try {
-			for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
-				sessionToConnect = (Session) i.next();
+			for (Iterator<Session> i = configuration.getSessions().iterator(); i.hasNext();) {
+				sessionToConnect = i.next();
 				if (!ConnectionManager.getInstance().isConnected(sessionToConnect)) {
 					ConnectionManager.getInstance().connect(sessionToConnect, shell);
 				}
 			}
 		} catch (ConnectionException ce) {
-			for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
-				Session session = (Session) i.next();
+			for (Iterator<Session> i = configuration.getSessions().iterator(); i.hasNext();) {
+				Session session = i.next();
 				try {
 					ConnectionManager.getInstance().disconnect(session);
 				} catch (Exception e) {
@@ -431,8 +431,8 @@ public class SshTunnelComposite extends Composite {
 
 	private void disconnectAll() {
 		save();
-		for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
-			Session session = (Session) i.next();
+		for (Iterator<Session> i = configuration.getSessions().iterator(); i.hasNext();) {
+			Session session = i.next();
 			if (ConnectionManager.getInstance().isConnected(session)) {
 				ConnectionManager.getInstance().disconnect(session);
 			}
@@ -490,8 +490,8 @@ public class SshTunnelComposite extends Composite {
 					}
 				};
 
-				for (Iterator i = configuration.getSessions().iterator(); i.hasNext();) {
-					Session session = (Session) i.next();
+				for (Iterator<Session> i = configuration.getSessions().iterator(); i.hasNext();) {
+					Session session = i.next();
 					MenuItem menuItem = new MenuItem(m, SWT.NONE);
 					// set session
 					menuItem.setData(session);

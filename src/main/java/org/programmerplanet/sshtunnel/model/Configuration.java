@@ -39,7 +39,7 @@ public class Configuration {
 	private int width = 500;
 	private int height = 400;
 	private int[] weights = new int[] { 5, 7 };
-	private List sessions = new ArrayList();
+	private List<Session> sessions = new ArrayList<Session>();
 
 	public int getTop() {
 		return top;
@@ -81,7 +81,7 @@ public class Configuration {
 		return weights;
 	}
 
-	public List getSessions() {
+	public List<Session> getSessions() {
 		return sessions;
 	}
 
@@ -94,8 +94,8 @@ public class Configuration {
 		properties.setProperty("height", Integer.toString(this.height));
 		properties.setProperty("weights", intArrayToString(this.weights));
 
-		for (ListIterator si = sessions.listIterator(); si.hasNext();) {
-			Session session = (Session) si.next();
+		for (ListIterator<Session> si = sessions.listIterator(); si.hasNext();) {
+			Session session = si.next();
 
 			String sessionKey = "sessions[" + si.previousIndex() + "]";
 
@@ -110,8 +110,8 @@ public class Configuration {
 				properties.setProperty(sessionKey + ".password", encryptedPassword);
 			}
 
-			for (ListIterator ti = session.getTunnels().listIterator(); ti.hasNext();) {
-				Tunnel tunnel = (Tunnel) ti.next();
+			for (ListIterator<Tunnel> ti = session.getTunnels().listIterator(); ti.hasNext();) {
+				Tunnel tunnel = ti.next();
 
 				String tunnelKey = sessionKey + ".tunnels[" + ti.previousIndex() + "]";
 

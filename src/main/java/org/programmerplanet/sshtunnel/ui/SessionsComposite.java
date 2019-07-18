@@ -54,7 +54,7 @@ public class SessionsComposite extends Composite {
 	private static final String EDIT_IMAGE_PATH = "/images/edit.png";
 	private static final String DELETE_IMAGE_PATH = "/images/delete.png";
 
-	private List sessions;
+	private List<Session> sessions;
 	private Table sessionTable;
 	private Button addSessionButton;
 	private Button editSessionButton;
@@ -67,7 +67,7 @@ public class SessionsComposite extends Composite {
 	private Image editImage;
 	private Image deleteImage;
 
-	public SessionsComposite(Composite parent, int style, List sessions, SessionChangeListener listener) {
+	public SessionsComposite(Composite parent, int style, List<Session> sessions, SessionChangeListener listener) {
 		super(parent, style);
 		this.sessions = sessions;
 		this.listener = listener;
@@ -229,8 +229,8 @@ public class SessionsComposite extends Composite {
 	public void updateTable() {
 		sessionTable.removeAll();
 		Collections.sort(sessions);
-		for (Iterator i = sessions.iterator(); i.hasNext();) {
-			Session session = (Session) i.next();
+		for (Iterator<Session> i = sessions.iterator(); i.hasNext();) {
+			Session session = i.next();
 			TableItem tableItem = new TableItem(sessionTable, SWT.NULL);
 			tableItem.setText(new String[] { "", session.getSessionName(), session.getHostname(), Integer.toString(session.getPort()), session.getUsername() });
 			Image image = ConnectionManager.getInstance().isConnected(session) ? connectedImage : disconnectedImage;
