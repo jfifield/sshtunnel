@@ -69,10 +69,15 @@ public class ConnectionManager {
 				jsch.setKnownHosts(knownHosts.getAbsolutePath());
 				
 				if (session.getIdentityPath() != null && session.getIdentityPath().trim().length() > 0) {
-					if (session.getPassPhrase() != null & session.getPassPhrase().trim().length() > 0) {
-						jsch.addIdentity(session.getIdentityPath(), session.getPassPhrase());
-					} else {
-						jsch.addIdentity(session.getIdentityPath());
+					try {
+						if (session.getPassPhrase() != null && session.getPassPhrase().trim().length() > 0) {
+							jsch.addIdentity(session.getIdentityPath(), session.getPassPhrase());
+						} else {
+							jsch.addIdentity(session.getIdentityPath());
+						}
+					} catch (JSchException e) {
+						//log.error("Invalid private key: " + session.getIdentityPath(), e);
+						throw new ConnectionException("Invalid private key: " + session.getIdentityPath());
 					}
 				}
 				jschSession = jsch.getSession(session.getUsername(), session.getHostname(), session.getPort());

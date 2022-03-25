@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
+import org.apache.commons.logging.Log;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.MenuDetectEvent;
@@ -134,7 +135,8 @@ public class SshTunnelComposite extends Composite {
 			}
 
 			public void shellIconified(ShellEvent e) {
-				shell.setVisible(false);
+				//shell.setVisible(false);
+				shell.setMinimized(true);
 			}
 		});
 
@@ -450,7 +452,8 @@ public class SshTunnelComposite extends Composite {
 
 		trayItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				shell.setVisible(!shell.isVisible());
+				//shell.setVisible(!shell.isVisible());
+				shell.setMinimized(!shell.getMinimized());
 			}
 		});
 
