@@ -30,6 +30,7 @@ import org.programmerplanet.sshtunnel.model.Session;
 /**
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
+ * @author <a href="agungm@outlook.com">Mulya Agung</a>
  */
 public class EditSessionDialog extends CustomDialog {
 
@@ -40,6 +41,8 @@ public class EditSessionDialog extends CustomDialog {
 	private Text userText;
 	private Button savePassCheckbox;
 	private Text passText;
+	private Text privKeyText;
+	private Text passPhraseText;
 
 	public EditSessionDialog(Shell parent, Session session) {
 		super(parent);
@@ -111,12 +114,32 @@ public class EditSessionDialog extends CustomDialog {
 		passText.setLayoutData(gridData);
 
 		setSavePassword(false);
+		
+		Label privKeyLabel = new Label(parent, SWT.RIGHT);
+		privKeyLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
+		privKeyLabel.setText("Private key:");
+		
+		privKeyText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
+		gridData.widthHint = 200;
+		privKeyText.setLayoutData(gridData);
+		
+		Label passPhraseLabel = new Label(parent, SWT.RIGHT);
+		passPhraseLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
+		passPhraseLabel.setText("Passphrase:");
+		
+		passPhraseText = new Text(parent, SWT.SINGLE | SWT.BORDER | SWT.PASSWORD);
+		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
+		gridData.widthHint = 200;
+		passPhraseText.setLayoutData(gridData);
 
 		setSessionName(session.getSessionName());
 		setHostname(session.getHostname());
 		setPort(session.getPort());
 		setUsername(session.getUsername());
 		setPassword(session.getPassword());
+		setIdentityPath(session.getIdentityPath());
+		setPassPhrase(session.getPassPhrase());
 	}
 
 	protected void okPressed() {
@@ -125,6 +148,8 @@ public class EditSessionDialog extends CustomDialog {
 		session.setPort(getPort());
 		session.setUsername(getUsername());
 		session.setPassword(getPassword());
+		session.setIdentityPath(getIdentityPath());
+		session.setPassPhrase(getPassPhrase());
 		super.okPressed();
 	}
 
@@ -156,6 +181,14 @@ public class EditSessionDialog extends CustomDialog {
 	private String getPassword() {
 		return passText.getText();
 	}
+	
+	private String getIdentityPath() {
+		return privKeyText.getText();
+	}
+	
+	private String getPassPhrase() {
+		return passPhraseText.getText();
+	}
 
 	private void setSessionName(String sessionName) {
 		nameText.setText(sessionName != null ? sessionName : "");
@@ -176,6 +209,14 @@ public class EditSessionDialog extends CustomDialog {
 	private void setPassword(String password) {
 		passText.setText(password != null ? password : "");
 		setSavePassword(password != null && password.trim().length() > 0);
+	}
+	
+	private void setIdentityPath(String identityPath) {
+		privKeyText.setText(identityPath != null ? identityPath : "");
+	}
+	
+	private void setPassPhrase(String passPhrase) {
+		passPhraseText.setText(passPhrase != null ? passPhrase : "");
 	}
 
 }

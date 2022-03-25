@@ -35,6 +35,7 @@ import com.jcraft.jsch.UserInfo;
  * underlying tunnels.
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
+ * @author <a href="agungm@outlook.com">Mulya Agung</a>
  */
 public class ConnectionManager {
 
@@ -66,6 +67,14 @@ public class ConnectionManager {
 				JSch jsch = new JSch();
 				File knownHosts = getKnownHostsFile();
 				jsch.setKnownHosts(knownHosts.getAbsolutePath());
+				
+				if (session.getIdentityPath() != null && session.getIdentityPath().trim().length() > 0) {
+					if (session.getPassPhrase() != null & session.getPassPhrase().trim().length() > 0) {
+						jsch.addIdentity(session.getIdentityPath(), session.getPassPhrase());
+					} else {
+						jsch.addIdentity(session.getIdentityPath());
+					}
+				}
 				jschSession = jsch.getSession(session.getUsername(), session.getHostname(), session.getPort());
 			}
 			UserInfo userInfo = null;
@@ -74,6 +83,7 @@ public class ConnectionManager {
 			} else {
 				userInfo = new DefaultUserInfo(parent);
 			}
+			
 			jschSession.setUserInfo(userInfo);
 			jschSession.setServerAliveInterval(KEEP_ALIVE_INTERVAL);
 			jschSession.connect(TIMEOUT);

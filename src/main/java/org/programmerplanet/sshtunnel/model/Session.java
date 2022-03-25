@@ -22,6 +22,7 @@ import java.util.List;
  * Represents a session to an ssh host.
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
+ * @author <a href="agungm@outlook.com">Mulya Agung</a>
  */
 public class Session implements Comparable<Session> {
 
@@ -33,6 +34,8 @@ public class Session implements Comparable<Session> {
 	private String username;
 	private String password;
 	private List<Tunnel> tunnels = new ArrayList<Tunnel>();
+	private String identityPath;
+	private String passPhrase;
 
 	public String getSessionName() {
 		return sessionName;
@@ -86,4 +89,20 @@ public class Session implements Comparable<Session> {
 		return sessionName.compareTo(other.sessionName);
 	}
 
+	public String getIdentityPath() {
+		return identityPath;
+	}
+
+	public void setIdentityPath(String identityPath) {
+		this.identityPath = identityPath;
+	}
+
+	public String getPassPhrase() {
+		return passPhrase;
+	}
+
+	public void setPassPhrase(String passPhrase) {
+		this.passPhrase = passPhrase;
+	}
+	
 }

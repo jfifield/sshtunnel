@@ -11,6 +11,11 @@ import org.eclipse.swt.widgets.Display;
 import org.programmerplanet.sshtunnel.model.ConnectionManager;
 import org.programmerplanet.sshtunnel.model.Session;
 
+/**
+ * 
+ * @author <a href="agungm@outlook.com">Mulya Agung</a>
+ */
+
 public class SessionConnectionMonitor implements Runnable {
 
 	private static final Log log = LogFactory.getLog(SessionConnectionMonitor.class);

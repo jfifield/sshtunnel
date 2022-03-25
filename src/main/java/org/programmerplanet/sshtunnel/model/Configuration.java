@@ -109,6 +109,17 @@ public class Configuration {
 				properties.setProperty(sessionKey + ".key", keyString);
 				properties.setProperty(sessionKey + ".password", encryptedPassword);
 			}
+			
+			if (session.getIdentityPath() != null) {
+				properties.setProperty(sessionKey + ".identityPath", session.getIdentityPath());
+			}
+			
+			if (session.getPassPhrase() != null) {
+				String keyString = EncryptionUtil.createKeyString();
+				String encryptedPassphrase = EncryptionUtil.encrypt(session.getPassPhrase(), keyString);
+				properties.setProperty(sessionKey + ".passphraseKey", keyString);
+				properties.setProperty(sessionKey + ".passphrase", encryptedPassphrase);
+			}
 
 			for (ListIterator<Tunnel> ti = session.getTunnels().listIterator(); ti.hasNext();) {
 				Tunnel tunnel = ti.next();
@@ -151,6 +162,15 @@ public class Configuration {
 				if (keyString != null && password != null) {
 					password = EncryptionUtil.decrypt(password, keyString);
 				}
+				
+				String identityPath = properties.getProperty(sessionKey + ".identityPath");
+				
+				String passphraseKeyString = properties.getProperty(sessionKey + ".passphraseKey");
+				String passphrase = properties.getProperty(sessionKey + ".passphrase");
+				if (passphraseKeyString != null && passphrase != null) {
+					passphrase = EncryptionUtil.decrypt(passphrase, passphraseKeyString);
+				}
+				
 
 				Session session = new Session();
 				session.setSessionName(sessionName);
@@ -160,6 +180,8 @@ public class Configuration {
 				}
 				session.setUsername(username);
 				session.setPassword(password);
+				session.setIdentityPath(identityPath);
+				session.setPassPhrase(passphrase);
 
 				sessions.add(session);
 
