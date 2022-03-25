@@ -1,6 +1,8 @@
 # SSH Tunnel
 
-A graphical SSH tunnel manager.
+A graphical SSH tunnel manager. It is extended from the original code here: https://github.com/jfifield/sshtunnel.
+
+The extensions are included in the versions 0.5.5-0.5.6 shown below.
 
 ![](img/sshtunnel.jpg)
 
@@ -57,6 +59,12 @@ Java Runtime Environment (JRE) 5.0 or greater
 
 ## Changes
 
+### 0.5.6
+* support SSH private key
+
+### 0.5.5
+* a background thread that monitor and reconnect disconnected session automatically
+ 
 ### 0.5.3
 * added support for linux & windows 64-bit
 * updated swt libraries
