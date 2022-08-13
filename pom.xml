@@ -1,11 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.programmerplanet</groupId>
 	<artifactId>sshtunnel</artifactId>
 	<name>SSH Tunnel</name>
-	<version>0.5.6</version>
+	<version>0.5.7</version>
 	<url>http://www.programmerplanet.org/pages/projects/ssh-tunnel.php</url>
 	<developers>
 		<developer>
@@ -29,8 +27,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<target>1.5</target>
-					<source>1.5</source>
+					<target>1.8</target>
+					<source>1.8</source>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -68,12 +66,17 @@
 				</os>
 			</activation>
 			<dependencies>
-				<dependency>
+				<!--<dependency>
 					<groupId>org.eclipse.swt</groupId>
 					<artifactId>org.eclipse.swt.gtk.linux.x86</artifactId>
 					<version>3.6.2</version>
 					<type>jar</type>
 					<scope>compile</scope>
+				</dependency> -->
+				<dependency>
+					<groupId>org.eclipse.platform</groupId>
+					<artifactId>org.eclipse.swt.gtk.linux.x86</artifactId>
+					<version>3.119.0</version>
 				</dependency>
 			</dependencies>
 			<properties>
@@ -96,6 +99,11 @@
 					<type>jar</type>
 					<scope>compile</scope>
 				</dependency>
+				<!--<dependency>
+					<groupId>org.eclipse.platform</groupId>
+					<artifactId>org.eclipse.swt.gtk.linux.x86_64</artifactId>
+					<version>3.119.0</version>
+				</dependency>-->
 			</dependencies>
 			<properties>
 				<platform.classifier>linux-64</platform.classifier>
@@ -152,12 +160,17 @@
 		</profile>
 	</profiles>
 	<dependencies>
-		<dependency>
+		<!--<dependency>
 			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>
 			<version>0.1.55</version>
 			<type>jar</type>
 			<scope>compile</scope>
+		</dependency>-->
+		<dependency>
+			<groupId>com.github.mwiede</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.2.2</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>

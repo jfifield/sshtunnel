@@ -43,7 +43,7 @@ public abstract class CustomDialog extends Dialog {
 
 	public int open() {
 		Shell parent = this.getParent();
-		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
 		shell.setText(getText());
 		shell.setImage(parent.getImage());
 		shell.setLayout(new GridLayout());

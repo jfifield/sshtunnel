@@ -120,6 +120,12 @@ public class Configuration {
 				properties.setProperty(sessionKey + ".passphraseKey", keyString);
 				properties.setProperty(sessionKey + ".passphrase", encryptedPassphrase);
 			}
+			
+			if (session.getCiphers() != null) {
+				properties.setProperty(sessionKey + ".ciphers", session.getCiphers());
+			}
+			
+			properties.setProperty(sessionKey + ".compression", String.valueOf(session.isCompressed()));
 
 			for (ListIterator<Tunnel> ti = session.getTunnels().listIterator(); ti.hasNext();) {
 				Tunnel tunnel = ti.next();
@@ -182,6 +188,16 @@ public class Configuration {
 				session.setPassword(password);
 				session.setIdentityPath(identityPath);
 				session.setPassPhrase(passphrase);
+				
+				String ciphers = properties.getProperty(sessionKey + ".ciphers");
+				session.setCiphers(ciphers);
+				
+				boolean compressed = false;
+				String compressionString = properties.getProperty(sessionKey + ".compression");
+				if (compressionString != null) {
+					compressed = Boolean.parseBoolean(compressionString);
+				}
+				session.setCompressed(compressed);
 
 				sessions.add(session);
 

@@ -36,6 +36,8 @@ public class Session implements Comparable<Session> {
 	private List<Tunnel> tunnels = new ArrayList<Tunnel>();
 	private String identityPath;
 	private String passPhrase;
+	private boolean compressed;
+	private String ciphers;
 
 	public String getSessionName() {
 		return sessionName;
@@ -103,6 +105,22 @@ public class Session implements Comparable<Session> {
 
 	public void setPassPhrase(String passPhrase) {
 		this.passPhrase = passPhrase;
+	}
+	
+	public void setCompressed(boolean isCompressed) {
+		this.compressed = isCompressed;
+	}
+	
+	public boolean isCompressed() {
+		return this.compressed;
+	}
+
+	public String getCiphers() {
+		return ciphers;
+	}
+
+	public void setCiphers(String ciphers) {
+		this.ciphers = ciphers;
 	}
 	
 }

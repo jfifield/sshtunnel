@@ -43,6 +43,7 @@ public class ConnectionManager {
 
 	private static final int TIMEOUT = 30000;
 	private static final int KEEP_ALIVE_INTERVAL = 10000;
+	private static final String DEF_CIPHERS = "aes128-gcm@openssh.com,chacha20-poly1305@openssh.com,aes128-cbc,aes128-ctr";
 
 	private static final ConnectionManager INSTANCE = new ConnectionManager();
 
@@ -55,6 +56,11 @@ public class ConnectionManager {
 		STOP,
 		CHANGE
 	}
+	
+//	public ConnectionManager() {
+//		//JSch.setLogger(new MyLogger(log));
+//		JSch.setLogger(new MyLogger());
+//	}
 
 	private Map<Session, com.jcraft.jsch.Session> connections = new HashMap<Session, com.jcraft.jsch.Session>();
 
@@ -76,8 +82,11 @@ public class ConnectionManager {
 							jsch.addIdentity(session.getIdentityPath());
 						}
 					} catch (JSchException e) {
+						e.printStackTrace();
+						// Jsch does not support newer format, you may convert the key to the pem format:
+						// ssh-keygen -p -f key_file -m pem -P passphrase -N passphrase
 						//log.error("Invalid private key: " + session.getIdentityPath(), e);
-						throw new ConnectionException("Invalid private key: " + session.getIdentityPath());
+						throw new ConnectionException(e);
 					}
 				}
 				jschSession = jsch.getSession(session.getUsername(), session.getHostname(), session.getPort());
@@ -91,6 +100,20 @@ public class ConnectionManager {
 			
 			jschSession.setUserInfo(userInfo);
 			jschSession.setServerAliveInterval(KEEP_ALIVE_INTERVAL);
+			
+			if (session.getCiphers() != null && !session.getCiphers().isEmpty()) {
+				// Set ciphers to use aes128-gcm if possible, as it is fast on many systems
+				jschSession.setConfig("cipher.s2c", session.getCiphers() + "," + DEF_CIPHERS);
+				jschSession.setConfig("cipher.c2s", session.getCiphers() + "," + DEF_CIPHERS);
+				jschSession.setConfig("CheckCiphers", session.getCiphers());
+			}
+		    
+		    if (session.isCompressed()) {
+		    	jschSession.setConfig("compression.s2c", "zlib@openssh.com,zlib,none");
+		        jschSession.setConfig("compression.c2s", "zlib@openssh.com,zlib,none");
+		        //jschSession.setConfig("compression_level", "9");
+		    }
+		    
 			jschSession.connect(TIMEOUT);
 
 			startTunnels(session, jschSession);
@@ -229,5 +252,50 @@ public class ConnectionManager {
 		}
 		return err;
 	}
-
+	
 }
+
+class MyLogger implements com.jcraft.jsch.Logger {
+    static java.util.Hashtable<Integer, String> name = new java.util.Hashtable<Integer, String>();
+    
+//    private Log logger;
+//    
+//    public MyLogger(Log logger) {
+//		this.logger = logger;
+//	}
+    
+    static{
+      name.put(new Integer(DEBUG), "DEBUG: ");
+      name.put(new Integer(INFO), "INFO: ");
+      name.put(new Integer(WARN), "WARN: ");
+      name.put(new Integer(ERROR), "ERROR: ");
+      name.put(new Integer(FATAL), "FATAL: ");
+    }
+    
+    public boolean isEnabled(int level){
+      return true;
+    }
+    
+    public void log(int level, String message){
+      System.err.print(name.get(level));
+      System.err.println(message);
+//    	switch (level) {
+//		case INFO:
+//			logger.info(message);
+//			break;
+//		case WARN:
+//			logger.warn(message);
+//			break;
+//		case ERROR:
+//			logger.error(message);
+//			break;
+//		case FATAL:
+//			logger.error(message);
+//			break;
+//		default:
+//			break;
+//		}
+    }
+ }
+
+

@@ -43,6 +43,9 @@ public class EditSessionDialog extends CustomDialog {
 	private Text passText;
 	private Text privKeyText;
 	private Text passPhraseText;
+	private Button compressionCheckbox;
+	private Text ciphersText;
+	private Button chooseCiphersCheckbox;
 
 	public EditSessionDialog(Shell parent, Session session) {
 		super(parent);
@@ -132,6 +135,38 @@ public class EditSessionDialog extends CustomDialog {
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		gridData.widthHint = 200;
 		passPhraseText.setLayoutData(gridData);
+		
+		Label chooseCiphersLabel = new Label(parent, SWT.RIGHT);
+		chooseCiphersLabel.setText("");
+		
+		chooseCiphersCheckbox = new Button(parent, SWT.CHECK);
+		chooseCiphersCheckbox.setText("Choose ciphers?");
+		chooseCiphersCheckbox.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				setChooseCiphers(chooseCiphersCheckbox.getSelection());
+			}
+		});
+		
+		Label ciphersLabel = new Label(parent, SWT.RIGHT);
+		ciphersLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
+		ciphersLabel.setText("Ciphers:");
+		
+		ciphersText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
+		gridData.widthHint = 200;
+		ciphersText.setLayoutData(gridData);
+		setChooseCiphers(false);
+		
+		Label compressionLabel = new Label(parent, SWT.RIGHT);
+		compressionLabel.setText("");
+		
+		compressionCheckbox = new Button(parent, SWT.CHECK);
+		compressionCheckbox.setText("Compression?");
+		compressionCheckbox.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				setCompression(compressionCheckbox.getSelection());
+			}
+		});
 
 		setSessionName(session.getSessionName());
 		setHostname(session.getHostname());
@@ -140,6 +175,8 @@ public class EditSessionDialog extends CustomDialog {
 		setPassword(session.getPassword());
 		setIdentityPath(session.getIdentityPath());
 		setPassPhrase(session.getPassPhrase());
+		setCompression(session.isCompressed());
+		setCiphers(session.getCiphers());
 	}
 
 	protected void okPressed() {
@@ -150,6 +187,9 @@ public class EditSessionDialog extends CustomDialog {
 		session.setPassword(getPassword());
 		session.setIdentityPath(getIdentityPath());
 		session.setPassPhrase(getPassPhrase());
+		session.setCompressed(getCompression());
+		session.setCiphers(getCiphers());
+		session.setCompressed(getCompression());
 		super.okPressed();
 	}
 
@@ -160,6 +200,27 @@ public class EditSessionDialog extends CustomDialog {
 		if (!savePassword) {
 			passText.setText("");
 		}
+	}
+	
+	private void setCompression(boolean isCompressed) {
+		compressionCheckbox.setSelection(isCompressed);
+	}
+	
+	private boolean getCompression() {
+		return compressionCheckbox.getSelection();
+	}
+	
+	private void setChooseCiphers(boolean isChosen) {
+		chooseCiphersCheckbox.setSelection(isChosen);
+		ciphersText.setEnabled(isChosen);
+		ciphersText.setEditable(isChosen);
+		if (!isChosen) {
+			ciphersText.setText("");
+		}
+	}
+	
+	private String getCiphers() {
+		return ciphersText.getText();
 	}
 
 	private String getSessionName() {
@@ -217,6 +278,11 @@ public class EditSessionDialog extends CustomDialog {
 	
 	private void setPassPhrase(String passPhrase) {
 		passPhraseText.setText(passPhrase != null ? passPhrase : "");
+	}
+	
+	private void setCiphers(String ciphers) {
+		ciphersText.setText(ciphers != null ? ciphers : "");
+		setChooseCiphers(ciphers != null && ciphers.trim().length() > 0);
 	}
 
 }
