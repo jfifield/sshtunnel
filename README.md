@@ -21,12 +21,10 @@ The extensions are included starting from v0.5.5.
 
 ## Download
 
-### 0.5.3
+### 0.5.7
 
-* [Linux (64-bit JVM)](https://github.com/jfifield/sshtunnel/releases/download/0.5.3/sshtunnel-0.5.3-dist-linux-64.zip)
-* [Linux (32-bit JVM)](https://github.com/jfifield/sshtunnel/releases/download/0.5.3/sshtunnel-0.5.3-dist-linux.zip)
-* [Windows (64-bit JVM)](https://github.com/jfifield/sshtunnel/releases/download/0.5.3/sshtunnel-0.5.3-dist-windows-64.zip)
-* [Windows (32-bit JVM)](https://github.com/jfifield/sshtunnel/releases/download/0.5.3/sshtunnel-0.5.3-dist-windows.zip)
+* [Linux (64-bit JVM)](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.7/sshtunnel-0.5.7-dist-linux-64.zip)
+* [Windows (64-bit JVM)](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.7/sshtunnel-0.5.7-dist-windows-64.zip)
 
 ## Requirements
 
