@@ -13,6 +13,7 @@ The extensions are included starting from v0.5.5.
 * ~~Minimize to tray~~. The feature is removed until the SWT bug in Linux (KDE) is fixed.
 * Quick connect/disconnect from tray.
 * Bind local ports to any local address.
+* Basic (username/password) and private key authentications
 * Configurable ciphers
 * SSH compression
 * Automatic connection monitoring (no hanging sessions)
@@ -28,7 +29,7 @@ The extensions are included starting from v0.5.5.
 
 ## Requirements
 
-Java Runtime Environment (JRE) 5.0 or greater
+Java Runtime Environment (JRE) 6.0 or greater
 
 ## License
 
