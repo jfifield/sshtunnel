@@ -21,6 +21,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -43,12 +45,17 @@ import org.eclipse.swt.widgets.TableItem;
 import org.programmerplanet.sshtunnel.model.Session;
 import org.programmerplanet.sshtunnel.model.Tunnel;
 
+import com.jcraft.jsch.Logger;
+
 /**
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
+ * @author <a href="agungm@outlook.com">Mulya Agung</a>
  */
 public class TunnelsComposite extends Composite {
 
+	private static final Log log = LogFactory.getLog(TunnelsComposite.class);
+	
 	private static final String ADD_IMAGE_PATH = "/images/add.png";
 	private static final String EDIT_IMAGE_PATH = "/images/edit.png";
 	private static final String DELETE_IMAGE_PATH = "/images/delete.png";
@@ -243,7 +250,11 @@ public class TunnelsComposite extends Composite {
 			int result = dialog.open();
 			if (result == SWT.OK) {
 				updateTable();
-				listener.tunnelChanged(session, tunnel, prevTunnel);
+				int status = listener.tunnelChanged(session, tunnel, prevTunnel);
+				if (status != 0) {
+					// Failed cancelling tunnel bind
+					log.error("Unable to stop existing tunnel");
+				}
 			}
 		}
 	}

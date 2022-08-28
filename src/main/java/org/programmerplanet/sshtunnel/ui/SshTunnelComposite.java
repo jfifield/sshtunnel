@@ -36,10 +36,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.swt.widgets.Tray;
@@ -55,7 +57,8 @@ import org.programmerplanet.sshtunnel.model.Session;
  */
 public class SshTunnelComposite extends Composite {
 
-	private static final String APPLICATION_TITLE = "SSH Tunnel";
+	private static final String APPLICATION_TITLE = "SSH Tunnel NG";
+	private static final String APPLICATION_VERSION = "v0.5.8";
 	private static final String APPLICATION_IMAGE_PATH = "/images/sshtunnel.png";
 	private static final String CONNECT_IMAGE_PATH = "/images/connect.png";
 	private static final String DISCONNECT_IMAGE_PATH = "/images/disconnect.png";
@@ -78,11 +81,16 @@ public class SshTunnelComposite extends Composite {
 	private Button connectAllButton;
 	private Button disconnectAllButton;
 	private TrayItem trayItem;
+	
+	private Label versionLabel;
+	private ProgressBar progressBar;
+	private boolean isConnecting;
 
 	private Configuration configuration;
 	private SashForm sashForm;
 	private SessionsComposite sessionsComposite;
 	private TunnelsComposite tunnelsComposite;
+	private Composite statusBarComposite;
 
 	private Session currentSession = null;
 
@@ -146,6 +154,7 @@ public class SshTunnelComposite extends Composite {
 		createSessionsComposite();
 		createTunnelsComposite();
 		createButtonBarComposite();
+		createStatusBarComposite();
 		createTrayIcon();
 
 		shell.setBounds(configuration.getLeft(), configuration.getTop(), configuration.getWidth(), configuration.getHeight());
@@ -255,7 +264,7 @@ public class SshTunnelComposite extends Composite {
 		disconnectAllButton.setToolTipText("Disconnect All");
 		disconnectAllButton.setImage(disconnectAllImage);
 		disconnectAllButton.setEnabled(false);
-
+		
 		connectButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				Display display = SshTunnelComposite.this.getDisplay();
@@ -304,11 +313,139 @@ public class SshTunnelComposite extends Composite {
 			}
 		});
 	}
+	
+	public void createStatusBarComposite() {
+		//Composite statusLineComposite = new Composite(this, SWT.NONE);
+		statusBarComposite = new Composite(this, SWT.NONE);
+		
+//		FillLayout fillLayout = new FillLayout();
+//		fillLayout.marginHeight = 0;
+//		fillLayout.marginWidth = 8;
+		//statusLineComposite.setLayout(fillLayout);
+		GridLayout twoColsGridLayout = new GridLayout(2, false);
+		twoColsGridLayout.marginRight = 2;
+		twoColsGridLayout.marginTop = 0;
+		
+		statusBarComposite.setLayout(twoColsGridLayout);
+		statusBarComposite.setLayoutData(new GridData(SWT.FILL, SWT.END, true, false));
 
+//		GridData gridData = new GridData(SWT.BEGINNING, SWT.CENTER, true, false);
+//		gridData.horizontalAlignment = GridData.END;
+//		statusLineComposite.setLayoutData(gridData);
+//		gridData.widthHint = 100;
+		
+		progressBar = new ProgressBar(statusBarComposite, SWT.INDETERMINATE);
+	    progressBar.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false));
+	    //progressBar.setMaximum(10);
+	    progressBar.setVisible(false);
+		
+		versionLabel = new Label(statusBarComposite, SWT.NONE);
+		versionLabel.setText(APPLICATION_VERSION);
+		versionLabel.setEnabled(false);
+		versionLabel.setLayoutData(new GridData(SWT.END, SWT.CENTER, true, false));
+	}
+	
+	private void showProgressBar() {
+		connectButton.setEnabled(false);
+		connectAllButton.setEnabled(false);
+		disconnectAllButton.setEnabled(false);
+		progressBar.setVisible(true);
+		
+//		Display.getDefault().asyncExec(new Runnable() {
+//            @Override
+//            public void run() {
+//            	progressBar.setVisible(true);
+//            }
+//		});
+	}
+	
+	private void stopProgressBar() {
+		//if (!progressBar.isDisposed()) {
+		progressBar.setVisible(false);
+//			Display.getDefault().asyncExec(new Runnable() {
+//	            @Override
+//	            public void run() {
+//	            	progressBar.setVisible(false);
+//	            }
+//			});
+		//}
+	}
+	
+	private void updateProgressBar() {
+	    new Thread(new Runnable()
+	    {
+	        //private int                 progress    = 0;
+	        //private static final int    INCREMENT   = 25;
+	    	//ProgressBar progressBar = SshTunnelComposite.this.progressBar;
+
+	        @Override
+	        public void run() {
+	        	while (!progressBar.isDisposed() && isConnecting) {
+		        	Display.getDefault().asyncExec(new Runnable() {
+	                    @Override
+	                    public void run() {
+//	                        if (!progressBar.isDisposed())
+//	                            progressBar.setSelection((progress += INCREMENT) % (progressBar.getMaximum() + INCREMENT));
+//	                        progressBar = new ProgressBar(statusBarComposite, SWT.INDETERMINATE);
+//	        	    	    progressBar.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false));
+//	        	    	    progressBar.setMaximum(100);
+	                    	//if (isConnecting)
+	                    	progressBar.setVisible(true);
+	                    	//else
+	                    	//	progressBar.setVisible(false);
+	                    }
+	                });
+		        	
+			        try {
+			        	Thread.sleep(1000);
+		            }
+	                catch (InterruptedException e) {
+	                    e.printStackTrace();
+	                }
+	        	}
+	        	Display.getDefault().asyncExec(new Runnable() {
+		    		 @Override
+		    		 public void run() {
+		    			 progressBar.setVisible(false);
+				 	}
+	        	});
+	        	
+	        }
+//	            while (!progressBar.isDisposed()) {
+//	                Display.getDefault().asyncExec(new Runnable() {
+//	                    @Override
+//	                    public void run() {
+//	                        if (!progressBar.isDisposed())
+//	                            progressBar.setSelection((progress += INCREMENT) % (progressBar.getMaximum() + INCREMENT));
+//	                    }
+//	                });
+//
+//	                try {
+//	                    Thread.sleep(1000);
+//	                }
+//	                catch (InterruptedException e) {
+//	                    e.printStackTrace();
+//	                }
+//	            }
+//	        }
+	    }).start();
+	}
+	
+//	private void stopProgressBar() {
+//		if (progressBar.isDisposed())
+//			return;
+//		else {
+//			isConnecting = false;
+//			//progressBar.setVisible(false);
+//		}
+//			
+//	}
+	
 	public void connectionStatusChanged() {
 		sessionsComposite.updateTable();
 		tunnelsComposite.updateTable();
 		updateConnectButtons();
+		stopProgressBar();
 	}
 
 	private void updateConnectButtons() {
@@ -344,24 +481,59 @@ public class SshTunnelComposite extends Composite {
 
 	private void connect() {
 		connect(currentSession);
+		
 	}
 
 	private void connect(Session session) {
 		save();
 		if (session != null && !ConnectionManager.getInstance().isConnected(session)) {
-			try {
-				ConnectionManager.getInstance().connect(session, shell);
-				// Put to monitored list
-				SessionConnectionMonitor.getInstance().addSession(session.getSessionName(), session);
-			} catch (ConnectionException ce) {
-				try {
-					ConnectionManager.getInstance().disconnect(session);
-				} catch (Exception e) {
+//			try {
+//				ConnectionManager.getInstance().connect(session, shell);
+//				// Put to monitored list
+//				SessionConnectionMonitor.getInstance().addSession(session.getSessionName(), session);
+//			} catch (ConnectionException ce) {
+//				try {
+//					ConnectionManager.getInstance().disconnect(session);
+//				} catch (Exception e) {
+//				}
+//				showErrorMessage("Unable to connect to '" + session.getSessionName() + "'", ce);
+//			}
+			
+			//isConnecting = true;
+			//updateProgressBar();
+			showProgressBar();
+			
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+						try {
+						ConnectionManager.getInstance().connect(session, shell);
+						// Put to monitored list
+						SessionConnectionMonitor.getInstance().addSession(session.getSessionName(), session);
+					} catch (ConnectionException ce) {
+						try {
+							ConnectionManager.getInstance().disconnect(session);
+						} catch (Exception e) {
+							
+						}
+						Display.getDefault().asyncExec(new Runnable() {
+		                    @Override
+		                    public void run() {
+		                    	showErrorMessage("Unable to connect to '" + session.getSessionName() + "'", ce);
+		                    }
+						});
+					}
+						
+					Display.getDefault().asyncExec(new Runnable() {
+	                    @Override
+	                    public void run() {
+	                    	connectionStatusChanged();
+	                    }
+					});
 				}
-				showErrorMessage("Unable to connect to '" + session.getSessionName() + "'", ce);
-			}
+		    }).start();
 		}
-		connectionStatusChanged();
+		//connectionStatusChanged();
 	}
 
 	private void showErrorMessage(String message, Exception e) {
@@ -410,25 +582,64 @@ public class SshTunnelComposite extends Composite {
 
 	private void connectAll() {
 		save();
-		Session sessionToConnect = null;
-		try {
-			for (Iterator<Session> i = configuration.getSessions().iterator(); i.hasNext();) {
-				sessionToConnect = i.next();
-				if (!ConnectionManager.getInstance().isConnected(sessionToConnect)) {
-					ConnectionManager.getInstance().connect(sessionToConnect, shell);
-				}
-			}
-		} catch (ConnectionException ce) {
-			for (Iterator<Session> i = configuration.getSessions().iterator(); i.hasNext();) {
-				Session session = i.next();
+//		Session sessionToConnect = null;
+//		try {
+//			for (Iterator<Session> i = configuration.getSessions().iterator(); i.hasNext();) {
+//				sessionToConnect = i.next();
+//				if (!ConnectionManager.getInstance().isConnected(sessionToConnect)) {
+//					ConnectionManager.getInstance().connect(sessionToConnect, shell);
+//				}
+//			}
+//		} catch (ConnectionException ce) {
+//			for (Iterator<Session> i = configuration.getSessions().iterator(); i.hasNext();) {
+//				Session session = i.next();
+//				try {
+//					ConnectionManager.getInstance().disconnect(session);
+//				} catch (Exception e) {
+//				}
+//			}
+//			showErrorMessage("Unable to connect to '" + sessionToConnect.getSessionName() + "'", ce);
+//		}
+//		connectionStatusChanged();
+		showProgressBar();
+		
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Session sessionToConnect = null;
 				try {
-					ConnectionManager.getInstance().disconnect(session);
-				} catch (Exception e) {
+					for (Iterator<Session> i = configuration.getSessions().iterator(); i.hasNext();) {
+						sessionToConnect = i.next();
+						if (!ConnectionManager.getInstance().isConnected(sessionToConnect)) {
+							ConnectionManager.getInstance().connect(sessionToConnect, shell);
+						}
+					}
+				} catch (ConnectionException ce) {
+					for (Iterator<Session> i = configuration.getSessions().iterator(); i.hasNext();) {
+						Session session = i.next();
+						try {
+							ConnectionManager.getInstance().disconnect(session);
+						} catch (Exception e) {
+						}
+					}
+					
+					final Session failedSession = sessionToConnect;
+					Display.getDefault().asyncExec(new Runnable() {
+	                    @Override
+	                    public void run() {
+	                    	showErrorMessage("Unable to connect to '" + failedSession.getSessionName() + "'", ce);
+	                    }
+					});
 				}
+					
+				Display.getDefault().asyncExec(new Runnable() {
+                    @Override
+                    public void run() {
+                    	connectionStatusChanged();
+                    }
+				});
 			}
-			showErrorMessage("Unable to connect to '" + sessionToConnect.getSessionName() + "'", ce);
-		}
-		connectionStatusChanged();
+	    }).start();
 	}
 
 	private void disconnectAll() {

@@ -100,7 +100,7 @@ public class EditSessionDialog extends CustomDialog {
 		savePassLabel.setText("");
 
 		savePassCheckbox = new Button(parent, SWT.CHECK);
-		savePassCheckbox.setText("Save Password?");
+		savePassCheckbox.setText("Save Password");
 		savePassCheckbox.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				setSavePassword(savePassCheckbox.getSelection());
@@ -120,7 +120,7 @@ public class EditSessionDialog extends CustomDialog {
 		
 		Label privKeyLabel = new Label(parent, SWT.RIGHT);
 		privKeyLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		privKeyLabel.setText("Private key:");
+		privKeyLabel.setText("Identity file:");
 		
 		privKeyText = new Text(parent, SWT.SINGLE | SWT.BORDER);
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
@@ -140,7 +140,7 @@ public class EditSessionDialog extends CustomDialog {
 		chooseCiphersLabel.setText("");
 		
 		chooseCiphersCheckbox = new Button(parent, SWT.CHECK);
-		chooseCiphersCheckbox.setText("Choose ciphers?");
+		chooseCiphersCheckbox.setText("Choose ciphers");
 		chooseCiphersCheckbox.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				setChooseCiphers(chooseCiphersCheckbox.getSelection());
@@ -161,7 +161,7 @@ public class EditSessionDialog extends CustomDialog {
 		compressionLabel.setText("");
 		
 		compressionCheckbox = new Button(parent, SWT.CHECK);
-		compressionCheckbox.setText("Compression?");
+		compressionCheckbox.setText("Compression");
 		compressionCheckbox.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				setCompression(compressionCheckbox.getSelection());

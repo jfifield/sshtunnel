@@ -21,12 +21,13 @@ import org.programmerplanet.sshtunnel.model.Tunnel;
 /**
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
+ * @author <a href="agungm@outlook.com">Mulya Agung</a>
  */
 public interface TunnelChangeListener {
 
 	public void tunnelAdded(Session session, Tunnel tunnel);
 	
-	public void tunnelChanged(Session session, Tunnel tunnel, Tunnel prevTunnel);
+	public int tunnelChanged(Session session, Tunnel tunnel, Tunnel prevTunnel);
 
 	public void tunnelRemoved(Session session, Tunnel tunnel);
 

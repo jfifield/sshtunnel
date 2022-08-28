@@ -117,6 +117,10 @@ public class SessionConnectionMonitor implements Runnable {
 			if (thread != null) {
 				threadStopped = true;
 				thread = null;
+				
+				if (log.isWarnEnabled()) {
+					log.warn("Connection monitor is stopped.");
+				}
 			}
 		}
 	}

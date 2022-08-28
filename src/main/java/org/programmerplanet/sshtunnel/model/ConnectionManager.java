@@ -41,12 +41,12 @@ public class ConnectionManager {
 
 	private static final Log log = LogFactory.getLog(ConnectionManager.class);
 
-	private static final int TIMEOUT = 30000;
-	private static final int KEEP_ALIVE_INTERVAL = 10000;
+	private static final int TIMEOUT = 20000;
+	private static final int KEEP_ALIVE_INTERVAL = 40000;
 	private static final String DEF_CIPHERS = "aes128-gcm@openssh.com,chacha20-poly1305@openssh.com,aes128-cbc,aes128-ctr";
 
 	private static final ConnectionManager INSTANCE = new ConnectionManager();
-
+	
 	public static ConnectionManager getInstance() {
 		return INSTANCE;
 	}
@@ -62,6 +62,8 @@ public class ConnectionManager {
 //		JSch.setLogger(new MyLogger());
 //	}
 
+	private TrackedServerSocketFactory serverSocketFactory = new TrackedServerSocketFactory();
+	
 	private Map<Session, com.jcraft.jsch.Session> connections = new HashMap<Session, com.jcraft.jsch.Session>();
 
 	public void connect(Session session, Shell parent) throws ConnectionException {
@@ -100,6 +102,7 @@ public class ConnectionManager {
 			
 			jschSession.setUserInfo(userInfo);
 			jschSession.setServerAliveInterval(KEEP_ALIVE_INTERVAL);
+			jschSession.setServerAliveCountMax(2);
 			
 			if (session.getCiphers() != null && !session.getCiphers().isEmpty()) {
 				// Set ciphers to use aes128-gcm if possible, as it is fast on many systems
@@ -147,7 +150,10 @@ public class ConnectionManager {
 
 	private void startTunnel(com.jcraft.jsch.Session jschSession, Tunnel tunnel) throws JSchException {
 		if (tunnel.getLocal()) {
-			jschSession.setPortForwardingL(tunnel.getLocalAddress(), tunnel.getLocalPort(), tunnel.getRemoteAddress(), tunnel.getRemotePort());
+			//jschSession.setPortForwardingL(tunnel.getLocalAddress(), tunnel.getLocalPort(), tunnel.getRemoteAddress(), tunnel.getRemotePort());
+			jschSession.setPortForwardingL(tunnel.getLocalAddress(),
+					tunnel.getLocalPort(), tunnel.getRemoteAddress(),
+					tunnel.getRemotePort(), serverSocketFactory);
 		} else {
 			jschSession.setPortForwardingR(tunnel.getRemoteAddress(), tunnel.getRemotePort(), tunnel.getLocalAddress(), tunnel.getLocalPort());
 		}
@@ -215,6 +221,7 @@ public class ConnectionManager {
 	private void stopTunnel(com.jcraft.jsch.Session jschSession, Tunnel tunnel) throws JSchException {
 		if (tunnel.getLocal()) {
 			jschSession.delPortForwardingL(tunnel.getLocalAddress(), tunnel.getLocalPort());
+			serverSocketFactory.closeSocket(tunnel.getLocalAddress(), tunnel.getLocalPort());
 		} else {
 			jschSession.delPortForwardingR(tunnel.getRemotePort());
 		}

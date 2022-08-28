@@ -22,6 +22,7 @@ import org.programmerplanet.sshtunnel.model.Tunnel;
 /**
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
+ * @author <a href="agungm@outlook.com">Mulya Agung</a>
  */
 public class TunnelChangeAdapter implements TunnelChangeListener {
 
@@ -29,8 +30,8 @@ public class TunnelChangeAdapter implements TunnelChangeListener {
 		ConnectionManager.getInstance().startTunnelIfSessionConnected(session, tunnel);
 	}
 
-	public void tunnelChanged(Session session, Tunnel tunnel, Tunnel prevTunnel) {
-		ConnectionManager.getInstance().changeTunnelIfSessionConnected(session, tunnel, prevTunnel);
+	public int tunnelChanged(Session session, Tunnel tunnel, Tunnel prevTunnel) {
+		return ConnectionManager.getInstance().changeTunnelIfSessionConnected(session, tunnel, prevTunnel);
 	}
 
 	public void tunnelRemoved(Session session, Tunnel tunnel) {
