@@ -22,10 +22,10 @@ The extensions are included starting from v0.5.5.
 
 ## Download
 
-### 0.5.7
+### 0.5.8
 
-* [Linux (64-bit JVM)](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.7/sshtunnel-0.5.7-dist-linux-64.zip)
-* [Windows (64-bit JVM)](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.7/sshtunnel-0.5.7-dist-windows-64.zip)
+* [Linux (64-bit JVM)](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.8/sshtunnel-0.5.8-dist-linux-64.zip)
+* [Windows (64-bit JVM)](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.8/sshtunnel-0.5.8-dist-windows-64.zip)
 
 ## Requirements
 
