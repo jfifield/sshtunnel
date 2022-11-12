@@ -1,8 +1,8 @@
 # SSH Tunnel NG
 
-A graphical SSH tunnel manager. It is extended from the original code here: https://github.com/jfifield/sshtunnel.
+A user-friendly and cross-platform SSH tunnel manager.
 
-The extensions are included starting from v0.5.5.
+It is the next generation of the discontinued SSH Tunnel (https://github.com/jfifield/sshtunnel).
 
 ![](img/sshtunnel.jpg)
 
@@ -10,15 +10,14 @@ The extensions are included starting from v0.5.5.
 
 * Manage multiple sessions and tunnels.
 * Local and remote tunnels supported.
-* ~~Minimize to tray~~. The feature is removed until the SWT bug in Linux (KDE) is fixed.
 * Quick connect/disconnect from tray.
 * Bind local ports to any local address.
 * Basic (username/password) and private key authentications
 * Configurable ciphers
 * SSH compression
-* Automatic connection monitoring (no hanging sessions)
+* Background connection monitoring (no hanging sessions and automatic reconnection)
 * Multi-platform (it runs on JVM)
-
+* ~~Minimize to tray~~. The feature is removed until the SWT bug in Linux (KDE) is fixed.
 
 ## Download
 
@@ -34,6 +33,9 @@ Java Runtime Environment (JRE) 6.0 or greater
 ## License
 
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+## Contact
+https://agungmulya.com
 
 --------------------------------------------------------------------------------
 
@@ -55,12 +57,15 @@ Java Runtime Environment (JRE) 6.0 or greater
 
   `java -jar sshtunnel-VERSION.jar`
 
-
 ## Changes
 
+### 0.5.8
+* connection progress bar
+* bug fixes
+
 ### 0.5.7
-* configure ciphers to use
-* SSH compression
+* configurable ciphers
+* compression
 
 ### 0.5.6
 * support SSH private key
