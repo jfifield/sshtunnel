@@ -2,7 +2,11 @@
 
 A user-friendly and cross-platform SSH tunnel manager.
 
-It is the next generation of the discontinued SSH Tunnel (https://github.com/jfifield/sshtunnel).
+What is ssh tunneling? \
+https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling \
+https://www.ssh.com/academy/ssh/tunneling
+
+SSH Tunnel NG is the next generation of the discontinued SSH Tunnel (https://github.com/jfifield/sshtunnel).
 
 ![](img/sshtunnel.jpg)
 
