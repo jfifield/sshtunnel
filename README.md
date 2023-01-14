@@ -8,7 +8,7 @@ https://www.ssh.com/academy/ssh/tunneling
 
 SSH Tunnel NG is the next generation of the discontinued SSH Tunnel (https://github.com/jfifield/sshtunnel).
 
-![](img/sshtunnel.jpg)
+<img src="img/sshtunnel-ng_screenshot.png" width=50% height=50%>
 
 ## Features
 
