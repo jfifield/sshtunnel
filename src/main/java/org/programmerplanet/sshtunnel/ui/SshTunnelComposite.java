@@ -59,7 +59,7 @@ public class SshTunnelComposite extends Composite {
 
 	private static final String APPLICATION_TITLE = "SSH Tunnel NG";
 	private static final String APPLICATION_VERSION = "v0.5.8";
-	private static final String APPLICATION_IMAGE_PATH = "/images/sshtunnel.png";
+	private static final String APPLICATION_IMAGE_PATH = "/images/sshtunnel-ng.png";
 	private static final String CONNECT_IMAGE_PATH = "/images/connect.png";
 	private static final String DISCONNECT_IMAGE_PATH = "/images/disconnect.png";
 	private static final String CONNECT_ALL_IMAGE_PATH = "/images/connect_all.png";
