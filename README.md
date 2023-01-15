@@ -1,27 +1,28 @@
 # SSH Tunnel NG
 
-A user-friendly and cross-platform SSH tunnel manager.
+A user-friendly, fast, and cross-platform SSH tunnel manager.
+
+SSH Tunnel NG is the next generation of the discontinued SSH Tunnel (https://github.com/jfifield/sshtunnel).
 
 What is ssh tunneling? \
 https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling \
 https://www.ssh.com/academy/ssh/tunneling
 
-SSH Tunnel NG is the next generation of the discontinued SSH Tunnel (https://github.com/jfifield/sshtunnel).
-
-<img src="img/sshtunnel-ng_screenshot.png" width=50% height=50%>
+<img src="img/sshtunnel-ng_screenshot.png" width=70% height=70%>
 
 ## Features
 
-* Manage multiple sessions and tunnels.
-* Local and remote tunnels supported.
-* Quick connect/disconnect from tray.
-* Bind local ports to any local address.
-* Basic (username/password) and private key authentications
-* Configurable ciphers
-* SSH compression
-* Background connection monitoring (no hanging sessions and automatic reconnection)
-* Multi-platform (it runs on JVM)
-* ~~Minimize to tray~~. The feature is removed until the SWT bug in Linux (KDE) is fixed.
+1. Manage multiple sessions and tunnels.
+2. Local and remote tunnels supported.
+3. Bind local ports to any local address.
+4. Basic (username/password) and private key authentications
+5. Configurable encryption ciphers
+6. SSH compression
+7. Quick connect/disconnect from tray.
+8. Background connection monitoring (no hanging sessions and automatic reconnection)
+9. Lightweight (small memory footprint of ~16 MB RAM)
+10. Multi-platform (it runs on JVM)
+11. Portable/standalone installation (can be run from external disk or USB flash drive)
 
 ## Download
 
