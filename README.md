@@ -19,7 +19,7 @@ https://www.ssh.com/academy/ssh/tunneling
 5. Configurable encryption ciphers
 6. SSH compression
 7. Quick connect/disconnect from tray.
-8. Background connection monitoring (no hanging sessions and automatic reconnection)
+8. Background connection monitoring (automatic reconnection; no hanging sessions)
 9. Lightweight (small memory footprint of ~16 MB RAM)
 10. Multi-platform (it runs on JVM)
 11. Portable/standalone installation (can be run from external disk or USB flash drive)
