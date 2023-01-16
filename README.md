@@ -12,17 +12,17 @@ https://www.ssh.com/academy/ssh/tunneling
 
 ## Features
 
-1. Manage multiple sessions and tunnels.
-2. Local and remote tunnels supported.
-3. Bind local ports to any local address.
+1. Manage multiple sessions and tunnels
+2. Local and remote tunnels supported
+3. Bind local ports to any local address
 4. Basic (username/password) and private key authentications
 5. Configurable encryption ciphers
-6. SSH compression
-7. Quick connect/disconnect from tray.
+6. Enable/disable compression
+7. Quick connect/disconnect from tray
 8. Background connection monitoring (automatic reconnection; no hanging sessions)
-9. Lightweight (small memory footprint of ~16 MB RAM)
+9. Lightweight (it has a small memory footprint of ~16 MB RAM)
 10. Multi-platform (it runs on JVM)
-11. Portable/standalone installation (can be run from external disk or USB flash drive)
+11. Portable/standalone installation (it can be run from an external disk or a USB flash drive)
 
 ## Download
 
@@ -69,17 +69,17 @@ https://agungmulya.com
 * bug fixes
 
 ### 0.5.7
-* configurable ciphers
-* compression
+* specify encryption ciphers
+* enable/disable compression
 
 ### 0.5.6
-* support SSH private key
+* support private key authentication
 
 ### 0.5.5
-* a background thread that monitor and reconnect disconnected session automatically
+* automatically reconnect disconnected sessions
  
 ### 0.5.3
-* added support for linux & windows 64-bit
+* added support for Linux & Windows 64-bit
 * updated swt libraries
 
 ### 0.5.2
