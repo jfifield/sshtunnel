@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.programmerplanet</groupId>
-	<artifactId>sshtunnel</artifactId>
-	<name>SSH Tunnel</name>
-	<version>0.5.8</version>
-	<url>http://www.programmerplanet.org/pages/projects/ssh-tunnel.php</url>
+	<artifactId>sshtunnel-ng</artifactId>
+	<name>SSH Tunnel NG</name>
+	<version>0.5.9</version>
+	<url>https://github.com/agung-m/sshtunnel-ng</url>
 	<developers>
 		<developer>
 			<id>jfifield</id>
@@ -18,14 +18,15 @@
 		</developer>
 	</developers>
 	<organization>
-		<name>programmerplanet.org</name>
-		<url>http://www.programmerplanet.org</url>
+		<name>agung-m</name>
+		<url>https://github.com/agung-m</url>
 	</organization>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
 				<configuration>
 					<target>1.8</target>
 					<source>1.8</source>
@@ -44,6 +45,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.2</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -64,6 +66,7 @@
 					<name>linux</name>
 					<arch>i386</arch>
 				</os>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<dependencies>
 				<!--<dependency>
@@ -90,6 +93,7 @@
 					<name>linux</name>
 					<arch>amd64</arch>
 				</os>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<dependencies>
 				<dependency>
@@ -116,6 +120,7 @@
 					<family>windows</family>
 					<arch>x86</arch>
 				</os>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<dependencies>
 				<dependency>
@@ -138,6 +143,7 @@
 					<family>windows</family>
 					<arch>x86_64</arch>
 				</os>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<dependencies>
 				<!-- <dependency>
