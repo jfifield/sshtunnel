@@ -26,14 +26,14 @@ https://www.ssh.com/academy/ssh/tunneling
 
 ## Download
 
-### 0.5.8
+### Latest version
 
-* [Linux (64-bit JVM)](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.8/sshtunnel-0.5.8-dist-linux-64.zip)
-* [Windows (64-bit JVM)](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.8/sshtunnel-0.5.8-dist-windows-64.zip)
+* [Linux x86-64](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.9/sshtunnel-ng-0.5.9-dist-linux-64.zip)
+* [Windows 64-bit](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.9/sshtunnel-ng-0.5.9-dist-windows-64.zip)
 
 ## Requirements
 
-Java Runtime Environment (JRE) 6.0 or greater
+Java Runtime Environment (JRE) 7.0 or greater
 
 ## License
 
@@ -60,7 +60,7 @@ https://agungmulya.com
 
   Unzip the target distribution.
 
-  `java -jar sshtunnel-VERSION.jar`
+  `java -jar sshtunnel-ng-{VERSION}.jar`
 
 ## Changes
 
