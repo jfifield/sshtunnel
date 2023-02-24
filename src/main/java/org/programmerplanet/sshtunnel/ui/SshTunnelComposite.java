@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 Mulya Agung
  * Copyright 2009 Joseph Fifield
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
-import org.apache.commons.logging.Log;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.MenuDetectEvent;
@@ -53,12 +53,14 @@ import org.programmerplanet.sshtunnel.model.Session;
 
 /**
  * 
+ * @author <a href="agungm@outlook.com">Mulya Agung</a>
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
  */
 public class SshTunnelComposite extends Composite {
 
 	private static final String APPLICATION_TITLE = "SSH Tunnel NG";
-	private static final String APPLICATION_VERSION = "v0.5.8";
+	private static final String APPLICATION_VERSION = "v0.5.9";
+	private static final String APPLICATION_SITE = "https://github.com/agung-m";
 	private static final String APPLICATION_IMAGE_PATH = "/images/sshtunnel-ng.png";
 	private static final String CONNECT_IMAGE_PATH = "/images/connect.png";
 	private static final String DISCONNECT_IMAGE_PATH = "/images/disconnect.png";
@@ -83,6 +85,7 @@ public class SshTunnelComposite extends Composite {
 	private TrayItem trayItem;
 	
 	private Label versionLabel;
+	// private Label siteLabel;
 	private ProgressBar progressBar;
 	private boolean isConnecting;
 
@@ -339,8 +342,13 @@ public class SshTunnelComposite extends Composite {
 	    //progressBar.setMaximum(10);
 	    progressBar.setVisible(false);
 		
+//	    siteLabel = new Label(statusBarComposite, SWT.NONE);
+//		siteLabel.setText(APPLICATION_SITE);
+//		siteLabel.setEnabled(false);
+//		siteLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
+		
 		versionLabel = new Label(statusBarComposite, SWT.NONE);
-		versionLabel.setText(APPLICATION_VERSION);
+		versionLabel.setText(APPLICATION_SITE + " | " + APPLICATION_VERSION);
 		versionLabel.setEnabled(false);
 		versionLabel.setLayoutData(new GridData(SWT.END, SWT.CENTER, true, false));
 	}

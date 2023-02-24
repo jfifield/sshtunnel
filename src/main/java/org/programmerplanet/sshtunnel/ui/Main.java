@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 Mulya Agung
  * Copyright 2009 Joseph Fifield
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +22,7 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * Application entry point.
  * 
+ * @author <a href="agungm@outlook.com">Mulya Agung</a>
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
  */
 public class Main {

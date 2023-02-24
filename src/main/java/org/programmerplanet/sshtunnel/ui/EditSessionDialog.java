@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 Mulya Agung
  * Copyright 2009 Joseph Fifield
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,15 +23,15 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.programmerplanet.sshtunnel.model.Session;
 
 /**
- * 
- * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
  * @author <a href="agungm@outlook.com">Mulya Agung</a>
+ * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
  */
 public class EditSessionDialog extends CustomDialog {
 
@@ -46,6 +47,9 @@ public class EditSessionDialog extends CustomDialog {
 	private Button compressionCheckbox;
 	private Text ciphersText;
 	private Button chooseCiphersCheckbox;
+	private Button privKeyButton;
+	private static final String[] PRIVATE_KEY_NAMES = {"All Files"};
+	private static final String[] PRIVATE_KEY_EXT = {"*"};
 
 	public EditSessionDialog(Shell parent, Session session) {
 		super(parent);
@@ -68,6 +72,8 @@ public class EditSessionDialog extends CustomDialog {
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		gridData.widthHint = 200;
 		nameText.setLayoutData(gridData);
+		// Padding space
+		//new Label(parent, SWT.LEAD).setLayoutData(new GridData(GridData.END, GridData.END, false, false));
 
 		Label hostLabel = new Label(parent, SWT.RIGHT);
 		hostLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
@@ -77,6 +83,7 @@ public class EditSessionDialog extends CustomDialog {
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		gridData.widthHint = 200;
 		hostText.setLayoutData(gridData);
+		//new Label(parent, SWT.LEAD).setLayoutData(new GridData(GridData.END, GridData.END, false, false));
 
 		Label portLabel = new Label(parent, SWT.RIGHT);
 		portLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
@@ -86,6 +93,7 @@ public class EditSessionDialog extends CustomDialog {
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		gridData.widthHint = 200;
 		portText.setLayoutData(gridData);
+		//new Label(parent, SWT.LEAD).setLayoutData(new GridData(GridData.END, GridData.END, false, false));
 
 		Label userLabel = new Label(parent, SWT.RIGHT);
 		userLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
@@ -95,32 +103,49 @@ public class EditSessionDialog extends CustomDialog {
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		gridData.widthHint = 200;
 		userText.setLayoutData(gridData);
+		//new Label(parent, SWT.LEAD).setLayoutData(new GridData(GridData.END, GridData.END, false, false));
 
-		Label savePassLabel = new Label(parent, SWT.RIGHT);
-		savePassLabel.setText("");
+//		Label savePassLabel = new Label(parent, SWT.RIGHT);
+//		savePassLabel.setText("");
 
 		savePassCheckbox = new Button(parent, SWT.CHECK);
-		savePassCheckbox.setText("Save Password");
+		savePassCheckbox.setText("Password");
 		savePassCheckbox.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				setSavePassword(savePassCheckbox.getSelection());
 			}
 		});
 
-		Label passLabel = new Label(parent, SWT.RIGHT);
-		passLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		passLabel.setText("Password:");
+//		Label passLabel = new Label(parent, SWT.RIGHT);
+//		passLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
+//		passLabel.setText("Password:");
 
 		passText = new Text(parent, SWT.SINGLE | SWT.BORDER | SWT.PASSWORD);
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		gridData.widthHint = 200;
 		passText.setLayoutData(gridData);
-
 		setSavePassword(false);
+		//new Label(parent, SWT.LEAD).setLayoutData(new GridData(GridData.END, GridData.END, false, false));
 		
-		Label privKeyLabel = new Label(parent, SWT.RIGHT);
-		privKeyLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		privKeyLabel.setText("Identity file:");
+//		Label privKeyLabel = new Label(parent, SWT.RIGHT);
+//		privKeyLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
+//		privKeyLabel.setText("Identity file:");
+		
+		privKeyButton = new Button(parent, SWT.PUSH);
+		privKeyButton.setText("Identify file");
+		// privKeyButton.setLayoutData(gridData);
+		privKeyButton.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
+		privKeyButton.addSelectionListener(new SelectionAdapter() {
+		      public void widgetSelected(SelectionEvent event) {
+		        FileDialog dlg = new FileDialog(parent.getShell(), SWT.OPEN);
+		        dlg.setFilterNames(PRIVATE_KEY_NAMES);
+		        dlg.setFilterExtensions(PRIVATE_KEY_EXT);
+		        String fn = dlg.open();
+		        if (fn != null) {
+		          privKeyText.setText(fn);
+		        }
+		      }
+		    });
 		
 		privKeyText = new Text(parent, SWT.SINGLE | SWT.BORDER);
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
@@ -135,21 +160,23 @@ public class EditSessionDialog extends CustomDialog {
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		gridData.widthHint = 200;
 		passPhraseText.setLayoutData(gridData);
+		//new Label(parent, SWT.LEAD).setLayoutData(new GridData(GridData.END, GridData.END, false, false));
 		
-		Label chooseCiphersLabel = new Label(parent, SWT.RIGHT);
-		chooseCiphersLabel.setText("");
+//		Label chooseCiphersLabel = new Label(parent, SWT.RIGHT);
+//		chooseCiphersLabel.setText("");
 		
 		chooseCiphersCheckbox = new Button(parent, SWT.CHECK);
-		chooseCiphersCheckbox.setText("Choose ciphers");
+		chooseCiphersCheckbox.setText("Ciphers");
+		chooseCiphersCheckbox.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
 		chooseCiphersCheckbox.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				setChooseCiphers(chooseCiphersCheckbox.getSelection());
 			}
 		});
 		
-		Label ciphersLabel = new Label(parent, SWT.RIGHT);
-		ciphersLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		ciphersLabel.setText("Ciphers:");
+//		Label ciphersLabel = new Label(parent, SWT.RIGHT);
+//		ciphersLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
+//		ciphersLabel.setText("Ciphers:");
 		
 		ciphersText = new Text(parent, SWT.SINGLE | SWT.BORDER);
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
@@ -157,8 +184,11 @@ public class EditSessionDialog extends CustomDialog {
 		ciphersText.setLayoutData(gridData);
 		setChooseCiphers(false);
 		
-		Label compressionLabel = new Label(parent, SWT.RIGHT);
-		compressionLabel.setText("");
+		//new Label(parent, SWT.LEAD).setLayoutData(new GridData(GridData.END, GridData.END, false, false));
+		
+//		Label compressionLabel = new Label(parent, SWT.RIGHT);
+//		compressionLabel.setText("");
+		new Label(parent, SWT.LEAD).setLayoutData(new GridData(GridData.END, GridData.END, false, false));
 		
 		compressionCheckbox = new Button(parent, SWT.CHECK);
 		compressionCheckbox.setText("Compression");
@@ -167,6 +197,7 @@ public class EditSessionDialog extends CustomDialog {
 				setCompression(compressionCheckbox.getSelection());
 			}
 		});
+		
 
 		setSessionName(session.getSessionName());
 		setHostname(session.getHostname());
