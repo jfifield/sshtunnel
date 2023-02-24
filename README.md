@@ -1,38 +1,39 @@
 # SSH Tunnel NG
 
-A user-friendly and cross-platform SSH tunnel manager.
+A user-friendly, fast, and cross-platform SSH tunnel manager.
+
+SSH Tunnel NG is the next generation of the discontinued SSH Tunnel (https://github.com/jfifield/sshtunnel).
 
 What is ssh tunneling? \
 https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling \
 https://www.ssh.com/academy/ssh/tunneling
 
-SSH Tunnel NG is the next generation of the discontinued SSH Tunnel (https://github.com/jfifield/sshtunnel).
-
-![](img/sshtunnel.jpg)
+<img src="img/sshtunnel-ng_screenshot.png" width=70% height=70%>
 
 ## Features
 
-* Manage multiple sessions and tunnels.
-* Local and remote tunnels supported.
-* Quick connect/disconnect from tray.
-* Bind local ports to any local address.
-* Basic (username/password) and private key authentications
-* Configurable ciphers
-* SSH compression
-* Background connection monitoring (no hanging sessions and automatic reconnection)
-* Multi-platform (it runs on JVM)
-* ~~Minimize to tray~~. The feature is removed until the SWT bug in Linux (KDE) is fixed.
+1. Manage multiple sessions and tunnels
+2. Local and remote tunnels supported
+3. Bind local ports to any local address
+4. Basic (username/password) and private key authentications
+5. Configurable encryption ciphers
+6. Enable/disable compression
+7. Quick connect/disconnect from tray
+8. Background connection monitoring (automatic reconnection; no hanging sessions)
+9. Lightweight (it has a small memory footprint of ~16 MB RAM)
+10. Multi-platform (it runs on JVM)
+11. Portable/standalone installation (it can be run from an external disk or a USB flash drive)
 
 ## Download
 
-### 0.5.8
+### Latest version
 
-* [Linux (64-bit JVM)](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.8/sshtunnel-0.5.8-dist-linux-64.zip)
-* [Windows (64-bit JVM)](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.8/sshtunnel-0.5.8-dist-windows-64.zip)
+* [Linux x86-64](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.9/sshtunnel-ng-0.5.9-dist-linux-64.zip)
+* [Windows 64-bit](https://github.com/agung-m/sshtunnel-ng/releases/download/0.5.9/sshtunnel-ng-0.5.9-dist-windows-64.zip)
 
 ## Requirements
 
-Java Runtime Environment (JRE) 6.0 or greater
+Java Runtime Environment (JRE) 7.0 or newer
 
 ## License
 
@@ -59,7 +60,7 @@ https://agungmulya.com
 
   Unzip the target distribution.
 
-  `java -jar sshtunnel-VERSION.jar`
+  `java -jar sshtunnel-ng-{VERSION}.jar`
 
 ## Changes
 
@@ -68,17 +69,17 @@ https://agungmulya.com
 * bug fixes
 
 ### 0.5.7
-* configurable ciphers
-* compression
+* specify encryption ciphers
+* enable/disable compression
 
 ### 0.5.6
-* support SSH private key
+* support private key authentication
 
 ### 0.5.5
-* a background thread that monitor and reconnect disconnected session automatically
+* automatically reconnect disconnected sessions
  
 ### 0.5.3
-* added support for linux & windows 64-bit
+* added support for Linux & Windows 64-bit
 * updated swt libraries
 
 ### 0.5.2
