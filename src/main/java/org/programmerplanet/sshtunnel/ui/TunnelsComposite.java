@@ -45,8 +45,6 @@ import org.eclipse.swt.widgets.TableItem;
 import org.programmerplanet.sshtunnel.model.Session;
 import org.programmerplanet.sshtunnel.model.Tunnel;
 
-import com.jcraft.jsch.Logger;
-
 /**
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
@@ -222,7 +220,12 @@ public class TunnelsComposite extends Composite {
 			for (Iterator<Tunnel> i = tunnels.iterator(); i.hasNext();) {
 				Tunnel tunnel = i.next();
 				TableItem tableItem = new TableItem(tunnelTable, SWT.NULL);
-				tableItem.setText(new String[] { tunnel.getLocalAddress(), Integer.toString(tunnel.getLocalPort()), tunnel.getLocal() ? "->" : "<-", tunnel.getRemoteAddress(), Integer.toString(tunnel.getRemotePort()) });
+				//tableItem.setText(new String[] { tunnel.getLocalAddress(), Integer.toString(tunnel.getLocalPort()), tunnel.getLocal() ? "->" : "<-", tunnel.getRemoteAddress(), Integer.toString(tunnel.getRemotePort()) });
+				tableItem.setText(new String[] { tunnel.getLocalAddress(),
+						Integer.toString(tunnel.getLocalPort()), 
+						tunnel.getLocal() ? "\u21D2" : "\u21D0",
+						tunnel.getRemoteAddress(),
+						Integer.toString(tunnel.getRemotePort()) });
 				if (tunnel.getException() != null) {
 					tableItem.setForeground(red);
 				}

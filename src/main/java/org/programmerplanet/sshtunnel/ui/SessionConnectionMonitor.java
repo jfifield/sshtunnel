@@ -20,9 +20,10 @@ public class SessionConnectionMonitor implements Runnable {
 
 	private static final Log log = LogFactory.getLog(SessionConnectionMonitor.class);
 
-	private static final int DEF_MONITOR_INTERVAL = 5000;
+	private static final int DEF_MONITOR_INTERVAL = 10000;
 	private static final SessionConnectionMonitor INSTANCE = new SessionConnectionMonitor();
 
+	private final Object lock = new Object();
 	private Thread thread;
 	private Boolean threadStopped;
 	private int monitorInterval;
@@ -52,7 +53,14 @@ public class SessionConnectionMonitor implements Runnable {
 			log.warn("Connection monitor is now running..");
 		}
 		// synchronized (this) {
+		//boolean stopped = false;
 		while (!threadStopped) {
+		//while (!stopped) {
+			//log.info("Checking connections..");
+			//synchronized (lock) {
+			//	stopped = threadStopped;
+				
+			//	if (!stopped) {
 			boolean anyRemoved = false;
 			Iterator<Entry<String, Session>> it = sessions.entrySet().iterator();
 			while (it.hasNext()) {
@@ -67,13 +75,12 @@ public class SessionConnectionMonitor implements Runnable {
 						Display.getDefault().asyncExec(new Runnable() {
 							public void run() {
 								sshTunnelComposite.showDisconnectedMessage(s);
-							}
-						});
-					}
-					it.remove();
-					if (!anyRemoved)
-						anyRemoved = true;
-					
+						}
+					});
+				}
+				it.remove();
+				if (!anyRemoved)
+					anyRemoved = true;
 				}
 			}
 			if (sshTunnelComposite != null && anyRemoved) {
@@ -84,6 +91,8 @@ public class SessionConnectionMonitor implements Runnable {
 					}
 				});
 			}
+				//}
+			//}
 			try {
 				Thread.sleep(monitorInterval);
 			} catch (InterruptedException e) {
@@ -99,7 +108,7 @@ public class SessionConnectionMonitor implements Runnable {
 	}
 
 	public void startMonitor() {
-		synchronized (threadStopped) {
+		synchronized (lock) {
 			if (thread == null) {
 				thread = new Thread(this);
 				threadStopped = false;
@@ -113,7 +122,7 @@ public class SessionConnectionMonitor implements Runnable {
 	}
 
 	public void stopMonitor() {
-		synchronized (threadStopped) {
+		synchronized (lock) {
 			if (thread != null) {
 				threadStopped = true;
 				thread = null;

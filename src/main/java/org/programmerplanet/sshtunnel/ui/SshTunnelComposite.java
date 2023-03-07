@@ -58,7 +58,7 @@ import org.programmerplanet.sshtunnel.model.Session;
  */
 public class SshTunnelComposite extends Composite {
 
-	private static final String APPLICATION_TITLE = "SSH Tunnel NG";
+	public static final String APPLICATION_TITLE = "SSH Tunnel NG";
 	private static final String APPLICATION_VERSION = "v0.5.9";
 	private static final String APPLICATION_SITE = "https://github.com/agung-m";
 	private static final String APPLICATION_IMAGE_PATH = "/images/sshtunnel-ng.png";
@@ -560,6 +560,9 @@ public class SshTunnelComposite extends Composite {
 //		messageBox.open();
 		if (trayItem != null && trayItem.getVisible()) {
 			ToolTip tip = new ToolTip(shell, SWT.BALLOON | SWT.ICON_ERROR);
+			//Rectangle trayRect = Display.getCurrent().getBounds();
+			//System.out.println(getLocation() + "," + trayRect);
+			//tip.setLocation(trayRect.width, trayRect.height-100);
 			tip.setText("Session: " + session.getSessionName());
 			tip.setMessage("Connection to "+ session.getHostname() + " has been lost.");
 			trayItem.setToolTip(tip);
@@ -668,7 +671,7 @@ public class SshTunnelComposite extends Composite {
 		trayItem = new TrayItem(tray, 0);
 		trayItem.setToolTipText(APPLICATION_TITLE);
 		trayItem.setImage(applicationImage);
-
+		
 		trayItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				//shell.setVisible(!shell.isVisible());

@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Shell;
 public class Main {
 
 	public static void main(String[] args) {
+		Display.setAppName(SshTunnelComposite.APPLICATION_TITLE);
 		Display display = new Display();
 		try {
 			final Shell shell = new Shell(display);
