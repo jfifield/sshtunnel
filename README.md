@@ -1,8 +1,10 @@
 # SSH Tunnel NG
 
+![maven-publish](https://github.com/agung-m/sshtunnel-ng/actions/workflows/maven-publish.yml/badge.svg)
+
 A user-friendly, fast, and cross-platform SSH tunnel manager.
 
-SSH Tunnel NG is the next generation of the discontinued SSH Tunnel (https://github.com/jfifield/sshtunnel).
+SSH Tunnel NG is the next generation of the [discontinued SSH Tunnel](https://github.com/jfifield/sshtunnel).
 
 What is ssh tunneling? \
 https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling \
