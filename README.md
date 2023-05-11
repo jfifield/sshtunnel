@@ -42,7 +42,7 @@ Java Runtime Environment (JRE) 7.0 or newer
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 ## Contact
-https://agungmulya.com
+hello@agungmulya.com
 
 --------------------------------------------------------------------------------
 
