@@ -18,13 +18,9 @@ on:
         - warning
         - debug
       tags:
-        description: 'Test scenario tags'
+        description: 'Release tags'
         required: false
         type: boolean
-      environment:
-        description: 'Environment to run tests against'
-        type: environment
-        required: true
 
 jobs:
   build:
