@@ -58,6 +58,13 @@
 			</plugin>
 		</plugins>
 	</build>
+	<distributionManagement>
+	    <repository>
+	      <id>github</id>
+	      <name>GitHub Packages</name>
+	      <url>https://maven.pkg.github.com/agung-m/sshtunnel-ng</url>
+	    </repository>
+  	</distributionManagement>
 	<profiles>
 		<profile>
 			<id>linux</id>
