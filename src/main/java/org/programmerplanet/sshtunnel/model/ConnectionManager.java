@@ -17,9 +17,14 @@
 package org.programmerplanet.sshtunnel.model;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,7 +65,7 @@ public class ConnectionManager {
 	
 //	public ConnectionManager() {
 //		//JSch.setLogger(new MyLogger(log));
-//		JSch.setLogger(new MyLogger());
+//		JSch.setLogger(new SshLogger("/tmp"));
 //	}
 
 	private TrackedServerSocketFactory serverSocketFactory = new TrackedServerSocketFactory();
@@ -93,6 +98,12 @@ public class ConnectionManager {
 					}
 				}
 				jschSession = jsch.getSession(session.getUsername(), session.getHostname(), session.getPort());
+				
+				// Set debug logger if set
+				if (session.getDebugLogPath() != null && session.getDebugLogPath().trim().length() > 0) {
+					jschSession.setLogger(new SshLogger(session.getDebugLogPath() 
+							+ File.separator + "sshtunnelng-" + session.getSessionName() + ".log"));
+				}
 			}
 			UserInfo userInfo = null;
 			if (session.getPassword() != null && session.getPassword().trim().length() > 0) {
@@ -263,14 +274,33 @@ public class ConnectionManager {
 	
 }
 
-class MyLogger implements com.jcraft.jsch.Logger {
+class SshLogger implements com.jcraft.jsch.Logger {
     static java.util.Hashtable<Integer, String> name = new java.util.Hashtable<Integer, String>();
     
-//    private Log logger;
-//    
-//    public MyLogger(Log logger) {
-//		this.logger = logger;
-//	}
+    private Logger logger = Logger.getLogger(SshLogger.class.getSimpleName());
+    
+    public SshLogger(String filePath) {
+		//this.logger = logger;
+		try {
+//			String jarPath = getClass()
+//			          .getProtectionDomain()
+//			          .getCodeSource()
+//			          .getLocation()
+//			          .toURI()
+//			          .getPath();
+			
+			//FileHandler fh = new FileHandler(jarPath + "/" + "sshtunnel.log");
+			FileHandler fh = new FileHandler(filePath);
+			SimpleFormatter formatter = new SimpleFormatter();  
+	        fh.setFormatter(formatter);  
+			logger.addHandler(fh);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+    
     
     static{
       name.put(new Integer(DEBUG), "DEBUG: ");
@@ -285,24 +315,24 @@ class MyLogger implements com.jcraft.jsch.Logger {
     }
     
     public void log(int level, String message){
-      System.err.print(name.get(level));
-      System.err.println(message);
-//    	switch (level) {
-//		case INFO:
-//			logger.info(message);
-//			break;
-//		case WARN:
-//			logger.warn(message);
-//			break;
-//		case ERROR:
-//			logger.error(message);
-//			break;
-//		case FATAL:
-//			logger.error(message);
-//			break;
-//		default:
-//			break;
-//		}
+//      System.err.print(name.get(level));
+//      System.err.println(message);
+    	switch (level) {
+		case INFO:
+			logger.info(message);
+			break;
+		case WARN:
+			logger.warning(message);
+			break;
+		case ERROR:
+			logger.severe(message);
+			break;
+		case FATAL:
+			logger.severe(message);
+			break;
+		default:
+			break;
+		}
     }
  }
 

@@ -23,6 +23,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -48,6 +49,8 @@ public class EditSessionDialog extends CustomDialog {
 	private Text ciphersText;
 	private Button chooseCiphersCheckbox;
 	private Button privKeyButton;
+	private Text debugLogDirText;
+	private Button debugLogDirButton;
 	private static final String[] PRIVATE_KEY_NAMES = {"All Files"};
 	private static final String[] PRIVATE_KEY_EXT = {"*"};
 
@@ -184,6 +187,25 @@ public class EditSessionDialog extends CustomDialog {
 		ciphersText.setLayoutData(gridData);
 		setChooseCiphers(false);
 		
+		debugLogDirButton = new Button(parent, SWT.PUSH);
+		debugLogDirButton.setText("Log directory");
+		debugLogDirButton.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
+		debugLogDirButton.addSelectionListener(new SelectionAdapter() {
+		      public void widgetSelected(SelectionEvent event) {
+		        DirectoryDialog dlg = new DirectoryDialog(parent.getShell());
+		        String fn = dlg.open();
+		        if (fn != null) {
+		          debugLogDirText.setText(fn);
+		        }
+		      }
+		    });
+		
+		debugLogDirText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		//debugLogDirText.setEnabled(false);
+		//gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
+		//gridData.widthHint = 200;
+		debugLogDirText.setLayoutData(gridData);
+		
 		//new Label(parent, SWT.LEAD).setLayoutData(new GridData(GridData.END, GridData.END, false, false));
 		
 //		Label compressionLabel = new Label(parent, SWT.RIGHT);
@@ -198,7 +220,6 @@ public class EditSessionDialog extends CustomDialog {
 			}
 		});
 		
-
 		setSessionName(session.getSessionName());
 		setHostname(session.getHostname());
 		setPort(session.getPort());
@@ -208,6 +229,7 @@ public class EditSessionDialog extends CustomDialog {
 		setPassPhrase(session.getPassPhrase());
 		setCompression(session.isCompressed());
 		setCiphers(session.getCiphers());
+		setDebugLogDir(session.getDebugLogPath());
 	}
 
 	protected void okPressed() {
@@ -221,6 +243,7 @@ public class EditSessionDialog extends CustomDialog {
 		session.setCompressed(getCompression());
 		session.setCiphers(getCiphers());
 		session.setCompressed(getCompression());
+		session.setDebugLogPath(getDebugLogDir());
 		super.okPressed();
 	}
 
@@ -281,6 +304,10 @@ public class EditSessionDialog extends CustomDialog {
 	private String getPassPhrase() {
 		return passPhraseText.getText();
 	}
+	
+	private String getDebugLogDir() {
+		return debugLogDirText.getText();
+	}
 
 	private void setSessionName(String sessionName) {
 		nameText.setText(sessionName != null ? sessionName : "");
@@ -314,6 +341,10 @@ public class EditSessionDialog extends CustomDialog {
 	private void setCiphers(String ciphers) {
 		ciphersText.setText(ciphers != null ? ciphers : "");
 		setChooseCiphers(ciphers != null && ciphers.trim().length() > 0);
+	}
+	
+	private void setDebugLogDir(String dirPath) {
+		debugLogDirText.setText(dirPath != null ? dirPath : "");
 	}
 
 }

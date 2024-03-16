@@ -125,6 +125,10 @@ public class Configuration {
 				properties.setProperty(sessionKey + ".ciphers", session.getCiphers());
 			}
 			
+			if (session.getDebugLogPath() != null) {
+				properties.setProperty(sessionKey + ".debugLogPath", session.getDebugLogPath());
+			}
+			
 			properties.setProperty(sessionKey + ".compression", String.valueOf(session.isCompressed()));
 
 			for (ListIterator<Tunnel> ti = session.getTunnels().listIterator(); ti.hasNext();) {
@@ -192,6 +196,11 @@ public class Configuration {
 				
 				String ciphers = properties.getProperty(sessionKey + ".ciphers");
 				session.setCiphers(ciphers);
+				
+				String debugLogPath = properties.getProperty(sessionKey + ".debugLogPath");
+				if (debugLogPath != null) {
+					session.setDebugLogPath(debugLogPath);
+				}
 				
 				boolean compressed = false;
 				String compressionString = properties.getProperty(sessionKey + ".compression");

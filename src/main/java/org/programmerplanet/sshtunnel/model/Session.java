@@ -38,6 +38,7 @@ public class Session implements Comparable<Session> {
 	private String passPhrase;
 	private boolean compressed;
 	private String ciphers;
+	private String debugLogPath;
 
 	public String getSessionName() {
 		return sessionName;
@@ -121,6 +122,14 @@ public class Session implements Comparable<Session> {
 
 	public void setCiphers(String ciphers) {
 		this.ciphers = ciphers;
+	}
+
+	public String getDebugLogPath() {
+		return debugLogPath;
+	}
+
+	public void setDebugLogPath(String path) {
+		this.debugLogPath = path;
 	}
 	
 }

@@ -16,6 +16,7 @@
 package org.programmerplanet.sshtunnel.ui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
@@ -43,7 +44,7 @@ public class DefaultUserInfo implements UserInfo {
 		this.password = password;
 		this.savedPassword = (password != null);
 	}
-
+	
 	public boolean promptPassword(String message) {
 		attempt++;
 		if (attempt > MAX_ATTEMPTS) {
@@ -51,15 +52,25 @@ public class DefaultUserInfo implements UserInfo {
 		} else if (savedPassword && attempt == 1) {
 			return true;
 		} else {
-			PasswordDialog dialog = new PasswordDialog(parent);
-			dialog.setMessage(message);
-			int result = dialog.open();
-			if (result == SWT.OK) {
-				password = dialog.getPassword();
-				return true;
-			} else {
-				return false;
-			}
+			PromptRunnable promptDialog = new PromptRunnable() {
+                @Override
+                public void run() {
+					PasswordDialog dialog = new PasswordDialog(parent);
+					dialog.setMessage(message);
+					int result = dialog.open();
+					if (result == SWT.OK) {
+						password = dialog.getPassword();
+						//return true;
+						ret = true;
+					}
+//					} else {
+//						//return false;
+//						ret = false;
+//					}
+                }
+			};
+			Display.getDefault().syncExec(promptDialog);
+			return promptDialog.getReturnState();
 		}
 	}
 
@@ -76,18 +87,55 @@ public class DefaultUserInfo implements UserInfo {
 	}
 
 	public boolean promptYesNo(String str) {
-		MessageBox messageBox = new MessageBox(parent, SWT.ICON_WARNING | SWT.YES | SWT.NO);
-		messageBox.setText("Warning");
-		messageBox.setMessage(str);
-		int result = messageBox.open();
-		return result == SWT.YES;
+//		MessageBox messageBox = new MessageBox(parent, SWT.ICON_WARNING | SWT.YES | SWT.NO);
+//		messageBox.setText("Warning");
+//		messageBox.setMessage(str);
+//		int result = messageBox.open();
+//		return result == SWT.YES;
+		PromptRunnable promptDialog = new PromptRunnable() {
+            @Override
+            public void run() {
+            	MessageBox messageBox = new MessageBox(parent, SWT.ICON_WARNING | SWT.YES | SWT.NO);
+        		messageBox.setText("Warning");
+        		messageBox.setMessage(str);
+        		int result = messageBox.open();
+        		ret = (result == SWT.YES);
+            }
+		};
+		Display.getDefault().syncExec(promptDialog);
+		return promptDialog.getReturnState();
+		
 	}
 
 	public void showMessage(String message) {
-		MessageBox messageBox = new MessageBox(parent, SWT.ICON_INFORMATION | SWT.OK);
-		messageBox.setText("Message");
-		messageBox.setMessage(message);
-		messageBox.open();
+//		MessageBox messageBox = new MessageBox(parent, SWT.ICON_INFORMATION | SWT.OK);
+//		messageBox.setText("Message");
+//		messageBox.setMessage(message);
+//		messageBox.open();
+		
+		PromptRunnable promptDialog = new PromptRunnable() {
+            @Override
+            public void run() {
+        		MessageBox messageBox = new MessageBox(parent, SWT.ICON_INFORMATION | SWT.OK);
+        		messageBox.setText("Message");
+        		messageBox.setMessage(message);
+        		messageBox.open();
+            }
+		};
+		Display.getDefault().syncExec(promptDialog);
+	}
+	
+	class PromptRunnable implements Runnable {
+		boolean ret = false;
+		
+		public boolean getReturnState(){
+			return ret;
+		}
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+		}
 	}
 
 }
