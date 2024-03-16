@@ -136,6 +136,7 @@ public class Configuration {
 				properties.setProperty(tunnelKey + ".localPort", Integer.toString(tunnel.getLocalPort()));
 				properties.setProperty(tunnelKey + ".remoteAddress", tunnel.getRemoteAddress());
 				properties.setProperty(tunnelKey + ".remotePort", Integer.toString(tunnel.getRemotePort()));
+				properties.setProperty(tunnelKey + ".local", Boolean.toString(tunnel.getLocal()));
 			}
 		}
 
@@ -212,12 +213,14 @@ public class Configuration {
 						String localPort = properties.getProperty(tunnelKey + ".localPort");
 						String remoteAddress = properties.getProperty(tunnelKey + ".remoteAddress");
 						String remotePort = properties.getProperty(tunnelKey + ".remotePort");
+						Boolean local = Boolean.parseBoolean(properties.getProperty(tunnelKey + ".local"));
 
 						Tunnel tunnel = new Tunnel();
 						tunnel.setLocalAddress(localAddress);
 						tunnel.setLocalPort(Integer.parseInt(localPort));
 						tunnel.setRemoteAddress(remoteAddress);
 						tunnel.setRemotePort(Integer.parseInt(remotePort));
+						tunnel.setLocal(local);
 
 						session.getTunnels().add(tunnel);
 					}
