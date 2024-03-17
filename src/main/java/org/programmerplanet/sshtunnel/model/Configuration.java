@@ -222,7 +222,11 @@ public class Configuration {
 						String localPort = properties.getProperty(tunnelKey + ".localPort");
 						String remoteAddress = properties.getProperty(tunnelKey + ".remoteAddress");
 						String remotePort = properties.getProperty(tunnelKey + ".remotePort");
-						Boolean local = Boolean.parseBoolean(properties.getProperty(tunnelKey + ".local"));
+						boolean local = true;
+						String localConf = properties.getProperty(tunnelKey + ".local");
+						if (localConf != null) {
+							local = Boolean.parseBoolean(localConf);
+						}
 
 						Tunnel tunnel = new Tunnel();
 						tunnel.setLocalAddress(localAddress);

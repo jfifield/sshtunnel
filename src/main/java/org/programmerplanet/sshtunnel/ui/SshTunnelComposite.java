@@ -59,7 +59,7 @@ import org.programmerplanet.sshtunnel.model.Session;
 public class SshTunnelComposite extends Composite {
 
 	public static final String APPLICATION_TITLE = "SSH Tunnel NG";
-	private static final String APPLICATION_VERSION = "v0.5.9";
+	private static final String APPLICATION_VERSION = "v0.6.0";
 	private static final String APPLICATION_SITE = "https://github.com/agung-m";
 	private static final String APPLICATION_IMAGE_PATH = "/images/sshtunnel-ng.png";
 	private static final String CONNECT_IMAGE_PATH = "/images/connect.png";
