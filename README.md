@@ -14,17 +14,18 @@ https://www.ssh.com/academy/ssh/tunneling
 
 ## Features
 
-1. Manage multiple sessions and tunnels
-2. Local and remote tunnels supported
-3. Bind local ports to any local address
-4. Basic username/password and private key authentications
-5. Configurable encryption ciphers
-6. Enable/disable compression
-7. Quick connect/disconnect from tray
-8. Background connection monitoring (automatic reconnection; no hanging sessions)
-9. Lightweight (it has a small memory footprint of ~16 MB RAM)
-10. Multi-platform (it runs on JVM)
-11. Portable or standalone installation (it can be run from an external disk or a USB flash drive)
+1. Simple UI
+2. Manage multiple sessions and tunnels
+3. Local and remote tunnels supported
+4. Bind local ports to any local address
+5. Basic username/password and private key authentications
+6. Configurable encryption ciphers
+7. Enable/disable compression
+8. Quick connect/disconnect from tray
+9. Background connection monitoring (automatic reconnection; no hanging sessions)
+10. Fast and lightweight (multithreaded with a small memory footprint of ~16 MB RAM)
+11. Multi-platform (it runs on Linux, Windows, and Mac OS)
+12. Portable or standalone installation (it can be run from an external disk or a USB flash drive)
 
 ## Download
 
@@ -32,6 +33,7 @@ https://www.ssh.com/academy/ssh/tunneling
 
 * [Linux x86-64](https://github.com/agung-m/sshtunnel-ng/releases/download/0.6.0/sshtunnel-ng-0.6.0-dist-linux-64.zip)
 * [Windows 64-bit](https://github.com/agung-m/sshtunnel-ng/releases/download/0.6.0/sshtunnel-ng-0.6.0-dist-windows-64.zip)
+* [Mac OS x86-64](https://github.com/agung-m/sshtunnel-ng/releases/download/0.6.0/sshtunnel-ng-0.6.0-dist-mac-64.zip)
 
 ## Requirements
 
@@ -56,7 +58,8 @@ hello@agungmulya.com
 
   `mvn -P +linux,-windows clean assembly:single`
 
-  Supported platforms: windows, windows-64, linux, linux-64
+  Supported platforms: windows, windows-64, linux, linux-64, mac-64
+
 
 ## Running
 
