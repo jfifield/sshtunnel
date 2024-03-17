@@ -12,7 +12,7 @@ https://www.ssh.com/academy/ssh/tunneling
 
 ## Features
 
-1. Simple UI
+1. Simple and clear UI
 2. Manage multiple sessions and tunnels
 3. Local and remote tunnels supported
 4. Basic username/password and private key authentications
@@ -22,7 +22,7 @@ https://www.ssh.com/academy/ssh/tunneling
 8. Fast and lightweight (multithreaded with a small memory footprint of ~16 MB RAM)
 9. Reliable (automatic reconnection, hanging session prevention)
 10. Multi-platform (it runs on Linux, Windows, and Mac OS)
-11. Portable/standalone installation (it can be run from an external disk or a USB flash drive)
+11. Portable/standalone installation, no admin/root access required (it can run on an external disk or a USB flash drive)
 
 ## Download
 
@@ -34,7 +34,7 @@ https://www.ssh.com/academy/ssh/tunneling
 
 ## Requirements
 
-Java Runtime Environment (JRE) 8.0 or newer
+[Java Runtime](https://www.java.com/en/download/manual.jsp) (JRE) 8.0 or newer
 
 ## License
 
@@ -51,7 +51,7 @@ hello@agungmulya.com
 
   `mvn clean assembly:single`
 
-  For a different platform for example:
+  For cross-platform compilation, for example:
 
   `mvn -P +linux,-windows clean assembly:single`
 
