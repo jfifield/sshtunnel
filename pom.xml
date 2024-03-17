@@ -2,8 +2,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.programmerplanet</groupId>
 	<artifactId>sshtunnel-ng</artifactId>
-	<name>SSH Tunnel NG</name>
-	<version>0.5.9</version>
+	<name>sshtunel-ng</name>
+	<version>0.6.0</version>
 	<url>https://github.com/agung-m/sshtunnel-ng</url>
 	<developers>
 		<developer>
@@ -35,11 +35,21 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.7.0</version>
 				<configuration>
 					<descriptors>
 						<descriptor>src/main/assembly/src.xml</descriptor>
 						<descriptor>src/main/assembly/dist.xml</descriptor>
 					</descriptors>
+		          <!--	<archive>
+		                <manifest>
+		                    <mainClass>org.programmerplanet.sshtunnel.ui.Main</mainClass>
+		                </manifest>
+	                </archive>-->
+	                
+	                <!--<descriptorRefs>
+	                    <descriptorRef>jar-with-dependencies</descriptorRef>
+	                </descriptorRefs>-->
 				</configuration>
 			</plugin>
 			<plugin>
