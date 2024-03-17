@@ -2,9 +2,7 @@
 
 ![maven-publish](https://github.com/agung-m/sshtunnel-ng/actions/workflows/maven-publish.yml/badge.svg)
 
-A user-friendly, fast, and cross-platform SSH tunnel manager.
-
-SSH Tunnel NG is the next generation of the [discontinued SSH Tunnel](https://github.com/jfifield/sshtunnel).
+A user-friendly, fast, reliable, and cross-platform SSH tunnel manager.
 
 What is SSH tunneling? \
 https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling \
@@ -17,15 +15,14 @@ https://www.ssh.com/academy/ssh/tunneling
 1. Simple UI
 2. Manage multiple sessions and tunnels
 3. Local and remote tunnels supported
-4. Bind local ports to any local address
-5. Basic username/password and private key authentications
-6. Configurable encryption ciphers
-7. Enable/disable compression
-8. Quick connect/disconnect from tray
-9. Background connection monitoring (automatic reconnection; no hanging sessions)
-10. Fast and lightweight (multithreaded with a small memory footprint of ~16 MB RAM)
-11. Multi-platform (it runs on Linux, Windows, and Mac OS)
-12. Portable or standalone installation (it can be run from an external disk or a USB flash drive)
+4. Basic username/password and private key authentications
+5. Configurable encryption ciphers
+6. Enable/disable compression
+7. Quick connect/disconnect from the system tray
+8. Fast and lightweight (multithreaded with a small memory footprint of ~16 MB RAM)
+9. Reliable (automatic reconnection, hanging session prevention)
+10. Multi-platform (it runs on Linux, Windows, and Mac OS)
+11. Portable and standalone installation (it can be run from an external disk or a USB flash drive)
 
 ## Download
 
