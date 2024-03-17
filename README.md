@@ -22,7 +22,7 @@ https://www.ssh.com/academy/ssh/tunneling
 8. Fast and lightweight (multithreaded with a small memory footprint of ~16 MB RAM)
 9. Reliable (automatic reconnection, hanging session prevention)
 10. Multi-platform (it runs on Linux, Windows, and Mac OS)
-11. Portable/standalone installation, no admin/root access required (it can run on an external disk or a USB flash drive)
+11. Portable/standalone installation, no admin/root access required (runnable from an external disk or USB drive)
 
 ## Download
 
