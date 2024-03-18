@@ -20,8 +20,8 @@ https://www.ssh.com/academy/ssh/tunneling
 6. Enable/disable compression
 7. Quick connect/disconnect from the system tray
 8. Fast and lightweight (multithreaded with a small memory footprint of ~16 MB RAM)
-9. Reliable (automatic reconnection, hanging session prevention)
-10. Multi-platform (it runs on Linux, Windows, and Mac OS)
+9. Reliable (automatic reconnection, session hang prevention)
+10. Multi-platform (it runs on Linux, Windows, and macOS)
 11. Portable/standalone installation, no admin/root access required (runnable from an external disk or USB drive)
 
 ## Download
@@ -41,7 +41,7 @@ https://www.ssh.com/academy/ssh/tunneling
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 ## Contact
-hello@agungmulya.com
+sshtunnel@agungmulya.com
 
 --------------------------------------------------------------------------------
 
