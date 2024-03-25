@@ -233,7 +233,8 @@ public class SshTunnelComposite extends Composite {
 
 	private void createTunnelsComposite() {
 		TunnelChangeListener tunnelChangeListener = new TunnelChangeAdapter();
-		tunnelsComposite = new TunnelsComposite(sashForm, SWT.NONE, tunnelChangeListener);
+		//tunnelsComposite = new TunnelsComposite(sashForm, SWT.NONE, tunnelChangeListener);
+		tunnelsComposite = new TunnelsComposite(sashForm, shell, SWT.NONE, tunnelChangeListener);
 	}
 
 	private void createButtonBarComposite() {

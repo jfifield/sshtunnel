@@ -15,10 +15,13 @@
  */
 package org.programmerplanet.sshtunnel.model;
 
+import java.util.Objects;
+
 /**
  * Represents a tunnel (port forward) over an ssh connection.
  * 
  * @author <a href="jfifield@programmerplanet.org">Joseph Fifield</a>
+ * @author <a href="agungm@outlook.com">Mulya Agung</a>
  */
 public class Tunnel implements Comparable<Tunnel> {
 
@@ -101,6 +104,23 @@ public class Tunnel implements Comparable<Tunnel> {
 		copyTunnel.setRemoteAddress(this.remoteAddress);
 		copyTunnel.setRemotePort(this.remotePort);
 		return copyTunnel;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(localAddress, localPort);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tunnel other = (Tunnel) obj;
+		return Objects.equals(localAddress, other.localAddress) && localPort == other.localPort;
 	}
 
 }

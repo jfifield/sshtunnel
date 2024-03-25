@@ -131,5 +131,9 @@ public class Session implements Comparable<Session> {
 	public void setDebugLogPath(String path) {
 		this.debugLogPath = path;
 	}
+
+	public void setTunnels(List<Tunnel> tunnels) {
+		this.tunnels = tunnels;
+	}
 	
 }
