@@ -39,7 +39,7 @@ public class Configuration {
 	private int width = 500;
 	private int height = 400;
 	private int[] weights = new int[] { 5, 7 };
-	private List sessions = new ArrayList();
+	private List<Session> sessions = new ArrayList<Session>();
 
 	public int getTop() {
 		return top;
@@ -81,7 +81,7 @@ public class Configuration {
 		return weights;
 	}
 
-	public List getSessions() {
+	public List<Session> getSessions() {
 		return sessions;
 	}
 
@@ -94,8 +94,8 @@ public class Configuration {
 		properties.setProperty("height", Integer.toString(this.height));
 		properties.setProperty("weights", intArrayToString(this.weights));
 
-		for (ListIterator si = sessions.listIterator(); si.hasNext();) {
-			Session session = (Session) si.next();
+		for (ListIterator<Session> si = sessions.listIterator(); si.hasNext();) {
+			Session session = si.next();
 
 			String sessionKey = "sessions[" + si.previousIndex() + "]";
 
@@ -109,9 +109,30 @@ public class Configuration {
 				properties.setProperty(sessionKey + ".key", keyString);
 				properties.setProperty(sessionKey + ".password", encryptedPassword);
 			}
+			
+			if (session.getIdentityPath() != null) {
+				properties.setProperty(sessionKey + ".identityPath", session.getIdentityPath());
+			}
+			
+			if (session.getPassPhrase() != null) {
+				String keyString = EncryptionUtil.createKeyString();
+				String encryptedPassphrase = EncryptionUtil.encrypt(session.getPassPhrase(), keyString);
+				properties.setProperty(sessionKey + ".passphraseKey", keyString);
+				properties.setProperty(sessionKey + ".passphrase", encryptedPassphrase);
+			}
+			
+			if (session.getCiphers() != null) {
+				properties.setProperty(sessionKey + ".ciphers", session.getCiphers());
+			}
+			
+			if (session.getDebugLogPath() != null) {
+				properties.setProperty(sessionKey + ".debugLogPath", session.getDebugLogPath());
+			}
+			
+			properties.setProperty(sessionKey + ".compression", String.valueOf(session.isCompressed()));
 
-			for (ListIterator ti = session.getTunnels().listIterator(); ti.hasNext();) {
-				Tunnel tunnel = (Tunnel) ti.next();
+			for (ListIterator<Tunnel> ti = session.getTunnels().listIterator(); ti.hasNext();) {
+				Tunnel tunnel = ti.next();
 
 				String tunnelKey = sessionKey + ".tunnels[" + ti.previousIndex() + "]";
 
@@ -119,6 +140,7 @@ public class Configuration {
 				properties.setProperty(tunnelKey + ".localPort", Integer.toString(tunnel.getLocalPort()));
 				properties.setProperty(tunnelKey + ".remoteAddress", tunnel.getRemoteAddress());
 				properties.setProperty(tunnelKey + ".remotePort", Integer.toString(tunnel.getRemotePort()));
+				properties.setProperty(tunnelKey + ".local", Boolean.toString(tunnel.getLocal()));
 			}
 		}
 
@@ -151,6 +173,15 @@ public class Configuration {
 				if (keyString != null && password != null) {
 					password = EncryptionUtil.decrypt(password, keyString);
 				}
+				
+				String identityPath = properties.getProperty(sessionKey + ".identityPath");
+				
+				String passphraseKeyString = properties.getProperty(sessionKey + ".passphraseKey");
+				String passphrase = properties.getProperty(sessionKey + ".passphrase");
+				if (passphraseKeyString != null && passphrase != null) {
+					passphrase = EncryptionUtil.decrypt(passphrase, passphraseKeyString);
+				}
+				
 
 				Session session = new Session();
 				session.setSessionName(sessionName);
@@ -160,6 +191,23 @@ public class Configuration {
 				}
 				session.setUsername(username);
 				session.setPassword(password);
+				session.setIdentityPath(identityPath);
+				session.setPassPhrase(passphrase);
+				
+				String ciphers = properties.getProperty(sessionKey + ".ciphers");
+				session.setCiphers(ciphers);
+				
+				String debugLogPath = properties.getProperty(sessionKey + ".debugLogPath");
+				if (debugLogPath != null) {
+					session.setDebugLogPath(debugLogPath);
+				}
+				
+				boolean compressed = false;
+				String compressionString = properties.getProperty(sessionKey + ".compression");
+				if (compressionString != null) {
+					compressed = Boolean.parseBoolean(compressionString);
+				}
+				session.setCompressed(compressed);
 
 				sessions.add(session);
 
@@ -174,12 +222,18 @@ public class Configuration {
 						String localPort = properties.getProperty(tunnelKey + ".localPort");
 						String remoteAddress = properties.getProperty(tunnelKey + ".remoteAddress");
 						String remotePort = properties.getProperty(tunnelKey + ".remotePort");
+						boolean local = true;
+						String localConf = properties.getProperty(tunnelKey + ".local");
+						if (localConf != null) {
+							local = Boolean.parseBoolean(localConf);
+						}
 
 						Tunnel tunnel = new Tunnel();
 						tunnel.setLocalAddress(localAddress);
 						tunnel.setLocalPort(Integer.parseInt(localPort));
 						tunnel.setRemoteAddress(remoteAddress);
 						tunnel.setRemotePort(Integer.parseInt(remotePort));
+						tunnel.setLocal(local);
 
 						session.getTunnels().add(tunnel);
 					}

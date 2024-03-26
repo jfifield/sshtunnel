@@ -26,6 +26,9 @@
 			<outputDirectory>/lib</outputDirectory>
 			<unpack>false</unpack>
 			<scope>runtime</scope>
+			<excludes>
+				<exclude>org.programmerplanet:sshtunnel-ng</exclude>
+			</excludes>
 		</dependencySet>
 	</dependencySets>
 </assembly> 

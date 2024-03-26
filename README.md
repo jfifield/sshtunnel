@@ -1,33 +1,47 @@
-# SSH Tunnel
+# SSH Tunnel NG
 
-A graphical SSH tunnel manager.
+![maven-publish](https://github.com/agung-m/sshtunnel-ng/actions/workflows/maven-publish.yml/badge.svg)
 
-![](img/sshtunnel.jpg)
+A user-friendly, fast, reliable, and cross-platform SSH tunnel manager.
+
+What is SSH tunneling? \
+https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling \
+https://www.ssh.com/academy/ssh/tunneling
+
+<img src="img/sshtunnel-ng_screenshot.png" width=70% height=70%>
 
 ## Features
 
-* Manage multiple sessions and tunnels.
-* Local and remote tunnels supported.
-* Minimize to tray.
-* Quick connect/disconnect from tray.
-* Bind local ports to any local address.
+1. Simple and clear UI
+2. Manage multiple sessions and tunnels
+3. Local and remote tunnels supported
+4. Basic username/password and private key authentications
+5. Configurable encryption ciphers
+6. Enable/disable compression
+7. Quick connect/disconnect from the system tray
+8. Fast and lightweight (multithreaded with a small memory footprint of ~16 MB RAM)
+9. Reliable (automatic reconnection, session hang prevention)
+10. Multi-platform (it runs on Linux, Windows, and macOS)
+11. Portable/standalone installation, no admin/root access required (runnable from an external disk or USB drive)
 
 ## Download
 
-### 0.5.3
+### Latest version
 
-* [Linux (64-bit JVM)](https://github.com/jfifield/sshtunnel/releases/download/0.5.3/sshtunnel-0.5.3-dist-linux-64.zip)
-* [Linux (32-bit JVM)](https://github.com/jfifield/sshtunnel/releases/download/0.5.3/sshtunnel-0.5.3-dist-linux.zip)
-* [Windows (64-bit JVM)](https://github.com/jfifield/sshtunnel/releases/download/0.5.3/sshtunnel-0.5.3-dist-windows-64.zip)
-* [Windows (32-bit JVM)](https://github.com/jfifield/sshtunnel/releases/download/0.5.3/sshtunnel-0.5.3-dist-windows.zip)
+* [Linux x86-64](https://github.com/agung-m/sshtunnel-ng/releases/download/0.6.0/sshtunnel-ng-0.6.0-dist-linux-64.zip)
+* [Windows 64-bit](https://github.com/agung-m/sshtunnel-ng/releases/download/0.6.0/sshtunnel-ng-0.6.0-dist-windows-64.zip)
+* [macOS x86-64](https://github.com/agung-m/sshtunnel-ng/releases/download/0.6.0/sshtunnel-ng-0.6.0-dist-mac-64.zip)
 
 ## Requirements
 
-Java Runtime Environment (JRE) 5.0 or greater
+[Java Runtime](https://www.java.com/en/download/manual.jsp) (JRE) 8.0 or newer
 
 ## License
 
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+## Contact
+sshtunnel@agungmulya.com
 
 --------------------------------------------------------------------------------
 
@@ -35,35 +49,20 @@ Java Runtime Environment (JRE) 5.0 or greater
 
   For the current platform:
 
-  `mvn clean assembly:assembly`
+  `mvn clean assembly:single`
 
-  For a different platform for example:
+  For cross-platform compilation, for example:
 
-  `mvn -P +linux,-windows clean assembly:assembly`
+  `mvn -P +linux,-windows clean assembly:single`
 
-  Support platforms: windows, windows-64, linux, linux-64
+  Supported platforms: windows, windows-64, linux, linux-64, mac-64
+
 
 ## Running
 
   Unzip the target distribution.
 
-  `java -jar sshtunnel-VERSION.jar`
-
-## TODO
-
-* notification when tunnel fails (tunnel can't be started, etc)
-* notification when disconnected from server
-* buttons don't always seem to update properly when adding/deleting/etc
+  `java -jar sshtunnel-ng-{VERSION}.jar`
 
 ## Changes
-
-### 0.5.3
-* added support for linux & windows 64-bit
-* updated swt libraries
-
-### 0.5.2
-* allow non-default port to be specified on a session
-* notification when connection fails (host can't be found, auth fails, etc)
-* allow session/tunnel panels to be resized (and persisted)
-* sessions are now sorted by name
-* tunnels are now sorted by local address & local port
+See [Releases](https://github.com/agung-m/sshtunnel-ng/releases).
